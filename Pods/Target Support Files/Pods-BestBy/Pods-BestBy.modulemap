@@ -1,0 +1,6 @@
+framework module Pods_BestBy {
+  umbrella header "Pods-BestBy-umbrella.h"
+
+  export *
+  module * { export * }
+}
