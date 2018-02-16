@@ -48,7 +48,7 @@ class SignInViewController: UIViewController  {
                     return
                 }
                 print("Login successful")
-//                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
             self.loading.stopAnimating()
         } else {

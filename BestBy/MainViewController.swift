@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-class MainViewController: UIViewController  {
+class MainViewController: UITabBarController  {
     
     var handle: AuthStateDidChangeListenerHandle?
     var currentUser: User? = nil
@@ -19,7 +19,7 @@ class MainViewController: UIViewController  {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
                 self.currentUser = user
-                print(user.id)
+                print("users id" + (user?.email)!)
             }
             else{
                 print("presenting boiii")

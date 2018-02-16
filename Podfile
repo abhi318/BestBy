@@ -7,7 +7,7 @@ target 'BestBy' do
 
   # Pods for BestBy
   pod 'Firebase/Core'
-  
+  pod 'Firebase/Database'
   pod 'Firebase/Auth'
 
   target 'BestByTests' do

@@ -7,22 +7,51 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseDatabase
 import UIKit
 
 class AllFoodViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
-    private var data: [String] = []
+    private var data: [Food] = []
+    var ref: DatabaseReference!
+    
+    @IBAction func addItem(_ sender: Any) {
+        let alert = UIAlertController(title: "Grocery Item",
+                                      message: "Add an Item",
+                                      preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Save",
+                                       style: .default) { _ in
+                                        guard let textField = alert.textFields?.first,
+                                            let text = textField.text else { return }
+                                        
+                                        // 2
+                                        let foodItem = Food(name: textField.text!)
+                                        // 3
+                                        let foodItemRef = self.ref.child(text.lowercased())
+                                        
+                                        // 4
+                                        foodItemRef.setValue(foodItem.toAnyObject())
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        
+        alert.addTextField()
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
     @IBOutlet weak var allFoodTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
-        
-        for i in 0...1000 {
-            data.append("\(i)")
-        }
-        
+        ref = Database.database().reference()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -36,7 +65,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodCell
 
-        let text = data[indexPath.row]
+        let text = data[indexPath.row].foodName
         
         cell.foodName?.text = text
         cell.daysToExpire?.text = "u got 5 days"
