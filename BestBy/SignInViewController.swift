@@ -23,8 +23,6 @@ class SignInViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in}
-        
         loading.frame = CGRect(x:0.0, y:0.0, width:40.0, height:40.0);
         loading.center = self.view.center
         loading.hidesWhenStopped = true
@@ -50,7 +48,7 @@ class SignInViewController: UIViewController  {
                     return
                 }
                 print("Login successful")
-//                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
             self.loading.stopAnimating()
         } else {

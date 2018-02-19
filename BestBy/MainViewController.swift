@@ -9,16 +9,23 @@
 import Foundation
 import Firebase
 
-class MainViewController: UIViewController  {
+class MainViewController: UITabBarController  {
     
     var handle: AuthStateDidChangeListenerHandle?
+    var currentUser: User? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user == nil{
-                let vc = SignInViewController()
-                self.present(vc, animated: true, completion: nil)
+            if user != nil {
+                self.currentUser = user
+                print("users id" + (user?.email)!)
+            }
+            else{
+                print("presenting boiii")
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
+                self.present(vc!, animated: true, completion: nil)
+            
             }
         }
     }
