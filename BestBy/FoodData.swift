@@ -3,6 +3,7 @@
 //  BestBy
 //
 //  Created by Erin Jensby on 2/18/18.
+//
 //  Copyright © 2018 Quatro. All rights reserved.
 //
 
@@ -28,9 +29,9 @@ struct FoodData {
          "pears": (8, "Pears in the fridge can last 5 to 12 days.  Bad pears will have multiple brown bruises or blemishes and a soft or brown center."),
          "pineapples": (4, "Pineapples last 3 to 4 days and fridge storage is not necessary. Bad pineapples can have a soft or wet bottom, a sour, vinegar-like smell, darkened coloring, or a softer texture."),
          "pomegrantes": (21, "A whole pomegranate can last 3 weeks in the fridge.  Once the seeds are removed they should be eaten in 5-7 days.  Update your pomegranates expiry reminder if you don't eat the seeds right away.  Pomegranates that have gone bad can be brown, brittle, or soft and the seeds may turn brown."),
-         "strawberries": (7, "Strawberries can last 5 to 7 days in the fridge.  Strawberries will be softer and discolored or bruised as they spoil.  If the strawberries grow mold they are bad and should be thrown out."),
-         "tomatoes": (14, "Tomatoes stored in the fridge can last 2 weeks.  Tomatoes will get softer and may leak fluid as they go bad. If the tomatoes grow mold they are bad and should be thrown out."),
-         "watermelon": (18, "Watermelon can last 2 to 3 weeks when stored in the fridge, if kept on the counter it will last 7-10 days.  A watermelon that has spoiled will have a soft, grainy texture, darken coloring, and have an excess of fluid in the center.")
-    ];
+        "strawberries": (7, "Strawberries can last 5 to 7 days in the fridge.  Strawberries will be softer and discolored or bruised as they spoil.  If the strawberries grow mold they are bad and should be thrown out."),
+        "tomatoes": (14, "Tomatoes stored in the fridge can last 2 weeks.  Tomatoes will get softer and may leak fluid as they go bad. If the tomatoes grow mold they are bad and should be thrown out."),
+        "watermelon": (18, "Watermelon can last 2 to 3 weeks when stored in the fridge, if kept on the counter it will last 7-10 days.  A watermelon that has spoiled will have a soft, grainy texture, darken coloring, and have an excess of fluid in the center.")
+         ]
     
 }
