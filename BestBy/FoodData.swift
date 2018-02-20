@@ -12,7 +12,7 @@ import Foundation
 struct FoodData {
     
     static let food_data:[String:(Int,String)] =
-        ["butter":(90, "It can be hard to tell is butter has gone bad. Butter that is spoiled may begin to look paler or smell stale or cheesy."),
+        ["butter":(90, "It can be hard to tell if butter has gone bad. Butter that is spoiled may begin to look paler or smell stale or cheesy."),
          "eggs": (35, "If there is a slight rotten odor when the egg is cracked it has spoiled.  You can also tell an egg has spoiled if the egg white has a pinkish or iridescent color."),
          "sour cream": (30, "Sour Cream typically lasts 1-2 weeks past the printed date.  If the water in your sour cream begins to seperate you should finish it in the next few days.  If you see bright bacterial marks, dark mold, or notice a bitter flavor the sour cream has gone bad."),
          "milk": (21, "Milk is typically still good for 5-7 days past the sell-by date. Milk that is discolored, lumpy, or has a sour odor has gone bad."),
