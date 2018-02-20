@@ -14,11 +14,12 @@ class ProfileViewController: UIViewController {
     
     @IBAction func signoutButton(_ sender:Any) {
         try! Auth.auth().signOut()
-        if let storyboard = self.storyboard {
-            let vc = storyboard.instantiateViewController(withIdentifier: "signinview") as! SignInViewController
-            self.present(vc, animated: false, completion: nil)
+        
+        if let tabbarController = self.tabBarController {
+            tabbarController.selectedIndex = 0
         }
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
