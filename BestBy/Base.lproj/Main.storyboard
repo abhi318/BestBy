@@ -225,6 +225,10 @@
                                     <action selector="signoutButton:" destination="tXh-qu-rIg" eventType="touchUpInside" id="mod-lb-fZL"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0sl-c7-Qea">
+                                <rect key="frame" x="67" y="102" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -315,6 +319,7 @@
                                             <outlet property="daysToExpire" destination="pOT-8O-Ga1" id="cGV-vF-iq9"/>
                                             <outlet property="foodImage" destination="zw8-uc-AGv" id="nf0-Ce-j3L"/>
                                             <outlet property="foodName" destination="DDU-WS-WXG" id="Lhl-mW-ZfW"/>
+                                            <segue destination="yaf-hz-Wme" kind="show" id="kvN-R2-rVh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -333,6 +338,7 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="9zB-rW-tYk">
                             <connections>
                                 <action selector="addItem:" destination="aOK-kN-5Sd" id="kWd-IT-BUC"/>
+                                <segue destination="CnE-aw-Wdo" kind="presentation" id="TAm-Qa-Vjj"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Spaces" id="9nE-tY-c0R"/>
@@ -344,6 +350,115 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="anT-jY-JcF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3777" y="-582"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="mab-ai-sLU">
+            <objects>
+                <viewController id="CnE-aw-Wdo" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NKi-LW-cIX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FLC-yP-wQS">
+                                <rect key="frame" x="0.0" y="64" width="375" height="56"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="CnE-aw-Wdo" id="tOi-Qx-bRZ"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="1Cd-st-HQx"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="v1v-x7-hYf"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="YCk-rI-Vpt" id="bCB-Og-zfb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j2N-N6-fIg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="CPn-Ma-QQC">
+                    <connections>
+                        <outlet property="delegate" destination="CnE-aw-Wdo" id="Cav-p4-GsO"/>
+                        <outlet property="searchBar" destination="FLC-yP-wQS" id="rff-yD-ESh"/>
+                        <outlet property="searchContentsController" destination="CnE-aw-Wdo" id="hSo-bL-ao2"/>
+                        <outlet property="searchResultsDataSource" destination="CnE-aw-Wdo" id="1RI-xe-h1R"/>
+                        <outlet property="searchResultsDelegate" destination="CnE-aw-Wdo" id="fZk-wp-BbS"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="CfF-Wn-XZS">
+                    <connections>
+                        <outlet property="delegate" destination="CnE-aw-Wdo" id="Xet-lQ-tkw"/>
+                        <outlet property="searchContentsController" destination="CnE-aw-Wdo" id="MUx-0M-vDg"/>
+                        <outlet property="searchResultsDataSource" destination="CnE-aw-Wdo" id="ioj-yk-Ahv"/>
+                        <outlet property="searchResultsDelegate" destination="CnE-aw-Wdo" id="ARN-0e-2Bp"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="VZH-zn-rBl">
+                    <connections>
+                        <outlet property="delegate" destination="CnE-aw-Wdo" id="2pA-ly-go3"/>
+                        <outlet property="searchContentsController" destination="CnE-aw-Wdo" id="A7T-Og-mgO"/>
+                        <outlet property="searchResultsDataSource" destination="CnE-aw-Wdo" id="fyZ-eU-HOH"/>
+                        <outlet property="searchResultsDelegate" destination="CnE-aw-Wdo" id="C9l-fp-c2e"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="YCk-rI-Vpt">
+                    <connections>
+                        <outlet property="delegate" destination="CnE-aw-Wdo" id="ca1-Zx-0GM"/>
+                        <outlet property="searchContentsController" destination="CnE-aw-Wdo" id="boS-cL-p3i"/>
+                        <outlet property="searchResultsDataSource" destination="CnE-aw-Wdo" id="3zl-6I-NsT"/>
+                        <outlet property="searchResultsDelegate" destination="CnE-aw-Wdo" id="1M0-hv-L62"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="3777" y="-1255"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="R7W-3L-02G">
+            <objects>
+                <viewController id="yaf-hz-Wme" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OVc-Vk-Z8l">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e8d-Q9-b90">
+                                <rect key="frame" x="5" y="69" width="190" height="190"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="190" id="bI0-JH-gLi"/>
+                                    <constraint firstAttribute="width" constant="190" id="fHy-Ox-dRA"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IE9-7i-O9t" userLabel="days to expire">
+                                <rect key="frame" x="200" y="104" width="170" height="37"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylH-e3-AAA" userLabel="description">
+                                <rect key="frame" x="10" y="289" width="355" height="329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ylH-e3-AAA" firstAttribute="top" secondItem="e8d-Q9-b90" secondAttribute="bottom" constant="30" id="1TB-NY-e22"/>
+                            <constraint firstItem="ylH-e3-AAA" firstAttribute="leading" secondItem="2la-yQ-dX9" secondAttribute="leading" constant="10" id="5SV-h3-lUf"/>
+                            <constraint firstItem="e8d-Q9-b90" firstAttribute="leading" secondItem="2la-yQ-dX9" secondAttribute="leading" constant="5" id="Htc-kb-XRM"/>
+                            <constraint firstItem="2la-yQ-dX9" firstAttribute="trailing" secondItem="IE9-7i-O9t" secondAttribute="trailing" constant="5" id="IA2-My-4Ym"/>
+                            <constraint firstItem="IE9-7i-O9t" firstAttribute="top" secondItem="2la-yQ-dX9" secondAttribute="top" constant="40" id="cHO-xb-5x1"/>
+                            <constraint firstItem="2la-yQ-dX9" firstAttribute="trailing" secondItem="ylH-e3-AAA" secondAttribute="trailing" constant="10" id="kJT-Ia-Zj0"/>
+                            <constraint firstItem="IE9-7i-O9t" firstAttribute="leading" secondItem="e8d-Q9-b90" secondAttribute="trailing" constant="5" id="kpx-HR-QfZ"/>
+                            <constraint firstItem="2la-yQ-dX9" firstAttribute="bottom" secondItem="ylH-e3-AAA" secondAttribute="bottom" id="wkE-je-Lsh"/>
+                            <constraint firstItem="e8d-Q9-b90" firstAttribute="top" secondItem="2la-yQ-dX9" secondAttribute="top" constant="5" id="z4o-Qm-NP3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2la-yQ-dX9"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KAs-2G-TfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5623" y="-994"/>
         </scene>
         <!--nav-->
         <scene sceneID="gXM-ow-eLl">

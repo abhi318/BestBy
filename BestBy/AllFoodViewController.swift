@@ -16,35 +16,36 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     private var data: [Food] = []
     var ref: DatabaseReference!
     
-    @IBAction func addItem(_ sender: Any) {
-        let alert = UIAlertController(title: "Grocery Item",
-                                      message: "Add an Item",
-                                      preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Save",
-                                       style: .default) { _ in
-                                        guard let textField = alert.textFields?.first,
-                                            let text = textField.text else { return }
-                                        
-                                        // 2
-                                        let foodItem = Food(name: textField.text!)
-                                        // 3
-                                        let foodItemRef = self.ref.child(text.lowercased())
-                                        
-                                        // 4
-                                        foodItemRef.setValue(foodItem.toAnyObject())
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: .default)
-        
-        alert.addTextField()
-        
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
+//    @IBAction func addItem(_ sender: Any) {
+//        let alert = UIAlertController(title: "Grocery Item",
+//                                      message: "Add an Item",
+//                                      preferredStyle: .alert)
+//
+//        let saveAction = UIAlertAction(title: "Save",
+//                                       style: .default) { _ in
+//                                        guard let textField = alert.textFields?.first,
+//                                            let text = textField.text else { return }
+//
+//                                        // 2
+//                                        let foodItem = Food(name: textField.text!)
+//                                        // 3
+//                                        let foodItemRef = self.ref.child(text.lowercased())
+//
+//                                        // 4
+//                                        foodItemRef.setValue(foodItem.toAnyObject())
+//        }
+//
+//        let cancelAction = UIAlertAction(title: "Cancel",
+//                                         style: .default)
+//
+//        alert.addTextField()
+//
+//        alert.addAction(saveAction)
+//        alert.addAction(cancelAction)
+//
+//        present(alert, animated: true, completion: nil)
+//    }
+    
     @IBOutlet weak var allFoodTableView: UITableView!
     
     override func viewDidLoad() {
