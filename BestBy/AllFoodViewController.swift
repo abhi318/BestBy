@@ -13,9 +13,61 @@ import UIKit
 
 class AllFoodViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
-    private var data: [Food] = []
-    var ref: DatabaseReference!
+    private var data: [String] = []
+    var userFoodRef: DatabaseReference!
     
+    @IBOutlet weak var allFoodTableView: UITableView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        userFoodRef = currentUser.shared.userRef!.child("Foods")
+        
+        userFoodRef.observe(.childAdded) {snapshot in
+            self.data.append(snapshot.key)
+            self.allFoodTableView.reloadData()
+        }
+        
+        allFoodTableView.dataSource = self
+        allFoodTableView.delegate = self
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodCell
+
+        let text = self.data[indexPath.row]
+        print(text + " hhhhh")
+        cell.foodName?.text = text
+        cell.daysToExpire?.text = "\(FoodData.food_data[text]?.0 ?? -999) days"
+
+        return cell
+    }
+}
+
+class FoodCell: UITableViewCell {
+    
+    @IBOutlet weak var foodImage: UIImageView!
+    @IBOutlet weak var foodName: UILabel!
+    @IBOutlet weak var daysToExpire: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+}
+
+
 //    @IBAction func addItem(_ sender: Any) {
 //        let alert = UIAlertController(title: "Grocery Item",
 //                                      message: "Add an Item",
@@ -45,47 +97,3 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
 //
 //        present(alert, animated: true, completion: nil)
 //    }
-    
-    @IBOutlet weak var allFoodTableView: UITableView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        allFoodTableView.dataSource = self
-        allFoodTableView.delegate = self
-        ref = Database.database().reference()
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodCell
-
-        let text = data[indexPath.row].foodName
-        
-        cell.foodName?.text = text
-        cell.daysToExpire?.text = "u got 5 days"
-
-        return cell
-    }
-}
-
-class FoodCell: UITableViewCell {
-    
-    @IBOutlet weak var foodImage: UIImageView!
-    @IBOutlet weak var foodName: UILabel!
-    @IBOutlet weak var daysToExpire: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-}

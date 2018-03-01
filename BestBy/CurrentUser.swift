@@ -6,17 +6,27 @@
 //  Copyright © 2018 Quatro. All rights reserved.
 //
 
-import Foundation
+import Firebase
+import FirebaseDatabase
 import UIKit
 
-class currentUser {
-    var ID: String?
-    var allFood: [Food]?
+//Singleton of Current User
+final class currentUser {
     
-    init(uid: String) {
-        ID = uid
+    // Can't init is singleton
+    private init() {
+        
     }
     
+    // MARK: Shared Instance
+    
+    static let shared = currentUser()
+    
+    // MARK: Local Variable
+    var ID: String?
+    var userRef: DatabaseReference?
+    var allFood: [String]?
+    var allShoppingLists: [String:[String]]?
     
 }
 
