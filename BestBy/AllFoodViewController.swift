@@ -20,14 +20,18 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        userFoodRef = currentUser.shared.userRef!.child("Foods")
-        
-        userFoodRef.observe(.childAdded) {snapshot in
-            self.data.append(snapshot.key)
-            self.allFoodTableView.reloadData()
+        if Auth.auth().currentUser != nil {
+            userFoodRef = currentUser.shared.userRef!.child("Foods")
+            
+            userFoodRef.observe(.childAdded) {snapshot in
+                self.data.append(snapshot.key)
+                self.allFoodTableView.reloadData()
+            }
         }
-        
+        else{
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
+            self.present(vc!, animated: true, completion: nil)
+        }
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
     }

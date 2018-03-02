@@ -25,7 +25,6 @@ class MainViewController: UITabBarController  {
         else{
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
             self.present(vc!, animated: true, completion: nil)
-            
         }
     }
     
