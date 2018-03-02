@@ -10,6 +10,8 @@
 		0749D8BF1030E429E5C0569A /* Pods_BestByUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D874943C5B612DC82122A73B /* Pods_BestByUITests.framework */; };
 		72ABC08B1BA263D3D6FD4C06 /* Pods_BestBy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D660E52CFCC23710912B2D6A /* Pods_BestBy.framework */; };
 		9D0BD51B979236B82A24C89E /* Pods_BestByTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C1A26DB177E646C6F1EEF0 /* Pods_BestByTests.framework */; };
+		C92AAF022047AEB700852A36 /* ShoppingListCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */; };
+		C9A62D0A2046637500A52C6B /* ShoppingListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A62D092046637400A52C6B /* ShoppingListsViewController.swift */; };
 		FD0664CE20328C1400E408CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0664CD20328C1400E408CD /* AppDelegate.swift */; };
 		FD0664D020328C1400E408CD /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0664CF20328C1400E408CD /* SignInViewController.swift */; };
 		FD0664D320328C1400E408CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD0664D120328C1400E408CD /* Main.storyboard */; };
@@ -48,6 +50,8 @@
 		9C99A1D28D899DA03B8D9CDE /* Pods-BestBy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestBy.release.xcconfig"; path = "Pods/Target Support Files/Pods-BestBy/Pods-BestBy.release.xcconfig"; sourceTree = "<group>"; };
 		BD148C4EE9037FB07AA80AC6 /* Pods-BestByTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestByTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BestByTests/Pods-BestByTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C4AA0648F0F6EFE83BCA9286 /* Pods-BestByUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestByUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BestByUITests/Pods-BestByUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCellTableViewCell.swift; sourceTree = "<group>"; };
+		C9A62D092046637400A52C6B /* ShoppingListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShoppingListsViewController.swift; path = /Users/erinjensby/Documents/utexas/18_spring/cs378_news_app/best_by/BestBy/BestBy/ShoppingListsViewController.swift; sourceTree = "<absolute>"; };
 		D660E52CFCC23710912B2D6A /* Pods_BestBy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestBy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D874943C5B612DC82122A73B /* Pods_BestByUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestByUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C1A26DB177E646C6F1EEF0 /* Pods_BestByTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestByTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +155,7 @@
 			children = (
 				FD0664CD20328C1400E408CD /* AppDelegate.swift */,
 				FD0664CF20328C1400E408CD /* SignInViewController.swift */,
+				C9A62D092046637400A52C6B /* ShoppingListsViewController.swift */,
 				FD0665012032FBF900E408CD /* MainViewController.swift */,
 				FD4C6A3E2036C94300C13ABC /* AllFoodViewController.swift */,
 				FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */,
@@ -161,6 +166,7 @@
 				FD0664FD203292D700E408CD /* GoogleService-Info.plist */,
 				FD0664D620328C1400E408CD /* LaunchScreen.storyboard */,
 				FD0664D920328C1400E408CD /* Info.plist */,
+				C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */,
 			);
 			path = BestBy;
 			sourceTree = "<group>";
@@ -489,12 +495,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C92AAF022047AEB700852A36 /* ShoppingListCellTableViewCell.swift in Sources */,
 				FD4C6A43203780D100C13ABC /* ProfileViewController.swift in Sources */,
 				FD4C6A412036CC0B00C13ABC /* CurrentUser.swift in Sources */,
 				FD4C6A47203C021400C13ABC /* FoodData.swift in Sources */,
 				FD0665022032FBF900E408CD /* MainViewController.swift in Sources */,
 				FD0664D020328C1400E408CD /* SignInViewController.swift in Sources */,
 				FD4C6A3F2036C94300C13ABC /* AllFoodViewController.swift in Sources */,
+				C9A62D0A2046637500A52C6B /* ShoppingListsViewController.swift in Sources */,
 				FD0664CE20328C1400E408CD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -663,10 +671,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F75K5E25VA;
+				DEVELOPMENT_TEAM = R4WTTEWA23;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -679,10 +687,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F75K5E25VA;
+				DEVELOPMENT_TEAM = R4WTTEWA23;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
