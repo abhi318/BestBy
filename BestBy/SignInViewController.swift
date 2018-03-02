@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SignInViewController: UIViewController  {
+class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var email: UITextField!
@@ -22,6 +22,10 @@ class SignInViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SignInViewController.dismissKeyboard))
+        tap.delegate = self
+        view.addGestureRecognizer(tap)
         
         loading.frame = CGRect(x:0.0, y:0.0, width:40.0, height:40.0);
         loading.center = self.view.center
@@ -75,7 +79,6 @@ class SignInViewController: UIViewController  {
                     print("\(user!.email!) created")
 //                    self.dismiss(animated: true, completion: nil)
                 }
-                self.loading.stopAnimating()
             }
         else {
             print("fill in a username AND password")
@@ -86,6 +89,18 @@ class SignInViewController: UIViewController  {
         confirmPassword.isHidden = true;
         LoginButton.isHidden = false;
         backButton.isHidden = true;
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view?.isKind(of: UIControl.self))! {
+            return false
+        }
+        self.dismissKeyboard()
+        return true
     }
 }
 
