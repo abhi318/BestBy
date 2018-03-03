@@ -12,6 +12,7 @@
 		9D0BD51B979236B82A24C89E /* Pods_BestByTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C1A26DB177E646C6F1EEF0 /* Pods_BestByTests.framework */; };
 		AF85A161204A183400DA44B3 /* ShoppingListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF85A160204A183400DA44B3 /* ShoppingListsViewController.swift */; };
 		C92AAF022047AEB700852A36 /* ShoppingListCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */; };
+		C9CCFAED204B2F6600B0B8FE /* log_in_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C9CCFAEC204B2F6400B0B8FE /* log_in_bg.jpg */; };
 		FD0664CE20328C1400E408CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0664CD20328C1400E408CD /* AppDelegate.swift */; };
 		FD0664D020328C1400E408CD /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0664CF20328C1400E408CD /* SignInViewController.swift */; };
 		FD0664D320328C1400E408CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD0664D120328C1400E408CD /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 		BD148C4EE9037FB07AA80AC6 /* Pods-BestByTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestByTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BestByTests/Pods-BestByTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C4AA0648F0F6EFE83BCA9286 /* Pods-BestByUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestByUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BestByUITests/Pods-BestByUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCellTableViewCell.swift; sourceTree = "<group>"; };
+		C9CCFAEC204B2F6400B0B8FE /* log_in_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = log_in_bg.jpg; sourceTree = "<group>"; };
 		D660E52CFCC23710912B2D6A /* Pods_BestBy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestBy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D874943C5B612DC82122A73B /* Pods_BestByUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestByUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C1A26DB177E646C6F1EEF0 /* Pods_BestByTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestByTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +172,7 @@
 				FD0664FD203292D700E408CD /* GoogleService-Info.plist */,
 				FD0664D620328C1400E408CD /* LaunchScreen.storyboard */,
 				FD0664D920328C1400E408CD /* Info.plist */,
+				C9CCFAEC204B2F6400B0B8FE /* log_in_bg.jpg */,
 			);
 			path = BestBy;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				FD0664D820328C1400E408CD /* LaunchScreen.storyboard in Resources */,
 				FD0664FE203292D700E408CD /* GoogleService-Info.plist in Resources */,
 				FD0664D520328C1400E408CD /* Assets.xcassets in Resources */,
+				C9CCFAED204B2F6600B0B8FE /* log_in_bg.jpg in Resources */,
 				FD0664D320328C1400E408CD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,7 +679,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R4WTTEWA23;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy1;
@@ -691,7 +695,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R4WTTEWA23;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy1;
