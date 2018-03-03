@@ -224,24 +224,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zuq-ne-mAq">
-                                <rect key="frame" x="131" y="317" width="113" height="48"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="Sign Out"/>
-                                <connections>
-                                    <action selector="signoutButton:" destination="tXh-qu-rIg" eventType="touchUpInside" id="mod-lb-fZL"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0sl-c7-Qea">
-                                <rect key="frame" x="67" y="102" width="240" height="128"/>
+                                <rect key="frame" x="67" y="100" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T6m-RT-oh0">
+                                <rect key="frame" x="67" y="318" width="240" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Favorites"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ciV-eo-6K4">
+                                <rect key="frame" x="67" y="380" width="240" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Friends"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iyF-2Y-9D7">
+                                <rect key="frame" x="67" y="442" width="240" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Settings"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PwD-je-PR8">
+                                <rect key="frame" x="67" y="499" width="240" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.68627450980000004" green="0.8980392157" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
+                                <state key="normal" title="Logout"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D95-TX-tnd">
+                                <rect key="frame" x="67" y="258" width="240" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Recents">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Zuq-ne-mAq" firstAttribute="centerX" secondItem="Fny-4q-rmk" secondAttribute="centerX" id="LjC-5X-FLZ"/>
-                            <constraint firstItem="Zuq-ne-mAq" firstAttribute="centerY" secondItem="Fny-4q-rmk" secondAttribute="centerY" id="iuw-wT-AT9"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.68627450980392157" green="0.89803921568627454" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="Fny-4q-rmk"/>
                     </view>
                     <navigationItem key="navigationItem" id="6Yp-9R-XgA"/>
@@ -365,14 +385,6 @@
         <!--Find Foods-->
         <scene sceneID="0zO-sg-KH2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="219-63-foA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="aHr-2b-wVW">
-                    <connections>
-                        <outlet property="searchContentsController" destination="yKb-RD-4vD" id="NuZ-ij-5wj"/>
-                        <outlet property="searchResultsDataSource" destination="yKb-RD-4vD" id="aj3-EZ-XCq"/>
-                        <outlet property="searchResultsDelegate" destination="yKb-RD-4vD" id="Oqv-1k-EXQ"/>
-                    </connections>
-                </searchDisplayController>
                 <viewController id="yKb-RD-4vD" customClass="SearchController" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PlH-5o-gra">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -479,6 +491,14 @@
                         <outlet property="weeksPicker" destination="N9F-2v-1St" id="6EG-8I-FPb"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="219-63-foA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="aHr-2b-wVW">
+                    <connections>
+                        <outlet property="searchContentsController" destination="yKb-RD-4vD" id="NuZ-ij-5wj"/>
+                        <outlet property="searchResultsDataSource" destination="yKb-RD-4vD" id="aj3-EZ-XCq"/>
+                        <outlet property="searchResultsDelegate" destination="yKb-RD-4vD" id="Oqv-1k-EXQ"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="4088.8000000000002" y="-1380.3598200899551"/>
         </scene>
