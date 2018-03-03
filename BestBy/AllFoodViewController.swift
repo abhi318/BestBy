@@ -20,7 +20,15 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Auth.auth().currentUser != nil {
+        
+        allFoodTableView.dataSource = self
+        allFoodTableView.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if currentUser.shared.userRef != nil {
+            
             userFoodRef = currentUser.shared.userRef!.child("Foods")
             
             userFoodRef.observe(.childAdded) {snapshot in
@@ -28,14 +36,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.allFoodTableView.reloadData()
             }
         }
-        else{
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
-            self.present(vc!, animated: true, completion: nil)
-        }
-        allFoodTableView.dataSource = self
-        allFoodTableView.delegate = self
     }
-
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

@@ -16,15 +16,15 @@ class MainViewController: UITabBarController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Auth.auth().currentUser != nil {
-            currentUser.shared.ID = Auth.auth().currentUser?.uid
-            currentUser.shared.userRef = Database.database().reference().child("Users/\((Auth.auth().currentUser?.uid)!)")
-                
-            print("users id" + (currentUser.shared.ID)!)
-        }
-        else{
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
-            self.present(vc!, animated: true, completion: nil)
+        handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
+            if user != nil {
+                currentUser.shared.ID = Auth.auth().currentUser?.uid
+                currentUser.shared.userRef = Database.database().reference().child("Users/\((Auth.auth().currentUser?.uid)!)")
+            }
+            else {
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
+                self.present(vc!, animated: true, completion: nil)
+            }
         }
     }
     
