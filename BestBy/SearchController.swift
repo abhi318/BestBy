@@ -10,15 +10,17 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+class SearchController: UIViewController {
     
     @IBOutlet weak var searchResults: UITableView!
+    @IBOutlet weak var foodBeingAdded: UILabel!
+    @IBOutlet weak var weeksPicker: UIPickerView!
+
+    
     @IBAction func cancelSearch(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    @IBOutlet weak var foodBeingAdded: UILabel!
-
-    @IBOutlet weak var weeksPicker: UIPickerView!
+    
     @IBAction func AddToFoodsList(_ sender: Any) {
         if (foodBeingAdded.text == "") {
             return
@@ -47,11 +49,11 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         filteredFood = all_foods
         foodBeingAdded.text = ""
         
-        weeksPicker.delegate = self
-        weeksPicker.dataSource = self
+        self.weeksPicker.delegate = self
+        self.weeksPicker.dataSource = self
         
-        searchResults.delegate = self
-        searchResults.dataSource = self
+        self.searchResults.delegate = self
+        self.searchResults.dataSource = self
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -59,6 +61,46 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        let all_food_names = FoodData.food_data.keys
+        filteredFood = all_food_names.filter({( food_name : String) -> Bool in
+            return food_name.lowercased().contains(searchText.lowercased())
+        })
+        
+        searchResults.reloadData()
+    }
+}
+
+extension SearchController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 31
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if component == 0 {
+            return "\(row) wks"
+        }
+        else {
+            return "\(row) days"
+        }
+    }
+    
+}
+
+extension SearchController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -90,7 +132,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+        
         let name_of_food = filteredFood[indexPath.row]
         let time_to_expire = FoodData.food_data[name_of_food]?.0
         foodBeingAdded.text = filteredFood[indexPath.row]
@@ -99,44 +141,6 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         weeksPicker.selectRow(time_to_expire! % 7, inComponent: 1, animated: true)
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 100
-    }
-    
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, for component: Int) -> String! {
-        if pickerView == weeksPicker {
-            return "hello"
-        }
-        
-        print("\(row) weeks")
-        if component == 1 {
-            return "weeks"
-        }
-        else {
-            return "days"
-        }
-    }
-    
-    func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
-    }
-    
-    func searchBarIsEmpty() -> Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        let all_food_names = FoodData.food_data.keys
-        filteredFood = all_food_names.filter({( food_name : String) -> Bool in
-            return food_name.lowercased().contains(searchText.lowercased())
-        })
-        
-        searchResults.reloadData()
-    }
 }
 
 extension SearchController: UISearchResultsUpdating {
