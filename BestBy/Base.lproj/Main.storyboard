@@ -227,6 +227,7 @@
                     <navigationItem key="navigationItem" id="oD4-s5-LP5">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Jhp-Ud-ZBL">
                             <connections>
+                                <action selector="addShoppingList:" destination="77Q-hr-Odd" id="AMX-69-tXi"/>
                                 <segue destination="Rda-Ue-Pa9" kind="show" id="BqW-Cg-vuI"/>
                             </connections>
                         </barButtonItem>
@@ -630,7 +631,7 @@
             </objects>
             <point key="canvasLocation" x="1398" y="303"/>
         </scene>
-        <!--Spaces-->
+        <!--Title-->
         <scene sceneID="ctv-3C-2fv">
             <objects>
                 <viewController storyboardIdentifier="AllUserFoodLists" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2lS-ih-enp" customClass="AllUserFoodLists" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
@@ -642,15 +643,15 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ListCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" rowHeight="120" id="L4u-yv-NGh" customClass="ListCell" customModule="BestBy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ListCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" rowHeight="300" id="L4u-yv-NGh" customClass="ListCell" customModule="BestBy" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L4u-yv-NGh" id="jUm-6W-X7S">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="299.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8m0-eU-mBV">
-                                                    <rect key="frame" x="15" y="11" width="345" height="98"/>
+                                                    <rect key="frame" x="15" y="11" width="345" height="278"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -680,19 +681,25 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OtS-6F-OJd"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Spaces" id="vqM-Kc-AuI"/>
+                    <navigationItem key="navigationItem" title="Title" id="rqN-hv-bVU">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="NNB-0B-DT1">
+                            <connections>
+                                <action selector="addNewList:" destination="2lS-ih-enp" id="m3G-jb-lqi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="listsTableView" destination="uIW-cX-5pJ" id="iHr-Ue-axv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GQs-Qb-UWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3777" y="-582"/>
+            <point key="canvasLocation" x="3776.8000000000002" y="-582.45877061469275"/>
         </scene>
         <!--Food-->
         <scene sceneID="8Cd-bO-UKr">
             <objects>
-                <viewController id="aOK-kN-5Sd" customClass="AllFoodViewController" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AllFood" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aOK-kN-5Sd" customClass="AllFoodViewController" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ssl-Qx-rWw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -970,7 +977,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="KA4-op-S4i">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="shoppingListItem" id="KA4-op-S4i">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KA4-op-S4i" id="1VK-pl-qSc">

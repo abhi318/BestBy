@@ -6,14 +6,43 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
 
 class ShoppingListsViewController: UIViewController {
     
-    @IBOutlet weak var listTypeSegControl: UISegmentedControl!
+    var ref: DatabaseReference!
+    
     @IBOutlet weak var shopListsTableView: UITableView!
     
+    @IBAction func addShoppingList(_ sender: Any) {
+        let alert = UIAlertController(title: "New List", message: "Give it a name", preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Add", style: .default) { _ in
+            guard let textField = alert.textFields?.first,
+                let text = textField.text else { return }
+            
+            let listRef = self.ref.child("AllShoppingLists").childByAutoId()
+            
+            self.ref.child("FoodListInfo/\(listRef.key)/name").setValue(text)
+            self.ref.child("FoodListInfo/\(listRef.key)/sharedWith/\(currentUser.shared.ID!)").setValue(true)
+            self.ref.child("Users/\(currentUser.shared.ID!)/UserShoppingListIDs/\(listRef.key)").setValue(true)
+            self.ref.child("AllFoodLists/\(listRef.key)").setValue(true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        
+        alert.addTextField()
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
         
         self.shopListsTableView.delegate = self
         self.shopListsTableView.dataSource = self

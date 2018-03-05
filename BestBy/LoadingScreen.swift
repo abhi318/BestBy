@@ -35,14 +35,18 @@ class LoadingScreen: UIViewController {
                 currentUser.shared.userRef = Database.database().reference().child("Users/\((Auth.auth().currentUser?.uid)!)")
                 
                 let userFoodRef = currentUser.shared.userRef?.child("UserFoodListIDs")
+                Database.database().reference().child("Users/\(currentUser.shared.ID!)/DefaultFoodList").observeSingleEvent(of: .value, with: {(snapshot) in
+                    currentUser.shared.currentListID = (snapshot.value as! String)
+                })
                 
                 userFoodRef?.observeSingleEvent(of: .value, with: { (snapshot) in
                     // Get user value
-                    let allFoodListIDs = snapshot.value as! NSArray
+                    let allFoodListIDs = snapshot.value as! [String:Any]
                     
-                    for i in 0...(allFoodListIDs.count-1){
-                        currentUser.shared.allFood.append(allFoodListIDs[i] as! String)
+                    for (key, _) in allFoodListIDs{
+                        currentUser.shared.allFood.append(key)
                     }
+                    
                     
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
                     self.present(vc!, animated: true, completion: nil)

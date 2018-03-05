@@ -17,7 +17,6 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var userFoodRef: DatabaseReference!
     var ref: DatabaseReference!
-    var currentListIdx: Int = 0
     var currentListID: String!
     var currentListName: String!
     
@@ -29,18 +28,18 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         
         ref = Database.database().reference()
         
-        currentListID = currentUser.shared.allFood[currentListIdx]
-        currentUser.shared.currentListID = currentListID
-        let usersDefaultFoodList: DatabaseReference = ref.child("AllFoodLists").child(currentListID)
+        self.title = currentListName
         
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
         
-        usersDefaultFoodList.child("name").observeSingleEvent(of: .value, with: { (snapshot) in
-            self.currentListName = snapshot.value as! String
-            self.navigationItem.title = self.currentListName
-        })
-        
+        observeFoodList(at: currentListID)
+    }
+    
+    func observeFoodList(at: String) {
+        currentListID = at
+        let usersDefaultFoodList = ref.child("AllFoodLists/\(currentListID!)")
+    
         usersDefaultFoodList.observe(.childAdded, with: { (snapshot) in
             if(snapshot.key != "name" && snapshot.key != "sharedWith") {
                 let foodList = snapshot.value as? [String:Any] ?? [:]
@@ -115,32 +114,5 @@ class FoodCell: UITableViewCell {
 }
 
 
-//    @IBAction func addItem(_ sender: Any) {
-//        let alert = UIAlertController(title: "Grocery Item",
-//                                      message: "Add an Item",
-//                                      preferredStyle: .alert)
-//
-//        let saveAction = UIAlertAction(title: "Save",
-//                                       style: .default) { _ in
-//                                        guard let textField = alert.textFields?.first,
-//                                            let text = textField.text else { return }
-//
-//                                        // 2
-//                                        let foodItem = Food(name: textField.text!)
-//                                        // 3
-//                                        let foodItemRef = self.ref.child(text.lowercased())
-//
-//                                        // 4
-//                                        foodItemRef.setValue(foodItem.toAnyObject())
-//        }
-//
-//        let cancelAction = UIAlertAction(title: "Cancel",
-//                                         style: .default)
-//
-//        alert.addTextField()
-//
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//
-//        present(alert, animated: true, completion: nil)
-//    }
+    
+
