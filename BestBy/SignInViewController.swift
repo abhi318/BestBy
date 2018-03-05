@@ -84,7 +84,8 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     print("\(user!.email!) created")
                     
                     let newFoodIDref: DatabaseReference  = self.ref.child("AllFoodLists").childByAutoId()
-                    newFoodIDref.setValue(true)
+                    newFoodIDref.child("name").setValue("untitled")
+                    newFoodIDref.child("sharedWith").setValue([user!.uid:true])
                     
                     let newFoodID = newFoodIDref.key
                     currentUser.shared.allFood.append(newFoodID)

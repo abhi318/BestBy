@@ -22,17 +22,6 @@ class MainViewController: UITabBarController  {
         self.tabBar.items?[1].selectedImage = UIImage(named: "listSelected")?.withRenderingMode(.alwaysOriginal)
         self.tabBar.items?[2].image = UIImage(named: "profile")?.withRenderingMode(.alwaysOriginal)
         self.tabBar.items?[2].selectedImage = UIImage(named: "profileSelected")?.withRenderingMode(.alwaysOriginal)
-
-        handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
-            if user != nil {
-                currentUser.shared.ID = Auth.auth().currentUser?.uid
-                currentUser.shared.userRef = Database.database().reference().child("Users/\((Auth.auth().currentUser?.uid)!)")
-            }
-            else {
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
-                self.present(vc!, animated: true, completion: nil)
-            }
-        }
     }
     
     override func didReceiveMemoryWarning() {

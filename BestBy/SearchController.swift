@@ -27,7 +27,7 @@ class SearchController: UIViewController {
         }
         else if FoodData.food_data[foodBeingAdded.text!] != nil {
             let foodAdded: String = foodBeingAdded.text!
-            let currentListID: String = ((self.presentingViewController as! MainViewController).viewControllers![0].childViewControllers[0] as! AllFoodViewController).currentListID!
+            let currentListID: String = currentUser.shared.currentListID!
             
             let dateOfExpiration = Calendar.current.date(byAdding: .day, value: (FoodData.food_data[foodAdded]?.0)!, to: Date())
             let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
@@ -40,14 +40,15 @@ class SearchController: UIViewController {
         
         else {
             let foodAdded: String = foodBeingAdded.text!
-            let currentListID: String = (self.presentingViewController as! AllFoodViewController).currentListID!
-            
+            let currentListID: String = currentUser.shared.currentListID!
+
             
             let post = ["name" : foodAdded, "timestamp" : -1] as [String : Any]
             ref.child("AllFoodLists/\(currentListID)").childByAutoId().setValue(post)
             let s:String = foodBeingAdded.text!
             userFoodRef.child(s).setValue(true)
         }
+        
         dismiss(animated: true, completion: nil)
     }
     var userFoodRef: DatabaseReference!

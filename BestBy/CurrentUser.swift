@@ -27,6 +27,7 @@ final class currentUser {
     var userRef: DatabaseReference?
     var allFood: [String] = [String]()
     var allShoppingLists: [String:[String]]?
+    var currentListID: String?
     
     func clear() {
         ID = nil

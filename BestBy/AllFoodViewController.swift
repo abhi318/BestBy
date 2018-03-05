@@ -19,6 +19,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     var ref: DatabaseReference!
     var currentListIdx: Int = 0
     var currentListID: String!
+    var currentListName: String!
     
     @IBOutlet weak var allFoodTableView: UITableView!
     
@@ -28,22 +29,30 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         
         ref = Database.database().reference()
         
-        currentListID = currentUser.shared.allFood[0]
+        currentListID = currentUser.shared.allFood[currentListIdx]
+        currentUser.shared.currentListID = currentListID
         let usersDefaultFoodList: DatabaseReference = ref.child("AllFoodLists").child(currentListID)
         
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
         
+        usersDefaultFoodList.child("name").observeSingleEvent(of: .value, with: { (snapshot) in
+            self.currentListName = snapshot.value as! String
+            self.navigationItem.title = self.currentListName
+        })
+        
         usersDefaultFoodList.observe(.childAdded, with: { (snapshot) in
-            let foodList = snapshot.value as? [String:Any] ?? [:]
-            
-            let foodItem = FoodItem(id: snapshot.key, n: foodList["name"] as! String, t: foodList["timestamp"] as! Int)
-            self.data.append(foodItem)
-            self.data.sort() {
-                $0.timestamp < $1.timestamp
+            if(snapshot.key != "name" && snapshot.key != "sharedWith") {
+                let foodList = snapshot.value as? [String:Any] ?? [:]
+                
+                let foodItem = FoodItem(id: snapshot.key, n: foodList["name"] as! String, t: foodList["timestamp"] as! Int)
+                self.data.append(foodItem)
+                self.data.sort() {
+                    $0.timestamp < $1.timestamp
+                }
+                
+                self.allFoodTableView.reloadData()
             }
-            
-            self.allFoodTableView.reloadData()
         })
         
         usersDefaultFoodList.observe(.childRemoved, with: { (snapshot) in
@@ -75,7 +84,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.foodName?.text = foodItem.name
         
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
-        cell.daysToExpire?.text = "\(daysLeft) days"
+        cell.daysToExpire?.text = "\(daysLeft+1) days"
 
         return cell
     }
@@ -84,6 +93,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         if (segue.identifier == "foodDetail") {
             let vc = segue.destination as! FoodDescController
             let cell = sender as! FoodCell
+            allFoodTableView.deselectRow(at: allFoodTableView.indexPath(for: cell)!, animated: true)
             vc.passedValues = [cell.foodName.text!, cell.daysToExpire.text!, (FoodData.food_data[cell.foodName.text!]?.1)!]
         }
     }

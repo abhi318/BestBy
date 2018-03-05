@@ -19,7 +19,6 @@ class LoadingScreen: UIViewController {
         
         
         Database.database().reference().child("EverySingleFood").observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot)
             let allFoodDict = snapshot.value as! [String:[String:Any]]
             for(key, value) in allFoodDict {
                 FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String)
