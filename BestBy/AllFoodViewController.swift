@@ -13,7 +13,7 @@ import UIKit
 
 class AllFoodViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
-    private var data: [(String, Int)] = []
+    private var data: [FoodItem] = []
     
     var userFoodRef: DatabaseReference!
     var ref: DatabaseReference!
@@ -37,14 +37,29 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         usersDefaultFoodList.observe(.childAdded, with: { (snapshot) in
             let foodList = snapshot.value as? [String:Any] ?? [:]
             
-            let foodItem = (foodList["name"] as! String, foodList["timestamp"] as! Int)
+            let foodItem = FoodItem(id: snapshot.key, n: foodList["name"] as! String, t: foodList["timestamp"] as! Int)
             self.data.append(foodItem)
+            self.data.sort() {
+                $0.timestamp < $1.timestamp
+            }
             
             self.allFoodTableView.reloadData()
         })
         
+        usersDefaultFoodList.observe(.childRemoved, with: { (snapshot) in
+            let foodList = snapshot.value as? [String:Any] ?? [:]
+            
+            let foodItem = FoodItem(id: snapshot.key, n: foodList["name"] as! String, t: foodList["timestamp"] as! Int)
+            if let index = self.data.index(where: {$0 == foodItem}) {
+                self.data.remove(at: index)
+            }
+            self.data.sort() {
+                $0.timestamp < $1.timestamp
+            }
+            self.allFoodTableView.reloadData()
+        })
     }
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -57,12 +72,20 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodCell
 
         let foodItem = self.data[indexPath.row]
-        cell.foodName?.text = foodItem.0
+        cell.foodName?.text = foodItem.name
         
-        let daysLeft = (foodItem.1 - Int(Date().timeIntervalSinceReferenceDate)) / 86400
+        let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         cell.daysToExpire?.text = "\(daysLeft) days"
 
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if (segue.identifier == "foodDetail") {
+            let vc = segue.destination as! FoodDescController
+            let cell = sender as! FoodCell
+            vc.passedValues = [cell.foodName.text!, cell.daysToExpire.text!, (FoodData.food_data[cell.foodName.text!]?.1)!]
+        }
     }
 }
 

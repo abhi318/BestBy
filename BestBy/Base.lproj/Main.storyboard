@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -637,22 +638,20 @@
                                                         <constraint firstAttribute="height" constant="100" id="RIq-rO-fdu"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDU-WS-WXG">
-                                                    <rect key="frame" x="118" y="4" width="100" height="51"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDU-WS-WXG">
+                                                    <rect key="frame" x="120" y="4" width="245" height="32.5"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Food">
                                                             <attributes>
-                                                                <font key="NSFont" size="36" name="Futura-Medium"/>
+                                                                <font key="NSFont" size="25" name="Futura-Medium"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
                                                         </fragment>
                                                     </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Days to expire" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOT-8O-Ga1">
-                                                    <rect key="frame" x="118" y="52" width="257" height="47"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days to expire" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOT-8O-Ga1">
+                                                    <rect key="frame" x="120" y="41.5" width="240" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -661,14 +660,20 @@
                                             <constraints>
                                                 <constraint firstItem="zw8-uc-AGv" firstAttribute="leading" secondItem="aX4-yQ-Wmi" secondAttribute="leading" constant="10" id="Ejv-Cy-8Wa"/>
                                                 <constraint firstAttribute="bottom" secondItem="zw8-uc-AGv" secondAttribute="bottom" constant="5" id="Eo4-A2-STA"/>
+                                                <constraint firstItem="pOT-8O-Ga1" firstAttribute="leading" secondItem="zw8-uc-AGv" secondAttribute="trailing" constant="10" id="FSp-cz-IVV"/>
                                                 <constraint firstItem="zw8-uc-AGv" firstAttribute="top" secondItem="aX4-yQ-Wmi" secondAttribute="top" constant="5" id="NVJ-Kr-H0s"/>
+                                                <constraint firstItem="DDU-WS-WXG" firstAttribute="top" secondItem="aX4-yQ-Wmi" secondAttribute="top" constant="4" id="S1y-uf-mOA"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="pOT-8O-Ga1" secondAttribute="trailing" id="bFt-XX-27V"/>
+                                                <constraint firstAttribute="trailing" secondItem="DDU-WS-WXG" secondAttribute="trailing" constant="10" id="eeX-HH-7EU"/>
+                                                <constraint firstItem="DDU-WS-WXG" firstAttribute="leading" secondItem="zw8-uc-AGv" secondAttribute="trailing" constant="10" id="tT9-UI-Bka"/>
+                                                <constraint firstItem="pOT-8O-Ga1" firstAttribute="top" secondItem="DDU-WS-WXG" secondAttribute="bottom" constant="5" id="z7F-Hk-uzj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="daysToExpire" destination="pOT-8O-Ga1" id="cGV-vF-iq9"/>
                                             <outlet property="foodImage" destination="zw8-uc-AGv" id="nf0-Ce-j3L"/>
                                             <outlet property="foodName" destination="DDU-WS-WXG" id="Lhl-mW-ZfW"/>
-                                            <segue destination="yaf-hz-Wme" kind="show" id="kvN-R2-rVh"/>
+                                            <segue destination="yaf-hz-Wme" kind="show" identifier="foodDetail" id="7F8-bR-sai"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -702,7 +707,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="anT-jY-JcF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3777" y="-582"/>
+            <point key="canvasLocation" x="3776.8000000000002" y="-582.45877061469275"/>
         </scene>
         <!--Find Foods-->
         <scene sceneID="0zO-sg-KH2">
@@ -825,29 +830,29 @@
             </objects>
             <point key="canvasLocation" x="4088.8000000000002" y="-1380.3598200899551"/>
         </scene>
-        <!--View Controller-->
+        <!--Food Desc Controller-->
         <scene sceneID="R7W-3L-02G">
             <objects>
-                <viewController id="yaf-hz-Wme" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="fooddesc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yaf-hz-Wme" customClass="FoodDescController" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OVc-Vk-Z8l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e8d-Q9-b90">
-                                <rect key="frame" x="5" y="69" width="190" height="190"/>
+                                <rect key="frame" x="5" y="74" width="175" height="175"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="190" id="bI0-JH-gLi"/>
-                                    <constraint firstAttribute="width" constant="190" id="fHy-Ox-dRA"/>
+                                    <constraint firstAttribute="width" secondItem="e8d-Q9-b90" secondAttribute="height" multiplier="1:1" id="MLc-aG-ci5"/>
+                                    <constraint firstAttribute="height" constant="175" id="bI0-JH-gLi"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IE9-7i-O9t" userLabel="days to expire">
-                                <rect key="frame" x="200" y="104" width="170" height="37"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IE9-7i-O9t" userLabel="days to expire">
+                                <rect key="frame" x="185" y="104" width="185" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylH-e3-AAA" userLabel="description">
-                                <rect key="frame" x="10" y="289" width="355" height="329"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="20" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ylH-e3-AAA" userLabel="description">
+                                <rect key="frame" x="10" y="279" width="355" height="339"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -863,14 +868,18 @@
                             <constraint firstItem="2la-yQ-dX9" firstAttribute="trailing" secondItem="ylH-e3-AAA" secondAttribute="trailing" constant="10" id="kJT-Ia-Zj0"/>
                             <constraint firstItem="IE9-7i-O9t" firstAttribute="leading" secondItem="e8d-Q9-b90" secondAttribute="trailing" constant="5" id="kpx-HR-QfZ"/>
                             <constraint firstItem="2la-yQ-dX9" firstAttribute="bottom" secondItem="ylH-e3-AAA" secondAttribute="bottom" id="wkE-je-Lsh"/>
-                            <constraint firstItem="e8d-Q9-b90" firstAttribute="top" secondItem="2la-yQ-dX9" secondAttribute="top" constant="5" id="z4o-Qm-NP3"/>
+                            <constraint firstItem="e8d-Q9-b90" firstAttribute="top" secondItem="2la-yQ-dX9" secondAttribute="top" constant="10" id="z4o-Qm-NP3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2la-yQ-dX9"/>
                     </view>
+                    <connections>
+                        <outlet property="foodDesc" destination="ylH-e3-AAA" id="iYB-Vo-HPR"/>
+                        <outlet property="foodName" destination="IE9-7i-O9t" id="XYX-RV-NKd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KAs-2G-TfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4910" y="-582"/>
+            <point key="canvasLocation" x="4575" y="-582"/>
         </scene>
         <!--nav-->
         <scene sceneID="gXM-ow-eLl">

@@ -8,16 +8,28 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 
 class LoadingScreen: UIViewController {
     
     var handle: AuthStateDidChangeListenerHandle?
     
     override func viewDidLoad() {
-
         super.viewDidLoad()
         
-        //try! Auth.auth().signOut()
+        
+        Database.database().reference().child("EverySingleFood").observeSingleEvent(of: .value, with: { (snapshot) in
+            print(snapshot)
+            let allFoodDict = snapshot.value as! [String:[String:Any]]
+            for(key, value) in allFoodDict {
+                FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String)
+            }
+        })
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 currentUser.shared.ID = Auth.auth().currentUser?.uid
@@ -47,14 +59,8 @@ class LoadingScreen: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if(currentUser.shared.ID != nil) {
-            
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         Auth.auth().removeStateDidChangeListener(handle!)
     }
     

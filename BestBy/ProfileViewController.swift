@@ -14,10 +14,10 @@ class ProfileViewController: UIViewController {
     
     @IBAction func signoutButton(_ sender:Any) {
         try! Auth.auth().signOut()
+        currentUser.shared.clear()
         
-        if let tabbarController = self.tabBarController {
-            tabbarController.selectedIndex = 0
-        }
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loadingScreen") as? LoadingScreen
+        self.present(vc!, animated: true, completion: nil)
     }
 
     override func viewDidLoad() {

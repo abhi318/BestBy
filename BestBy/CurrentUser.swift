@@ -28,6 +28,12 @@ final class currentUser {
     var allFood: [String] = [String]()
     var allShoppingLists: [String:[String]]?
     
+    func clear() {
+        ID = nil
+        userRef = nil
+        allFood.removeAll()
+    }
+    
 }
 
 class Food {
