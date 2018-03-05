@@ -16,6 +16,14 @@ class MainViewController: UITabBarController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tabBar.items?[0].image = UIImage(named: "fridge")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items?[0].selectedImage = UIImage(named: "fridgeSelected")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items?[1].image = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items?[1].selectedImage = UIImage(named: "listSelected")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items?[2].image = UIImage(named: "profile")?.withRenderingMode(.alwaysOriginal)
+        self.tabBar.items?[2].selectedImage = UIImage(named: "profileSelected")?.withRenderingMode(.alwaysOriginal)
+
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 currentUser.shared.ID = Auth.auth().currentUser?.uid
