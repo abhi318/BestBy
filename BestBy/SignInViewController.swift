@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 
 class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
 
@@ -16,6 +17,8 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
     @IBOutlet weak var LoginButton: UIButton!
+    
+    var ref: DatabaseReference!
     
     var handle: AuthStateDidChangeListenerHandle?
     var loading: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -27,6 +30,8 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
         tap.delegate = self
         view.addGestureRecognizer(tap)
         
+        ref =  Database.database().reference()
+
         loading.frame = CGRect(x:0.0, y:0.0, width:40.0, height:40.0);
         loading.center = self.view.center
         loading.hidesWhenStopped = true
@@ -77,7 +82,15 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                         return
                     }
                     print("\(user!.email!) created")
-//                    self.dismiss(animated: true, completion: nil)
+                    
+                    let newFoodIDref: DatabaseReference  = self.ref.child("AllFoodLists").childByAutoId()
+                    newFoodIDref.setValue(true)
+                    
+                    let newFoodID = newFoodIDref.key
+                    currentUser.shared.allFood.append(newFoodID)
+                    self.ref?.child("Users/\(user!.uid)/UserFoodListIDs").setValue([newFoodID])
+                    
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
         else {

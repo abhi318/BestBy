@@ -13,30 +13,38 @@ import UIKit
 
 class AllFoodViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
-    private var data: [String] = []
+    private var data: [(String, Int)] = []
+    
     var userFoodRef: DatabaseReference!
+    var ref: DatabaseReference!
+    var currentListIdx: Int = 0
+    var currentListID: String!
     
     @IBOutlet weak var allFoodTableView: UITableView!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
+        
+        currentListID = currentUser.shared.allFood[0]
+        let usersDefaultFoodList: DatabaseReference = ref.child("AllFoodLists").child(currentListID)
         
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
+        
+        usersDefaultFoodList.observe(.childAdded, with: { (snapshot) in
+            let foodList = snapshot.value as? [String:Any] ?? [:]
+            
+            let foodItem = (foodList["name"] as! String, foodList["timestamp"] as! Int)
+            self.data.append(foodItem)
+            
+            self.allFoodTableView.reloadData()
+        })
+        
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if currentUser.shared.userRef != nil {
-            
-            userFoodRef = currentUser.shared.userRef!.child("Foods")
-            
-            userFoodRef.observe(.childAdded) {snapshot in
-                self.data.append(snapshot.key)
-                self.allFoodTableView.reloadData()
-            }
-        }
-    }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -48,10 +56,11 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodCell
 
-        let text = self.data[indexPath.row]
-        print(text + " hhhhh")
-        cell.foodName?.text = text
-        cell.daysToExpire?.text = "\(FoodData.food_data[text]?.0 ?? -999) days"
+        let foodItem = self.data[indexPath.row]
+        cell.foodName?.text = foodItem.0
+        
+        let daysLeft = (foodItem.1 - Int(Date().timeIntervalSinceReferenceDate)) / 86400
+        cell.daysToExpire?.text = "\(daysLeft) days"
 
         return cell
     }
