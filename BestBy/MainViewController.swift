@@ -6,13 +6,12 @@
 //  Copyright © 2018 Quatro. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Firebase
 import FirebaseDatabase
 
 class MainViewController: UITabBarController  {
     
-    var handle: AuthStateDidChangeListenerHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +37,5 @@ class MainViewController: UITabBarController  {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        Auth.auth().removeStateDidChangeListener(handle!)
     }
 }

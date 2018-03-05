@@ -25,7 +25,7 @@ final class currentUser {
     // MARK: Local Variable
     var ID: String?
     var userRef: DatabaseReference?
-    var allFood: [String]?
+    var allFood: [String] = [String]()
     var allShoppingLists: [String:[String]]?
     
 }

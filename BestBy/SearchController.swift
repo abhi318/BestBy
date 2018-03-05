@@ -15,7 +15,7 @@ class SearchController: UIViewController {
     @IBOutlet weak var searchResults: UITableView!
     @IBOutlet weak var foodBeingAdded: UILabel!
     @IBOutlet weak var weeksPicker: UIPickerView!
-
+    var ref: DatabaseReference!
     
     @IBAction func cancelSearch(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -25,7 +25,26 @@ class SearchController: UIViewController {
         if (foodBeingAdded.text == "") {
             return
         }
+        else if FoodData.food_data[foodBeingAdded.text!] != nil {
+            let foodAdded: String = foodBeingAdded.text!
+            let currentListID: String = ((self.presentingViewController as! MainViewController).viewControllers![0].childViewControllers[0] as! AllFoodViewController).currentListID!
+            
+            let dateOfExpiration = Calendar.current.date(byAdding: .day, value: (FoodData.food_data[foodAdded]?.0)!, to: Date())
+            let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
+            let doe = Int(timeInterval!)
+            
+            let post = ["name" : foodAdded,
+                        "timestamp" : doe] as [String : Any]
+            ref.child("AllFoodLists/\(currentListID)").childByAutoId().setValue(post)
+        }
+        
         else {
+            let foodAdded: String = foodBeingAdded.text!
+            let currentListID: String = (self.presentingViewController as! AllFoodViewController).currentListID!
+            
+            
+            let post = ["name" : foodAdded, "timestamp" : -1] as [String : Any]
+            ref.child("AllFoodLists/\(currentListID)").childByAutoId().setValue(post)
             let s:String = foodBeingAdded.text!
             userFoodRef.child(s).setValue(true)
         }
@@ -44,7 +63,7 @@ class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userFoodRef = currentUser.shared.userRef!.child("Foods")
+        ref = Database.database().reference()
         
         all_foods = Array(FoodData.food_data.keys)
         filteredFood = all_foods
