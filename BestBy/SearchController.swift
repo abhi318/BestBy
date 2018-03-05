@@ -48,6 +48,7 @@ class SearchController: UIViewController {
             let s:String = foodBeingAdded.text!
             userFoodRef.child(s).setValue(true)
         }
+        dismiss(animated: true, completion: nil)
     }
     var userFoodRef: DatabaseReference!
     
