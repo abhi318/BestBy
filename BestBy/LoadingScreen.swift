@@ -28,23 +28,24 @@ class LoadingScreen: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        //try! Auth.auth().signOut()
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 currentUser.shared.ID = Auth.auth().currentUser?.uid
                 currentUser.shared.userRef = Database.database().reference().child("Users/\((Auth.auth().currentUser?.uid)!)")
                 
-                let userFoodRef = currentUser.shared.userRef?.child("UserFoodListIDs")
+                
                 Database.database().reference().child("Users/\(currentUser.shared.ID!)/DefaultFoodList").observeSingleEvent(of: .value, with: {(snapshot) in
                     currentUser.shared.currentListID = (snapshot.value as! String)
                 })
                 
+                let userFoodRef = currentUser.shared.userRef?.child("UserFoodListIDs")
                 userFoodRef?.observeSingleEvent(of: .value, with: { (snapshot) in
                     // Get user value
-                    let allFoodListIDs = snapshot.value as! [String:Any]
+                    let allFoodListIDs = snapshot.value as! [String: Bool]
                     
-                    for (key, _) in allFoodListIDs{
-                        currentUser.shared.allFood.append(key)
+                    for (id,_) in allFoodListIDs{
+                        currentUser.shared.allFood.append(id)
                     }
                     
                     

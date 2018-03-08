@@ -651,17 +651,21 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8m0-eU-mBV">
-                                                    <rect key="frame" x="15" y="11" width="345" height="278"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                    <rect key="frame" x="15" y="11" width="295" height="75"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="75" id="oee-Oj-9zY"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="8m0-eU-mBV" firstAttribute="leading" secondItem="jUm-6W-X7S" secondAttribute="leadingMargin" id="2UW-Ui-hkG"/>
+                                                <constraint firstItem="8m0-eU-mBV" firstAttribute="top" secondItem="jUm-6W-X7S" secondAttribute="topMargin" id="2n3-BP-Fot"/>
                                                 <constraint firstItem="8m0-eU-mBV" firstAttribute="top" secondItem="jUm-6W-X7S" secondAttribute="topMargin" id="9BV-uT-uXs"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="8m0-eU-mBV" secondAttribute="bottom" id="ORV-Dw-nVi"/>
                                                 <constraint firstItem="8m0-eU-mBV" firstAttribute="leading" secondItem="jUm-6W-X7S" secondAttribute="leadingMargin" id="RyF-Wt-Vos"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="8m0-eU-mBV" secondAttribute="trailing" id="W6U-1w-acs"/>
+                                                <constraint firstItem="8m0-eU-mBV" firstAttribute="trailing" secondItem="jUm-6W-X7S" secondAttribute="trailingMargin" constant="-50" id="WN8-gH-SuG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

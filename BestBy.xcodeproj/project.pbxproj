@@ -37,6 +37,8 @@
 		FD547D2F204CC9DC00E5D630 /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D2E204CC9DC00E5D630 /* LoadingScreen.swift */; };
 		FD547D31204D02FB00E5D630 /* FoodDescController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D30204D02FB00E5D630 /* FoodDescController.swift */; };
 		FD547D33204D2C8B00E5D630 /* AllUserFoodLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D32204D2C8B00E5D630 /* AllUserFoodLists.swift */; };
+		FDBED3F7204DB21E005765AA /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBED3F6204DB21E005765AA /* CollectionCell.swift */; };
+		FDBED3F9204DB388005765AA /* FoodListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBED3F8204DB388005765AA /* FoodListCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,8 @@
 		FD547D2E204CC9DC00E5D630 /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
 		FD547D30204D02FB00E5D630 /* FoodDescController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDescController.swift; sourceTree = "<group>"; };
 		FD547D32204D2C8B00E5D630 /* AllUserFoodLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUserFoodLists.swift; sourceTree = "<group>"; };
+		FDBED3F6204DB21E005765AA /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
+		FDBED3F8204DB388005765AA /* FoodListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodListCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +195,8 @@
 				FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */,
 				FD4C6A46203C021400C13ABC /* FoodData.swift */,
 				FD0664D120328C1400E408CD /* Main.storyboard */,
+				FDBED3F8204DB388005765AA /* FoodListCollectionViewController.swift */,
+				FDBED3F6204DB21E005765AA /* CollectionCell.swift */,
 				FD0664D420328C1400E408CD /* Assets.xcassets */,
 				FD0664FD203292D700E408CD /* GoogleService-Info.plist */,
 				FD0664D620328C1400E408CD /* LaunchScreen.storyboard */,
@@ -539,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDBED3F9204DB388005765AA /* FoodListCollectionViewController.swift in Sources */,
 				C92AAF022047AEB700852A36 /* ShoppingListCellTableViewCell.swift in Sources */,
 				FD547D2F204CC9DC00E5D630 /* LoadingScreen.swift in Sources */,
 				FD547D31204D02FB00E5D630 /* FoodDescController.swift in Sources */,
@@ -550,6 +557,7 @@
 				FD547D33204D2C8B00E5D630 /* AllUserFoodLists.swift in Sources */,
 				FD0665022032FBF900E408CD /* MainViewController.swift in Sources */,
 				FD0664D020328C1400E408CD /* SignInViewController.swift in Sources */,
+				FDBED3F7204DB21E005765AA /* CollectionCell.swift in Sources */,
 				FD4C6A3F2036C94300C13ABC /* AllFoodViewController.swift in Sources */,
 				FD0664CE20328C1400E408CD /* AppDelegate.swift in Sources */,
 			);

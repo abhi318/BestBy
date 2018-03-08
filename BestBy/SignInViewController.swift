@@ -83,13 +83,7 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     }
                     print("\(user!.email!) created")
                     
-                    let newFoodIDref: DatabaseReference  = self.ref.child("AllFoodLists").childByAutoId()
-                    newFoodIDref.child("name").setValue("untitled")
-                    newFoodIDref.child("sharedWith").setValue([user!.uid:true])
-                    
-                    let newFoodID = newFoodIDref.key
-                    currentUser.shared.allFood.append(newFoodID)
-                    self.ref?.child("Users/\(user!.uid)/UserFoodListIDs").setValue([newFoodID])
+                    self.makeANewFoodList(uid: user!.uid)
                     
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -97,6 +91,18 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
         else {
             print("fill in a username AND password")
         }
+    }
+    
+    func makeANewFoodList(uid: String) {
+        let newFoodIDref: DatabaseReference  = self.ref.child("AllFoodLists").childByAutoId()
+        let newFoodID = newFoodIDref.key
+        
+        self.ref?.child("FoodListInfo/\(newFoodID)").setValue(["name": "Untitled", "sharedWith": [uid:true]])
+        
+        currentUser.shared.allFood.append(newFoodID)
+        self.ref?.child("Users/\(uid)/DefaultFoodList").setValue(newFoodID)
+        self.ref?.child("Users/\(uid)/UserFoodListIDs").setValue([newFoodID: true])
+        
     }
     
     @IBAction func BackToLogin(_ sender: Any) {

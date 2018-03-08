@@ -77,6 +77,7 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
             let listDict = snapshot.value as! [String: Any]
             let name = listDict["name"]
             let listItem = FoodList(id:snapshot.key, n: name as! String, shared:[])
+            //print(listDict["sharedWith"])
             for (key, _) in listDict["sharedWith"] as! [String:Bool] {
                 listItem.sharedWith.append(key)
             }
@@ -137,15 +138,26 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
 
 class ListCell: UITableViewCell {
     @IBOutlet weak var listName: UILabel!
-    
+    //@IBOutlet private weak var collectionOfFoods: UICollectionView!
+
     var listID: String!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+
+//    func setCollectionViewDataSourceDelegate
+//        <D: UICollectionViewDataSource & UICollectionViewDelegate>
+//        (dataSourceDelegate: D, forRow row: Int) {
+//
+//        collectionView.delegate = dataSourceDelegate
+//        collectionView.dataSource = dataSourceDelegate
+//        collectionView.tag = row
+//        collectionView.reloadData()
+//    }
 }
 
