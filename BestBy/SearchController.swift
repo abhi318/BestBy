@@ -25,41 +25,17 @@ class SearchController: UIViewController {
         if (foodBeingAdded.text == "") {
             return
         }
-        else if FoodData.food_data[foodBeingAdded.text!] != nil {
-            let foodAdded: String = foodBeingAdded.text!
-            let currentListID: String = currentUser.shared.currentListID!
-            
-            let dateOfExpiration = Calendar.current.date(byAdding: .day, value: (FoodData.food_data[foodAdded]?.0)!, to: Date())
-            let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
-            let doe = Int(timeInterval!)
-            
-            let post = ["name" : foodAdded,
-                        "timestamp" : doe] as [String : Any]
-            ref.child("AllFoodLists/\(currentListID)").childByAutoId().setValue(post)
-        }
-        
         else {
-            let foodAdded: String = foodBeingAdded.text!
-            let currentListID: String = currentUser.shared.currentListID!
-
-            
-            let post = ["name" : foodAdded, "timestamp" : -1] as [String : Any]
-            ref.child("AllFoodLists/\(currentListID)").childByAutoId().setValue(post)
-            let s:String = foodBeingAdded.text!
-            userFoodRef.child(s).setValue(true)
+            addFoodToUsersList()
         }
-        
         dismiss(animated: true, completion: nil)
     }
+    
     var userFoodRef: DatabaseReference!
     
     let searchController = UISearchController(searchResultsController: nil)
     var filteredFood = [String]()
     var all_foods:[String] = []
-    
-    func addFood() {
-        
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +57,29 @@ class SearchController: UIViewController {
         searchController.searchBar.placeholder = "Search Foods"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+    }
+    
+    func addFoodToUsersList() {
+        let foodAdded: String = foodBeingAdded.text!
+        
+        let daysToExpire = weeksPicker.selectedRow(inComponent: 0) * 7 + weeksPicker.selectedRow(inComponent: 1)
+        let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
+        let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
+        let doe = Int(timeInterval!)
+        
+        //post name of food, and seconds from reference date (jan 1, 2001) that it will expire
+        let post = ["name" : foodAdded,
+                    "timestamp" : doe] as [String : Any]
+        
+        let presenter = presentingViewController?.childViewControllers[0].childViewControllers[0] as! AllFoodViewController
+        if presenter.currentListName == "All" {
+            ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
+        }
+        else {
+            ref.child("AllFoodLists/\(presenter.currentListID!)").childByAutoId().setValue(post)
+            ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
+        }
+        
     }
     
     func isFiltering() -> Bool {

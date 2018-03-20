@@ -643,18 +643,15 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ListCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" rowHeight="300" id="L4u-yv-NGh" customClass="ListCell" customModule="BestBy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="300"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ListCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" rowHeight="85" id="L4u-yv-NGh" customClass="ListCell" customModule="BestBy" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L4u-yv-NGh" id="jUm-6W-X7S">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="299.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="84.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8m0-eU-mBV">
-                                                    <rect key="frame" x="15" y="11" width="295" height="75"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="75" id="oee-Oj-9zY"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="15" y="11" width="45" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -663,14 +660,10 @@
                                             <constraints>
                                                 <constraint firstItem="8m0-eU-mBV" firstAttribute="leading" secondItem="jUm-6W-X7S" secondAttribute="leadingMargin" id="2UW-Ui-hkG"/>
                                                 <constraint firstItem="8m0-eU-mBV" firstAttribute="top" secondItem="jUm-6W-X7S" secondAttribute="topMargin" id="2n3-BP-Fot"/>
-                                                <constraint firstItem="8m0-eU-mBV" firstAttribute="top" secondItem="jUm-6W-X7S" secondAttribute="topMargin" id="9BV-uT-uXs"/>
-                                                <constraint firstItem="8m0-eU-mBV" firstAttribute="leading" secondItem="jUm-6W-X7S" secondAttribute="leadingMargin" id="RyF-Wt-Vos"/>
-                                                <constraint firstItem="8m0-eU-mBV" firstAttribute="trailing" secondItem="jUm-6W-X7S" secondAttribute="trailingMargin" constant="-50" id="WN8-gH-SuG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="listName" destination="8m0-eU-mBV" id="cHe-jc-H8q"/>
-                                            <segue destination="aOK-kN-5Sd" kind="show" identifier="pickAList" id="TVs-5m-gsc"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -698,7 +691,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GQs-Qb-UWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3776.8000000000002" y="-582.45877061469275"/>
+            <point key="canvasLocation" x="3336.8000000000002" y="-1351.5742128935533"/>
         </scene>
         <!--Food-->
         <scene sceneID="8Cd-bO-UKr">
@@ -781,6 +774,19 @@
                         <viewLayoutGuide key="safeArea" id="uAb-u8-uWh"/>
                     </view>
                     <navigationItem key="navigationItem" title="Food" id="TUn-hG-FjU">
+                        <barButtonItem key="leftBarButtonItem" title="Spaces" id="Kyc-Wh-yaY">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7h9-dM-QBO">
+                                <rect key="frame" x="16" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Spaces"/>
+                                <connections>
+                                    <segue destination="2lS-ih-enp" kind="show" id="woP-6m-LJI"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <action selector="spacesClicked:" destination="aOK-kN-5Sd" id="xea-dm-KMX"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="9zB-rW-tYk">
                             <connections>
                                 <action selector="addItem:" destination="aOK-kN-5Sd" id="kWd-IT-BUC"/>
@@ -794,7 +800,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="anT-jY-JcF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4540" y="-582"/>
+            <point key="canvasLocation" x="3777" y="-582"/>
         </scene>
         <!--Find Foods-->
         <scene sceneID="0zO-sg-KH2">
@@ -966,7 +972,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KAs-2G-TfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5302" y="-582"/>
+            <point key="canvasLocation" x="4540" y="-582"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="PRS-75-3lR">
@@ -1014,12 +1020,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="2lS-ih-enp" kind="relationship" relationship="rootViewController" id="w3h-gp-YSi"/>
+                        <segue destination="aOK-kN-5Sd" kind="relationship" relationship="rootViewController" id="fzo-Gb-nvY"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HWs-6L-6nt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2993" y="-582"/>
+            <point key="canvasLocation" x="2991" y="-582"/>
         </scene>
         <!--Shopping List-->
         <scene sceneID="cfM-Uy-Ydg">

@@ -97,12 +97,11 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
         let newFoodIDref: DatabaseReference  = self.ref.child("AllFoodLists").childByAutoId()
         let newFoodID = newFoodIDref.key
         
-        self.ref?.child("FoodListInfo/\(newFoodID)").setValue(["name": "Untitled", "sharedWith": [uid:true]])
+        self.ref?.child("FoodListInfo/\(newFoodID)").setValue(["name": "All", "sharedWith": [uid:true]])
         
-        currentUser.shared.allFood.append(newFoodID)
-        self.ref?.child("Users/\(uid)/DefaultFoodList").setValue(newFoodID)
-        self.ref?.child("Users/\(uid)/UserFoodListIDs").setValue([newFoodID: true])
-        
+        currentUser.shared.allSpaces.append((newFoodID, "All"))
+        currentUser.shared.allFoodListID = newFoodID
+        self.ref?.child("Users/\(uid)/AllUsersFood").setValue(newFoodID)        
     }
     
     @IBAction func BackToLogin(_ sender: Any) {

@@ -28,7 +28,7 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
             self.ref.child("FoodListInfo/\(listRef.key)/name").setValue(text)
             self.ref.child("FoodListInfo/\(listRef.key)/sharedWith/\(currentUser.shared.ID!)").setValue(true)
             self.ref.child("Users/\(currentUser.shared.ID!)/UserFoodListIDs/\(listRef.key)").setValue(true)
-            self.ref.child("AllFoodLists/\(listRef.key)").setValue(true)
+            //self.ref.child("AllFoodLists/\(listRef.key)").setValue(true)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -49,20 +49,9 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
         listsTableView.delegate = self
         listsTableView.dataSource = self
         
+        data.append(FoodList(id: currentUser.shared.allSpaces[0].0, n: currentUser.shared.allSpaces[0].1, shared: [] ))
+        print(data.count)
         observeUsersFoodLists()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if (segue.identifier == "pickAList") {
-            let vc = segue.destination as! AllFoodViewController
-            
-            let cell = sender as! ListCell
-            vc.currentListID = cell.listID!
-            currentUser.shared.currentListID = cell.listID!
-            vc.currentListName = cell.listName.text!
-
-            listsTableView.deselectRow(at: listsTableView.indexPath(for: cell)!, animated: true)
-        }
     }
 
     func observeUsersFoodLists() {
@@ -75,13 +64,13 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
     func getListData(listID: String) {
         ref.child("FoodListInfo/\(listID)").observeSingleEvent(of: .value, with: { (snapshot) in
             let listDict = snapshot.value as! [String: Any]
-            let name = listDict["name"]
-            let listItem = FoodList(id:snapshot.key, n: name as! String, shared:[])
-            //print(listDict["sharedWith"])
+            let name = listDict["name"] as! String
+            let listItem = FoodList(id:snapshot.key, n: name, shared:[])
             for (key, _) in listDict["sharedWith"] as! [String:Bool] {
                 listItem.sharedWith.append(key)
             }
             
+            currentUser.shared.allSpaces.append((listID, name))
             self.data.append(listItem)
             DispatchQueue.main.async{
                 self.listsTableView.reloadData()
@@ -94,7 +83,6 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(self.data.count)
         return self.data.count
     }
     
@@ -107,6 +95,15 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
         cell.listID = ListItem.ID
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let presenter = navigationController?.childViewControllers[0] as? AllFoodViewController {
+            presenter.currentListID = self.data[indexPath.row].ID
+            presenter.currentListName = self.data[indexPath.row].name
+        }
+        _ = navigationController?.popViewController(animated: true)
+
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -128,6 +125,13 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         return [delete, share]
         
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if(indexPath.row == 0) {
+            return false
+        }
+        return true
     }
     
     override func didReceiveMemoryWarning() {

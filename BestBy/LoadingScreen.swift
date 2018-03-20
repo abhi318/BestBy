@@ -31,36 +31,36 @@ class LoadingScreen: UIViewController {
         //try! Auth.auth().signOut()
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
-                currentUser.shared.ID = Auth.auth().currentUser?.uid
-                currentUser.shared.userRef = Database.database().reference().child("Users/\((Auth.auth().currentUser?.uid)!)")
+                self.fillCurrentUserSingleton(user: user!)
                 
-                
-                Database.database().reference().child("Users/\(currentUser.shared.ID!)/DefaultFoodList").observeSingleEvent(of: .value, with: {(snapshot) in
-                    currentUser.shared.currentListID = (snapshot.value as! String)
-                })
-                
-                let userFoodRef = currentUser.shared.userRef?.child("UserFoodListIDs")
-                userFoodRef?.observeSingleEvent(of: .value, with: { (snapshot) in
-                    // Get user value
-                    let allFoodListIDs = snapshot.value as! [String: Bool]
-                    
-                    for (id,_) in allFoodListIDs{
-                        currentUser.shared.allFood.append(id)
-                    }
-                    
-                    
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
-                    self.present(vc!, animated: true, completion: nil)
-                    
-                }) { (error) in
-                    print(error.localizedDescription)
-                }
             }
             else {
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
                 self.present(vc!, animated: true, completion: nil)
             }
         }
+    }
+    
+    func fillCurrentUserSingleton (user: User) {
+        let ref: DatabaseReference = Database.database().reference()
+        currentUser.shared.ID = user.uid
+        currentUser.shared.userRef = ref.child("Users/\((user.uid))")
+        
+        loadAllUsersFood(userAllFoodRef: currentUser.shared.userRef!.child("AllUsersFood"))
+        //loadAllUsersSpacesIDs(userFoodRef: currentUser.shared.userRef!.child("UserFoodListIDs"))
+        
+    }
+    
+    func loadAllUsersFood(userAllFoodRef: DatabaseReference) {
+        userAllFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            print(snapshot)
+            currentUser.shared.allFoodListID = snapshot.value as! String!
+            currentUser.shared.allSpaces.append((snapshot.value as! String, "All"))
+
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
+            self.present(vc!, animated: true, completion: nil)
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
