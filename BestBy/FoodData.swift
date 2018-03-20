@@ -7,11 +7,11 @@
 //  Copyright © 2018 Quatro. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct FoodData {
     
-    static var food_data:[String:(Int,String)] = [:]
+    static var food_data:[String:(Int,String, UIImage?)] = [:]
         
     
 }

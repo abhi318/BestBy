@@ -85,7 +85,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         let foodItem = currentUser.shared.foodBySpaces[currentListID]![indexPath.row]
         
         cell.foodName?.text = foodItem.name
-        
+        cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         cell.daysToExpire?.text = "\(daysLeft+1) days left"
 
@@ -97,6 +97,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
             let vc = segue.destination as! FoodDescController
             let cell = sender as! FoodCell
             allFoodTableView.deselectRow(at: allFoodTableView.indexPath(for: cell)!, animated: true)
+            print(cell.foodName.text!)
             vc.passedValues = [cell.foodName.text!, cell.daysToExpire.text!, (FoodData.food_data[cell.foodName.text!]?.1)!]
         }
     }

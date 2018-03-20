@@ -183,7 +183,6 @@
 		C948F4D22060ACC10098AC16 /* pot.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F3E72060ACA70098AC16 /* pot.png */; };
 		C948F4D32060ACC10098AC16 /* tomato.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F3E82060ACA70098AC16 /* tomato.png */; };
 		C948F4D42060ACC10098AC16 /* lemon.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F3E92060ACA70098AC16 /* lemon.png */; };
-		C948F4D52060ACC10098AC16 /* bowl.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F3EA2060ACA70098AC16 /* bowl.png */; };
 		C948F4D62060ACC10098AC16 /* pepper.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F3EB2060ACA80098AC16 /* pepper.png */; };
 		C948F4D72060ACC10098AC16 /* popsicle.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F3EC2060ACA80098AC16 /* popsicle.png */; };
 		C948F4D82060ACC10098AC16 /* jawbreaker.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F3ED2060ACA80098AC16 /* jawbreaker.png */; };
@@ -208,9 +207,8 @@
 		C948F4EB2060ACC10098AC16 /* glass-6.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4002060ACAE0098AC16 /* glass-6.png */; };
 		C948F4EC2060ACC10098AC16 /* ice-cream-7.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4012060ACAF0098AC16 /* ice-cream-7.png */; };
 		C948F4ED2060ACC10098AC16 /* tea.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4022060ACB10098AC16 /* tea.png */; };
-		C948F4EE2060ACC10098AC16 /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4032060ACB10098AC16 /* apple.png */; };
+		C948F4EE2060ACC10098AC16 /* apple-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4032060ACB10098AC16 /* apple-1.png */; };
 		C948F4EF2060ACC10098AC16 /* jam-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4042060ACB10098AC16 /* jam-1.png */; };
-		C948F4F02060ACC10098AC16 /* bread-2.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4052060ACB20098AC16 /* bread-2.png */; };
 		C948F4F12060ACC10098AC16 /* radish.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4062060ACB20098AC16 /* radish.png */; };
 		C948F4F22060ACC10098AC16 /* stew.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4072060ACB30098AC16 /* stew.png */; };
 		C948F4F32060ACC10098AC16 /* kitchen.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4082060ACB40098AC16 /* kitchen.png */; };
@@ -218,7 +216,6 @@
 		C948F4F52060ACC10098AC16 /* mushrooms.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F40A2060ACB60098AC16 /* mushrooms.png */; };
 		C948F4F62060ACC10098AC16 /* mustard.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F40B2060ACB60098AC16 /* mustard.png */; };
 		C948F4F72060ACC10098AC16 /* rice.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F40C2060ACB70098AC16 /* rice.png */; };
-		C948F4F82060ACC10098AC16 /* bowl-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F40D2060ACB70098AC16 /* bowl-1.png */; };
 		C948F4F92060ACC10098AC16 /* sandwich-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F40E2060ACB70098AC16 /* sandwich-1.png */; };
 		C948F4FA2060ACC10098AC16 /* pumpkin.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F40F2060ACB80098AC16 /* pumpkin.png */; };
 		C948F4FB2060ACC10098AC16 /* ice-cream-4.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4102060ACB80098AC16 /* ice-cream-4.png */; };
@@ -273,7 +270,7 @@
 		FD547D31204D02FB00E5D630 /* FoodDescController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D30204D02FB00E5D630 /* FoodDescController.swift */; };
 		FD547D33204D2C8B00E5D630 /* AllUserFoodLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D32204D2C8B00E5D630 /* AllUserFoodLists.swift */; };
 		FDBED3F7204DB21E005765AA /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBED3F6204DB21E005765AA /* CollectionCell.swift */; };
-		FDBED3F9204DB388005765AA /* FoodListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBED3F8204DB388005765AA /* FoodListCollectionViewController.swift */; };
+		FDDA5120206190A600643514 /* FoodCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA511F206190A600643514 /* FoodCollectionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -472,7 +469,6 @@
 		C948F3E72060ACA70098AC16 /* pot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pot.png; sourceTree = "<group>"; };
 		C948F3E82060ACA70098AC16 /* tomato.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tomato.png; sourceTree = "<group>"; };
 		C948F3E92060ACA70098AC16 /* lemon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lemon.png; sourceTree = "<group>"; };
-		C948F3EA2060ACA70098AC16 /* bowl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bowl.png; sourceTree = "<group>"; };
 		C948F3EB2060ACA80098AC16 /* pepper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pepper.png; sourceTree = "<group>"; };
 		C948F3EC2060ACA80098AC16 /* popsicle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popsicle.png; sourceTree = "<group>"; };
 		C948F3ED2060ACA80098AC16 /* jawbreaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jawbreaker.png; sourceTree = "<group>"; };
@@ -497,9 +493,8 @@
 		C948F4002060ACAE0098AC16 /* glass-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glass-6.png"; sourceTree = "<group>"; };
 		C948F4012060ACAF0098AC16 /* ice-cream-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice-cream-7.png"; sourceTree = "<group>"; };
 		C948F4022060ACB10098AC16 /* tea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tea.png; sourceTree = "<group>"; };
-		C948F4032060ACB10098AC16 /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
+		C948F4032060ACB10098AC16 /* apple-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-1.png"; sourceTree = "<group>"; };
 		C948F4042060ACB10098AC16 /* jam-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jam-1.png"; sourceTree = "<group>"; };
-		C948F4052060ACB20098AC16 /* bread-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bread-2.png"; sourceTree = "<group>"; };
 		C948F4062060ACB20098AC16 /* radish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radish.png; sourceTree = "<group>"; };
 		C948F4072060ACB30098AC16 /* stew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stew.png; sourceTree = "<group>"; };
 		C948F4082060ACB40098AC16 /* kitchen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitchen.png; sourceTree = "<group>"; };
@@ -507,7 +502,6 @@
 		C948F40A2060ACB60098AC16 /* mushrooms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mushrooms.png; sourceTree = "<group>"; };
 		C948F40B2060ACB60098AC16 /* mustard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mustard.png; sourceTree = "<group>"; };
 		C948F40C2060ACB70098AC16 /* rice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rice.png; sourceTree = "<group>"; };
-		C948F40D2060ACB70098AC16 /* bowl-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bowl-1.png"; sourceTree = "<group>"; };
 		C948F40E2060ACB70098AC16 /* sandwich-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sandwich-1.png"; sourceTree = "<group>"; };
 		C948F40F2060ACB80098AC16 /* pumpkin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pumpkin.png; sourceTree = "<group>"; };
 		C948F4102060ACB80098AC16 /* ice-cream-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice-cream-4.png"; sourceTree = "<group>"; };
@@ -572,7 +566,7 @@
 		FD547D30204D02FB00E5D630 /* FoodDescController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDescController.swift; sourceTree = "<group>"; };
 		FD547D32204D2C8B00E5D630 /* AllUserFoodLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUserFoodLists.swift; sourceTree = "<group>"; };
 		FDBED3F6204DB21E005765AA /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
-		FDBED3F8204DB388005765AA /* FoodListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodListCollectionViewController.swift; sourceTree = "<group>"; };
+		FDDA511F206190A600643514 /* FoodCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -629,7 +623,7 @@
 		C948F5162060AD080098AC16 /* food_imgs */ = {
 			isa = PBXGroup;
 			children = (
-				C948F4032060ACB10098AC16 /* apple.png */,
+				C948F4032060ACB10098AC16 /* apple-1.png */,
 				C948F3F62060ACAB0098AC16 /* asparagus.png */,
 				C948F3A82060AC8C0098AC16 /* aubergine.png */,
 				C948F3652060AC7F0098AC16 /* avocado.png */,
@@ -641,10 +635,7 @@
 				C948F36C2060AC800098AC16 /* biscuit.png */,
 				C948F33F2060AC770098AC16 /* blueberries.png */,
 				C948F38D2060AC870098AC16 /* boiled.png */,
-				C948F40D2060ACB70098AC16 /* bowl-1.png */,
-				C948F3EA2060ACA70098AC16 /* bowl.png */,
 				C948F37D2060AC840098AC16 /* bread-1.png */,
-				C948F4052060ACB20098AC16 /* bread-2.png */,
 				C948F3E22060ACA50098AC16 /* bread.png */,
 				C948F3F52060ACAB0098AC16 /* broccoli.png */,
 				C948F4172060ACBB0098AC16 /* butcher.png */,
@@ -907,7 +898,7 @@
 				FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */,
 				FD4C6A46203C021400C13ABC /* FoodData.swift */,
 				FD0664D120328C1400E408CD /* Main.storyboard */,
-				FDBED3F8204DB388005765AA /* FoodListCollectionViewController.swift */,
+				FDDA511F206190A600643514 /* FoodCollectionController.swift */,
 				FDBED3F6204DB21E005765AA /* CollectionCell.swift */,
 				FD0664D420328C1400E408CD /* Assets.xcassets */,
 				FD0664FD203292D700E408CD /* GoogleService-Info.plist */,
@@ -1068,7 +1059,6 @@
 				C948F46B2060ACC10098AC16 /* spices.png in Resources */,
 				C948F4B62060ACC10098AC16 /* pancakes-1.png in Resources */,
 				C948F4342060ACC10098AC16 /* salmon.png in Resources */,
-				C948F4D52060ACC10098AC16 /* bowl.png in Resources */,
 				C948F49B2060ACC10098AC16 /* lime.png in Resources */,
 				C948F4E22060ACC10098AC16 /* pizza-2.png in Resources */,
 				C948F46A2060ACC10098AC16 /* ornating.png in Resources */,
@@ -1255,12 +1245,11 @@
 				C948F4B42060ACC10098AC16 /* corckscrew.png in Resources */,
 				C948F49C2060ACC10098AC16 /* can.png in Resources */,
 				C948F49E2060ACC10098AC16 /* wrap.png in Resources */,
-				C948F4F82060ACC10098AC16 /* bowl-1.png in Resources */,
 				C948F42C2060ACC10098AC16 /* butter.png in Resources */,
 				C948F4CA2060ACC10098AC16 /* mustard-2.png in Resources */,
 				C948F4F62060ACC10098AC16 /* mustard.png in Resources */,
 				C948F4FC2060ACC10098AC16 /* rolling-pin.png in Resources */,
-				C948F4EE2060ACC10098AC16 /* apple.png in Resources */,
+				C948F4EE2060ACC10098AC16 /* apple-1.png in Resources */,
 				C948F4D02060ACC10098AC16 /* noodles.png in Resources */,
 				C948F4552060ACC10098AC16 /* cauliflower.png in Resources */,
 				C948F4BC2060ACC10098AC16 /* dishes.png in Resources */,
@@ -1291,7 +1280,6 @@
 				C948F44B2060ACC10098AC16 /* hazelnut.png in Resources */,
 				C948F48E2060ACC10098AC16 /* dish.png in Resources */,
 				C948F4932060ACC10098AC16 /* aubergine.png in Resources */,
-				C948F4F02060ACC10098AC16 /* bread-2.png in Resources */,
 				C948F5122060ACC10098AC16 /* dairy.png in Resources */,
 				C948F4852060ACC10098AC16 /* ice-cream-8.png in Resources */,
 				C948F4692060ACC10098AC16 /* corn.png in Resources */,
@@ -1493,7 +1481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDBED3F9204DB388005765AA /* FoodListCollectionViewController.swift in Sources */,
+				FDDA5120206190A600643514 /* FoodCollectionController.swift in Sources */,
 				C92AAF022047AEB700852A36 /* ShoppingListCellTableViewCell.swift in Sources */,
 				FD547D2F204CC9DC00E5D630 /* LoadingScreen.swift in Sources */,
 				FD547D31204D02FB00E5D630 /* FoodDescController.swift in Sources */,
