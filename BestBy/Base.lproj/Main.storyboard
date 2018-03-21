@@ -848,22 +848,28 @@
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9s8-Oa-Aky">
                                 <rect key="frame" x="0.0" y="64" width="375" height="55"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="736-Cv-INo">
-                                        <rect key="frame" x="0.0" y="0.0" width="145" height="55"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="736-Cv-INo">
+                                        <rect key="frame" x="0.0" y="0.0" width="249" height="55"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N9F-2v-1St">
-                                        <rect key="frame" x="145" y="0.0" width="200" height="55"/>
+                                        <rect key="frame" x="249" y="0.0" width="50" height="55"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="fdn-gK-Ov1"/>
+                                            <constraint firstAttribute="width" constant="50" id="fdn-gK-Ov1"/>
                                         </constraints>
                                     </pickerView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="days" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTq-hm-3du">
+                                        <rect key="frame" x="299" y="0.0" width="36" height="55"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5vP-K8-xI6">
-                                        <rect key="frame" x="345" y="0.0" width="30" height="55"/>
+                                        <rect key="frame" x="335" y="0.0" width="40" height="55"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="30" id="kxL-A4-Rlv"/>
+                                            <constraint firstAttribute="width" constant="40" id="kxL-A4-Rlv"/>
                                         </constraints>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
@@ -882,7 +888,13 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="N9F-2v-1St" firstAttribute="leading" secondItem="736-Cv-INo" secondAttribute="trailing" id="A30-0o-1yH"/>
                                     <constraint firstAttribute="height" constant="55" id="C5n-kW-0TH"/>
+                                    <constraint firstItem="5vP-K8-xI6" firstAttribute="leading" secondItem="eTq-hm-3du" secondAttribute="trailing" id="USa-vO-OaO"/>
+                                    <constraint firstAttribute="trailing" secondItem="5vP-K8-xI6" secondAttribute="trailing" id="bXx-Pf-bEw"/>
+                                    <constraint firstItem="eTq-hm-3du" firstAttribute="leading" secondItem="N9F-2v-1St" secondAttribute="trailing" id="cgS-c7-9fD"/>
+                                    <constraint firstItem="eTq-hm-3du" firstAttribute="leading" secondItem="N9F-2v-1St" secondAttribute="trailing" id="e9r-IW-aVk"/>
+                                    <constraint firstItem="N9F-2v-1St" firstAttribute="leading" secondItem="736-Cv-INo" secondAttribute="trailing" id="u11-q7-2sW"/>
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wOi-Ie-C6r">

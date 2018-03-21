@@ -151,7 +151,11 @@ extension SpacesCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FoodCell", for: indexPath) as! FoodPreviewCell
         
-        cell.img.image = FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!]!.2
+        if (FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!] == nil) {
+            cell.img.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+        } else {
+            cell.img.image = FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!]!.2
+        }
         
         let foodItem = currentUser.shared.allSpaces[(currentList?.ID)!]?.contents[indexPath.item]
 

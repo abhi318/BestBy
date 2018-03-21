@@ -106,7 +106,11 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         //cell.foodDetails.backgroundColor = cell.bg_color.backgroundColor
         cell.foodDetails.text = FoodData.food_data[foodItem.name]?.1
         cell.daysToExpire?.text = "\(daysLeft+1) days left"
-        cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
+        if FoodData.food_data[foodItem.name] != nil {
+            cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
+        } else {
+            cell.foodImage.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+        }
         cell.foodName?.text = foodItem.name
 
 
