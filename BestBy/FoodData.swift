@@ -10,10 +10,7 @@
 import UIKit
 
 struct FoodData {
-    
     static var food_data:[String:(Int,String, UIImage?)] = [:]
-        
-    
 }
 
 class FoodItem {

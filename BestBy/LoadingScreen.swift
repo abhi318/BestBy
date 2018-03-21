@@ -18,6 +18,12 @@ class LoadingScreen: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
     var done = false;
     var i = 0;
+    let semaphore = DispatchSemaphore(value: 0)
+    let semaphore2 = DispatchSemaphore(value:0)
+    let myGroup2 = DispatchGroup()
+    let myGroup = DispatchGroup()
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,26 +31,30 @@ class LoadingScreen: UIViewController {
         loadEverySingleFood()
     }
     func loadEverySingleFood() {
+
         let storageRef = Storage.storage().reference()
         i = 0
+
         Database.database().reference().child("EverySingleFood").observeSingleEvent(of: .value, with: { (snapshot) in
             let newFood = snapshot.value as! [String:[String:Any]]
-            for(key, value) in newFood {
-                let imgRef = storageRef.child("images/\(value["img_name"]!)")
-                imgRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                    if error != nil {
-                        print(error ?? "momomomo")
-                    } else {
-                        FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(data: data!))
-                    }
-                }
-//
-//                download.observe(.success) { snapshot in
-//                    self.i += 1
-//                    download.removeAllObservers()
-//                }
+            //for(key, value) in newFood {
+            for (key, value) in newFood {
+                FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: value["img_name"] as! String))
             }
             
+//
+//
+//                let imgRef = storageRef.child("images/\(value["img_name"]!)")
+//                imgRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+//                    if error != nil {
+//                        print(error ?? "momomomo")
+//                    } else {
+//                        FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(data: data!))
+//                    }
+//                    print("finished: \(key)")
+//                    self.myGroup.leave()
+//                }
+//            }
         })
     }
     
@@ -74,8 +84,7 @@ class LoadingScreen: UIViewController {
             // Get user value
             currentUser.shared.allFoodListID = snapshot.value as! String!
             currentUser.shared.allSpaces.append((snapshot.value as! String, "All"))
-            sleep(5)
-            
+           
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
             self.present(vc!, animated: true, completion: nil)
         })

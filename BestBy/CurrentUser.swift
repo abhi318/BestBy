@@ -19,7 +19,6 @@ final class currentUser {
     }
     
     // MARK: Shared Instance
-    
     static let shared = currentUser()
     
     // MARK: Local Variable

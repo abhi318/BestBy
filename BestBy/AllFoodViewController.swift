@@ -19,7 +19,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     var ref: DatabaseReference!
     var currentListID: String! = currentUser.shared.allFoodListID!
 
-    var currentListName: String!
+    var currentListName: String! = "All"
 
     @IBOutlet weak var allFoodTableView: UITableView!
     
@@ -85,6 +85,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         let foodItem = currentUser.shared.foodBySpaces[currentListID]![indexPath.row]
         
         cell.foodName?.text = foodItem.name
+        print(FoodData.food_data.count)
         cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         cell.daysToExpire?.text = "\(daysLeft+1) days left"
@@ -100,6 +101,10 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
             print(cell.foodName.text!)
             vc.passedValues = [cell.foodName.text!, cell.daysToExpire.text!, (FoodData.food_data[cell.foodName.text!]?.1)!]
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //ref.child("AllFoodLists/\(currentListID)").removeAllObservers()
     }
 }
 
