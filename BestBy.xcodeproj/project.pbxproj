@@ -265,12 +265,14 @@
 		FD4C6A412036CC0B00C13ABC /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */; };
 		FD4C6A43203780D100C13ABC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4C6A42203780D100C13ABC /* ProfileViewController.swift */; };
 		FD4C6A47203C021400C13ABC /* FoodData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4C6A46203C021400C13ABC /* FoodData.swift */; };
+		FD50C40B2062584000507FA0 /* SpacesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD50C40A2062584000507FA0 /* SpacesCollectionViewController.swift */; };
 		FD547D2D2046384600E5D630 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D2C2046384600E5D630 /* SearchController.swift */; };
 		FD547D2F204CC9DC00E5D630 /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D2E204CC9DC00E5D630 /* LoadingScreen.swift */; };
 		FD547D31204D02FB00E5D630 /* FoodDescController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D30204D02FB00E5D630 /* FoodDescController.swift */; };
-		FD547D33204D2C8B00E5D630 /* AllUserFoodLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D32204D2C8B00E5D630 /* AllUserFoodLists.swift */; };
+		FD547D33204D2C8B00E5D630 /* Spaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D32204D2C8B00E5D630 /* Spaces.swift */; };
 		FDBED3F7204DB21E005765AA /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBED3F6204DB21E005765AA /* CollectionCell.swift */; };
 		FDDA5120206190A600643514 /* FoodCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA511F206190A600643514 /* FoodCollectionController.swift */; };
+		FDDEDA55206278AD005AC6FB /* SpacesLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -561,12 +563,14 @@
 		FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		FD4C6A42203780D100C13ABC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FD4C6A46203C021400C13ABC /* FoodData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodData.swift; sourceTree = "<group>"; };
+		FD50C40A2062584000507FA0 /* SpacesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesCollectionViewController.swift; sourceTree = "<group>"; };
 		FD547D2C2046384600E5D630 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		FD547D2E204CC9DC00E5D630 /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
 		FD547D30204D02FB00E5D630 /* FoodDescController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDescController.swift; sourceTree = "<group>"; };
-		FD547D32204D2C8B00E5D630 /* AllUserFoodLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUserFoodLists.swift; sourceTree = "<group>"; };
+		FD547D32204D2C8B00E5D630 /* Spaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spaces.swift; sourceTree = "<group>"; };
 		FDBED3F6204DB21E005765AA /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		FDDA511F206190A600643514 /* FoodCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionController.swift; sourceTree = "<group>"; };
+		FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -888,7 +892,9 @@
 				FD0664CF20328C1400E408CD /* SignInViewController.swift */,
 				FD547D2E204CC9DC00E5D630 /* LoadingScreen.swift */,
 				FD0665012032FBF900E408CD /* MainViewController.swift */,
-				FD547D32204D2C8B00E5D630 /* AllUserFoodLists.swift */,
+				FD547D32204D2C8B00E5D630 /* Spaces.swift */,
+				FD50C40A2062584000507FA0 /* SpacesCollectionViewController.swift */,
+				FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */,
 				FD4C6A3E2036C94300C13ABC /* AllFoodViewController.swift */,
 				FD547D30204D02FB00E5D630 /* FoodDescController.swift */,
 				FD547D2C2046384600E5D630 /* SearchController.swift */,
@@ -1387,6 +1393,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-BestBy/Pods-BestBy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/HFCardCollectionViewLayout/HFCardCollectionViewLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1394,6 +1401,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HFCardCollectionViewLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1490,7 +1498,9 @@
 				FD4C6A47203C021400C13ABC /* FoodData.swift in Sources */,
 				AF85A161204A183400DA44B3 /* ShoppingListsViewController.swift in Sources */,
 				FD547D2D2046384600E5D630 /* SearchController.swift in Sources */,
-				FD547D33204D2C8B00E5D630 /* AllUserFoodLists.swift in Sources */,
+				FD50C40B2062584000507FA0 /* SpacesCollectionViewController.swift in Sources */,
+				FD547D33204D2C8B00E5D630 /* Spaces.swift in Sources */,
+				FDDEDA55206278AD005AC6FB /* SpacesLayout.swift in Sources */,
 				FD0665022032FBF900E408CD /* MainViewController.swift in Sources */,
 				FD0664D020328C1400E408CD /* SignInViewController.swift in Sources */,
 				FDBED3F7204DB21E005765AA /* CollectionCell.swift in Sources */,

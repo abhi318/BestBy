@@ -10,6 +10,9 @@ target 'BestBy' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
+  
+  # card layout for spaces
+  pod 'HFCardCollectionViewLayout'
 
   target 'BestByTests' do
     inherit! :search_paths
