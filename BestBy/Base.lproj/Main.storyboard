@@ -1240,6 +1240,7 @@
                                         </collectionView>
                                     </subviews>
                                 </view>
+                                <color key="backgroundColor" red="1" green="0.83137254901960778" blue="0.47450980392156861" alpha="0.23000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="SZ5-ws-VB5" firstAttribute="leading" secondItem="FxR-m8-sL7" secondAttribute="leading" constant="5" id="14N-ky-C71"/>
                                     <constraint firstAttribute="trailing" secondItem="SZ5-ws-VB5" secondAttribute="trailing" constant="5" id="Dh1-s9-dAM"/>

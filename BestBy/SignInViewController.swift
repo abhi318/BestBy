@@ -83,7 +83,7 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     }
                     print("\(user!.email!) created")
                     
-                    //self.makeANewFoodList(uid: user!.uid)
+                    self.makeANewFoodList(uid: user!.uid)
                     
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -98,10 +98,7 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
         let newFoodID = newFoodIDref.key
         
         self.ref?.child("FoodListInfo/\(newFoodID)").setValue(["name": "All", "sharedWith": [uid:true]])
-        
-        currentUser.shared.allSpaces[uid] = FoodList(id: uid, n: "All", shared:[uid])
-        currentUser.shared.allFoodListID = newFoodID
-        self.ref?.child("Users/\(uid)/AllUsersFood").setValue(newFoodID)        
+        self.ref?.child("Users/\(uid)/AllUsersFood").setValue(newFoodID)
     }
     
     @IBAction func BackToLogin(_ sender: Any) {

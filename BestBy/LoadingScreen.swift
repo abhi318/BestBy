@@ -26,10 +26,10 @@ class LoadingScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadEverySingleFood(){}
+        loadEverySingleFood()
     }
     
-    func loadEverySingleFood(completionHandler:@escaping ()->Void) {
+    func loadEverySingleFood() {
         i = 0
         
         Database.database().reference().child("EverySingleFood").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -39,10 +39,10 @@ class LoadingScreen: UIViewController {
             }
             self.group.signal()
         })
-        completionHandler()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        //try! Auth.auth().signOut()
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 self.fillCurrentUserSingleton(user: user!)
@@ -61,6 +61,8 @@ class LoadingScreen: UIViewController {
         print(user.uid)
         loadAllUsersFood(userAllFoodRef: currentUser.shared.userRef!.child("AllUsersFood"))
     }
+    
+    
     
     func loadAllUsersFood(userAllFoodRef: DatabaseReference) {
         userAllFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
