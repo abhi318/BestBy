@@ -10,56 +10,32 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-var realNames: [String] =
-    ["apples","asparagus","avocados","bananas","blueberries","broccoli","butter","butter lettuce","butternut squash","carrots","cauliflower","celery","corn","cucumber","eggs","fingerling potatoes","grapes","green beans","green bell peppers","iceburg lettuce","kale","leaf lettuce","lemons","limes","milk","mushrooms","onions","orange bell peppers","oranges","peaches","pears","pineapples","pomegranates","red bell peppers","red potatoes","romaine lettuce","russet potatoes","sour cream","spaghetti squash","strawberries","summer squash","sweet potatoes","tomatoes","watermelon","white potatoes","winter squash","yellow bell peppers","yogurt","yukon gold potatoes","zucchini"]
-
 class LoadingScreen: UIViewController {
     
     var handle: AuthStateDidChangeListenerHandle?
     var done = false;
     var i = 0;
-    let semaphore = DispatchSemaphore(value: 0)
-    let semaphore2 = DispatchSemaphore(value:0)
-    let myGroup2 = DispatchGroup()
-    let myGroup = DispatchGroup()
-
-
+    let group = DispatchGroup()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadEverySingleFood()
+        loadEverySingleFood(){}
     }
-    func loadEverySingleFood() {
-
-        let storageRef = Storage.storage().reference()
+    
+    func loadEverySingleFood(completionHandler:@escaping ()->Void) {
         i = 0
-
+        
         Database.database().reference().child("EverySingleFood").observeSingleEvent(of: .value, with: { (snapshot) in
             let newFood = snapshot.value as! [String:[String:Any]]
-            //for(key, value) in newFood {
             for (key, value) in newFood {
                 FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: value["img_name"] as! String))
             }
-            
-//
-//
-//                let imgRef = storageRef.child("images/\(value["img_name"]!)")
-//                imgRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-//                    if error != nil {
-//                        print(error ?? "momomomo")
-//                    } else {
-//                        FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(data: data!))
-//                    }
-//                    print("finished: \(key)")
-//                    self.myGroup.leave()
-//                }
-//            }
         })
+        completionHandler()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //try! Auth.auth().signOut()
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 self.fillCurrentUserSingleton(user: user!)
@@ -82,6 +58,7 @@ class LoadingScreen: UIViewController {
     func loadAllUsersFood(userAllFoodRef: DatabaseReference) {
         userAllFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
+            print(snapshot)
             currentUser.shared.allFoodListID = snapshot.value as! String!
             currentUser.shared.allSpaces.append((snapshot.value as! String, "All"))
            

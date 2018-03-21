@@ -49,6 +49,8 @@ class AllUserFoodLists: UIViewController, UITableViewDelegate, UITableViewDataSo
         listsTableView.delegate = self
         listsTableView.dataSource = self
         
+        self.title = "Spaces"
+        
         data.append(FoodList(id: currentUser.shared.allSpaces[0].0, n: currentUser.shared.allSpaces[0].1, shared: [] ))
         print(data.count)
         observeUsersFoodLists()

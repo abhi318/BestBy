@@ -14,10 +14,9 @@ class FoodCollectionController: UICollectionViewController {
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionCell
-        print("at collection: \(realNames[indexPath.row])")
-
-        cell.imageView.image = FoodData.food_data[realNames[indexPath.row]]?.2
-        cell.foodName.text = realNames[indexPath.row]
+        let key = Array(FoodData.food_data.keys)[indexPath.row]
+        cell.imageView.image = FoodData.food_data[key]?.2
+        cell.foodName.text = key
         //cell.imageView.backgroundColor = .lightGray
         
         return cell

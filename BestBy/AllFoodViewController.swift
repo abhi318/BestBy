@@ -29,19 +29,22 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         
         ref = Database.database().reference()
         
-        self.title = currentListName
         
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.title = currentListName
+
         if currentUser.shared.foodBySpaces[currentListID] == nil {
             currentUser.shared.foodBySpaces[currentListID] = [FoodItem]()
             observeFoodList(at: currentListID)
         }
         
-        self.allFoodTableView.reloadData()
+        DispatchQueue.main.async{
+            self.allFoodTableView.reloadData()
+        }
     }
     
     func observeFoodList(at: String) {
