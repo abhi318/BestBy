@@ -43,7 +43,6 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.title = currentListName
         
         DispatchQueue.main.async{
             self.allFoodTableView.reloadData()
@@ -90,7 +89,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
 
         let foodItem = currentUser.shared.allSpaces[currentListID]!.contents[indexPath.row]
         
-        print(FoodData.food_data.count)
+        //print(FoodData.food_data.count)
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         
         var ratio = (CGFloat(daysLeft)/40.0)

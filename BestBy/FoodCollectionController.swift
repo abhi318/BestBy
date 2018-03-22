@@ -62,8 +62,8 @@ extension FoodCollectionController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: collectionView.frame.size.width/3.0 - 8,
-                      height: collectionView.frame.size.width/3.0 - 8)
+        return CGSize(width: collectionView.frame.size.width/4.0 - 8,
+                      height: collectionView.frame.size.width/4.0 - 8)
     }
 }
 
