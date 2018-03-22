@@ -207,7 +207,6 @@
 		C948F4EB2060ACC10098AC16 /* glass-6.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4002060ACAE0098AC16 /* glass-6.png */; };
 		C948F4EC2060ACC10098AC16 /* ice-cream-7.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4012060ACAF0098AC16 /* ice-cream-7.png */; };
 		C948F4ED2060ACC10098AC16 /* tea.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4022060ACB10098AC16 /* tea.png */; };
-		C948F4EE2060ACC10098AC16 /* apple-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4032060ACB10098AC16 /* apple-1.png */; };
 		C948F4EF2060ACC10098AC16 /* jam-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4042060ACB10098AC16 /* jam-1.png */; };
 		C948F4F12060ACC10098AC16 /* radish.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4062060ACB20098AC16 /* radish.png */; };
 		C948F4F22060ACC10098AC16 /* stew.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4072060ACB30098AC16 /* stew.png */; };
@@ -245,6 +244,7 @@
 		C948F5132060ACC10098AC16 /* ice-cream-13.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4282060ACC00098AC16 /* ice-cream-13.png */; };
 		C948F5142060ACC10098AC16 /* jelly.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F4292060ACC10098AC16 /* jelly.png */; };
 		C948F5182062A7900098AC16 /* beef.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F5172062A78F0098AC16 /* beef.png */; };
+		C99B60D22063217800B89A4D /* apple-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C99B60D12063217800B89A4D /* apple-1.png */; };
 		C9A9C4FC204D151500E9C85A /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A9C4FB204D151500E9C85A /* profile@2x.png */; };
 		C9A9C4FF204D18F400E9C85A /* fridge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A9C4FD204D18F300E9C85A /* fridge@2x.png */; };
 		C9A9C500204D18F400E9C85A /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A9C4FE204D18F400E9C85A /* list@2x.png */; };
@@ -496,7 +496,6 @@
 		C948F4002060ACAE0098AC16 /* glass-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glass-6.png"; sourceTree = "<group>"; };
 		C948F4012060ACAF0098AC16 /* ice-cream-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice-cream-7.png"; sourceTree = "<group>"; };
 		C948F4022060ACB10098AC16 /* tea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tea.png; sourceTree = "<group>"; };
-		C948F4032060ACB10098AC16 /* apple-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-1.png"; sourceTree = "<group>"; };
 		C948F4042060ACB10098AC16 /* jam-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jam-1.png"; sourceTree = "<group>"; };
 		C948F4062060ACB20098AC16 /* radish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radish.png; sourceTree = "<group>"; };
 		C948F4072060ACB30098AC16 /* stew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stew.png; sourceTree = "<group>"; };
@@ -534,6 +533,7 @@
 		C948F4282060ACC00098AC16 /* ice-cream-13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice-cream-13.png"; sourceTree = "<group>"; };
 		C948F4292060ACC10098AC16 /* jelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jelly.png; sourceTree = "<group>"; };
 		C948F5172062A78F0098AC16 /* beef.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beef.png; sourceTree = "<group>"; };
+		C99B60D12063217800B89A4D /* apple-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "apple-1.png"; path = "../../../../135541-gastronomy-set/png/apple-1.png"; sourceTree = "<group>"; };
 		C9A9C4FB204D151500E9C85A /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
 		C9A9C4FD204D18F300E9C85A /* fridge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fridge@2x.png"; sourceTree = "<group>"; };
 		C9A9C4FE204D18F400E9C85A /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@2x.png"; sourceTree = "<group>"; };
@@ -629,7 +629,7 @@
 		C948F5162060AD080098AC16 /* food_imgs */ = {
 			isa = PBXGroup;
 			children = (
-				C948F4032060ACB10098AC16 /* apple-1.png */,
+				C99B60D12063217800B89A4D /* apple-1.png */,
 				C948F3F62060ACAB0098AC16 /* asparagus.png */,
 				C948F3A82060AC8C0098AC16 /* aubergine.png */,
 				C948F3652060AC7F0098AC16 /* avocado.png */,
@@ -1259,7 +1259,6 @@
 				C948F4CA2060ACC10098AC16 /* mustard-2.png in Resources */,
 				C948F4F62060ACC10098AC16 /* mustard.png in Resources */,
 				C948F4FC2060ACC10098AC16 /* rolling-pin.png in Resources */,
-				C948F4EE2060ACC10098AC16 /* apple-1.png in Resources */,
 				C948F4D02060ACC10098AC16 /* noodles.png in Resources */,
 				C948F4552060ACC10098AC16 /* cauliflower.png in Resources */,
 				C948F4BC2060ACC10098AC16 /* dishes.png in Resources */,
@@ -1290,6 +1289,7 @@
 				C948F44B2060ACC10098AC16 /* hazelnut.png in Resources */,
 				C948F48E2060ACC10098AC16 /* dish.png in Resources */,
 				C948F4932060ACC10098AC16 /* aubergine.png in Resources */,
+				C99B60D22063217800B89A4D /* apple-1.png in Resources */,
 				C948F5122060ACC10098AC16 /* dairy.png in Resources */,
 				C948F4852060ACC10098AC16 /* ice-cream-8.png in Resources */,
 				C948F4692060ACC10098AC16 /* corn.png in Resources */,
@@ -1677,10 +1677,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F75K5E25VA;
+				DEVELOPMENT_TEAM = R4WTTEWA23;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1693,10 +1693,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F75K5E25VA;
+				DEVELOPMENT_TEAM = R4WTTEWA23;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Quatro.BestBy1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

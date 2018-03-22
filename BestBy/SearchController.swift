@@ -124,10 +124,23 @@ extension SearchController: UIPickerViewDelegate, UIPickerViewDataSource {
         return 90
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row)"
-    }
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return "\(row)"
+//    }
     
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel = view as! UILabel!
+        if view == nil {  //if no label there yet
+            pickerLabel = UILabel()
+        }
+        let titleData = "\(row)"
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:20.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
+        pickerLabel!.attributedText = myTitle
+        pickerLabel!.textAlignment = .center
+        
+        return pickerLabel!
+        
+    }
 }
 
 extension SearchController: UITableViewDelegate, UITableViewDataSource {

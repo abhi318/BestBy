@@ -132,10 +132,11 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (itemSelected == indexPath.row) {
-            return 250
+        let foodItem = currentUser.shared.allSpaces[currentListID]!.contents[indexPath.row]
+        if (itemSelected == indexPath.row && FoodData.food_data[foodItem.name]?.1.count != nil) {
+            return CGFloat(70 + (FoodData.food_data[foodItem.name]?.1.count)! / 2);
         }
-        return 110
+        return 60
     }
     
     

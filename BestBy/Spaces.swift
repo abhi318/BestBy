@@ -120,7 +120,7 @@ class Spaces: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         let share = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
             // share item at indexPath
-            print("I want to share: \(currentUser.shared.allSpaces[keyAtIndex]?.name!)")
+            print("I want to share: \(String(describing: currentUser.shared.allSpaces[keyAtIndex]?.name!))")
         }
         
         share.backgroundColor = UIColor.lightGray
