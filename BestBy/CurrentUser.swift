@@ -35,6 +35,7 @@ final class currentUser {
     //current space ID, "" or nil if a space isnt selected
     var currentSpace: String?
     var allSpaces: [String:FoodList] = [String:FoodList]()    //all the spaces the user has
+    var otherFoodListIDs: [String] = [String]()
     
     func clear() {
         ID = nil

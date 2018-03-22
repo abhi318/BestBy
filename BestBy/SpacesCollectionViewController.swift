@@ -33,17 +33,21 @@ class SpacesCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        
+        self.navigationController?.isNavigationBarHidden = true
         self.title = "Spaces"
         print(currentUser.shared.allSpaces.count)
+        self.collectionView?.backgroundColor = UIColor(red: 1.0, green: 0.90, blue: 0.67, alpha: 1.0)
+
         if(currentUser.shared.allSpaces.count == 1) {
             observeUsersFoodLists()
         }
+        //UIButton(frame: CGRect(x: 0, y: (self.collectionView?.frame.maxY)!, width: 370, height: 70))
     }
     
     func observeUsersFoodLists() {
         ref.child("Users/\(currentUser.shared.ID!)/UserFoodListIDs").observe(.childAdded, with: { (snapshot) in
             let newFoodListID = snapshot.key
+            currentUser.shared.otherFoodListIDs.append(snapshot.key)
             self.getListData(listID: newFoodListID)
         })
     }
@@ -95,9 +99,13 @@ class SpacesCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentUser.shared.allSpaces.count
     }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! SpacesCell
-        cell.contentView.backgroundColor = UIColor(named:"white")
+        let ratio = 1-Double(indexPath.row)/Double(currentUser.shared.allSpaces.count)
+        
+        //cell.contentView.backgroundColor = UIColor(red:1 , green: (180 + 60 * CGFloat(ratio))/255 , blue: 0.63, alpha: 1.0)
+        cell.contentView.backgroundColor = UIColor(red: 1.0, green: 0.78 + 0.12 * CGFloat(ratio), blue: 0.67, alpha: 1.0)
         cell.collectionOfFoods?.backgroundColor = UIColor(named:"clear")
         
         var foodListAtIndex:FoodList?
@@ -105,10 +113,11 @@ class SpacesCollectionViewController: UICollectionViewController {
             foodListAtIndex = currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]
         }
         else {
-            foodListAtIndex = currentUser.shared.allSpaces[Array(currentUser.shared.allSpaces.keys)[indexPath.item]]
+            foodListAtIndex = currentUser.shared.allSpaces[currentUser.shared.otherFoodListIDs[indexPath.item-1]]
         }
         cell.listName?.text = foodListAtIndex?.name
         cell.currentList = foodListAtIndex
+        cell.collectionOfFoods?.reloadData()
         return cell
     }
     
@@ -119,12 +128,26 @@ class SpacesCollectionViewController: UICollectionViewController {
                 keyAtIndex = currentUser.shared.allFoodListID
             }
             else {
-                keyAtIndex = Array(currentUser.shared.allSpaces.keys)[indexPath.item]
+                keyAtIndex = currentUser.shared.otherFoodListIDs[indexPath.item-1]
             }
             presenter.currentListID = currentUser.shared.allSpaces[keyAtIndex!]?.ID
             presenter.currentListName = currentUser.shared.allSpaces[keyAtIndex!]?.name
         }
+        self.navigationController?.isNavigationBarHidden = false
         _ = navigationController?.popViewController(animated: true)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        if(indexPath.item == 0) {
+            return false
+        }
+        return true
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let temp = currentUser.shared.otherFoodListIDs[sourceIndexPath.item - 1]
+        currentUser.shared.otherFoodListIDs.remove(at: sourceIndexPath.item - 1)
+        currentUser.shared.otherFoodListIDs.insert(temp, at:destinationIndexPath.item - 1)
     }
 }
 
@@ -133,6 +156,8 @@ class SpacesCell : UICollectionViewCell{
     @IBOutlet weak var listName:UILabel?
     @IBOutlet weak var collectionOfFoods:UICollectionView?
     
+    
+    
     var currentList:FoodList?
     
     override func awakeFromNib() {
@@ -140,46 +165,64 @@ class SpacesCell : UICollectionViewCell{
         
         self.collectionOfFoods?.dataSource = self
         self.collectionOfFoods?.delegate = self
-        self.collectionOfFoods?.reloadData()
+        self.collectionOfFoods?.isScrollEnabled = false
     }
 }
 
 extension SpacesCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (currentUser.shared.allSpaces[(currentList?.ID)!]?.contents.count)!
+        return currentList!.contents.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FoodCell", for: indexPath) as! FoodPreviewCell
-        
-        cell.img.image = FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!]!.2
-        
-        let foodItem = currentUser.shared.allSpaces[(currentList?.ID)!]?.contents[indexPath.item]
 
-        let daysLeft = ((foodItem?.timestamp)! - Int(Date().timeIntervalSinceReferenceDate)) / 86400
-        
-        var ratio = (CGFloat(daysLeft)/40.0)
-        if ratio > 1 {
-            ratio = 1
+        if collectionView == collectionOfFoods {
+            
+            //print(currentList!.contents.count)
+            cell.img.image = FoodData.food_data[(currentList?.contents[indexPath.item])!.name]!.2
+            
+            let foodItem = currentList?.contents[indexPath.item]
+
+            let daysLeft = ((foodItem?.timestamp)! - Int(Date().timeIntervalSinceReferenceDate)) / 86400
+            
+            var ratio = (CGFloat(daysLeft)/40.0)
+            if ratio > 1 {
+                ratio = 1
+            }
+            
+            
+            cell.backgroundColor = UIColor(named:"white")
+            cell.ratio = ratio
+            //cell.overlay.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.3)
+            //cell.img.addSubview(overlay)
+            //cell.img.sendSubview(toBack: overlay)
+            //cell.img.sendSubview(toBack: overlay)
         }
-        
-        let overlay: UIView = UIView(frame: CGRect(x: -5, y: -5, width: cell.img.frame.size.width + 10, height: cell.img.frame.size.height + 10))
-        overlay.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.1)
-        overlay.layer.cornerRadius = CGFloat(roundf(Float(overlay.frame.size.width / 2.0)))
-        cell.img.addSubview(overlay)
-        //cell.img.sendSubview(toBack: overlay)
-        
+            
         return cell
     }
+    
 }
 
 class FoodPreviewCell : UICollectionViewCell {
     
     @IBOutlet weak var img: UIImageView!
     
+    var overlay:UIView?
+    var ratio: CGFloat = -1
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        overlay = UIView(frame: CGRect(x: -5, y: -5, width: img.frame.size.width + 10, height: img.frame.size.height + 10))
+        overlay?.layer.cornerRadius = CGFloat(roundf(Float((overlay?.frame.size.width)! / 2.0)))
+        img.addSubview(overlay!)
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        overlay?.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.3)
+    }
+    
 }
 
 

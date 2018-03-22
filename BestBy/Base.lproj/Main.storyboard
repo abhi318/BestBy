@@ -1189,7 +1189,7 @@
                         <collectionViewLayout key="collectionViewLayout" id="kCb-rH-pqe" customClass="SpacesLayout" customModule="BestBy" customModuleProvider="target"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="FxR-m8-sL7" customClass="SpacesCell" customModule="BestBy" customModuleProvider="target">
-                                <rect key="frame" x="-0.5" y="0.0" width="376" height="222"/>
+                                <rect key="frame" x="0.0" y="10" width="376" height="222"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                     <rect key="frame" x="0.0" y="0.0" width="376" height="222"/>
@@ -1241,6 +1241,7 @@
                                     </subviews>
                                 </view>
                                 <color key="backgroundColor" red="1" green="0.83137254901960778" blue="0.47450980392156861" alpha="0.23000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="SZ5-ws-VB5" firstAttribute="leading" secondItem="FxR-m8-sL7" secondAttribute="leading" constant="5" id="14N-ky-C71"/>
                                     <constraint firstAttribute="trailing" secondItem="SZ5-ws-VB5" secondAttribute="trailing" constant="5" id="Dh1-s9-dAM"/>
@@ -1254,12 +1255,40 @@
                                 <connections>
                                     <outlet property="collectionOfFoods" destination="SZ5-ws-VB5" id="DmR-ki-i3A"/>
                                     <outlet property="listName" destination="WaZ-66-D5D" id="MSj-68-vgT"/>
+                                    <outletCollection property="gestureRecognizers" destination="Rl5-2t-tKL" appends="YES" id="FWM-2x-WxT"/>
+                                    <outletCollection property="gestureRecognizers" destination="GbY-o6-5Tm" appends="YES" id="yUe-If-fbj"/>
                                 </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="newCell" id="0fB-Iw-CFs" customClass="SpacesCell" customModule="BestBy" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="242" width="376" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="376" height="80"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngu-VR-tNX">
+                                            <rect key="frame" x="8" y="8" width="360" height="64"/>
+                                            <state key="normal" title="Make A New Space">
+                                                <color key="titleColor" red="1" green="0.0187217119" blue="0.0" alpha="0.60383668664383561" colorSpace="deviceRGB"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                </view>
+                                <color key="backgroundColor" red="1" green="0.83137254900000002" blue="0.47450980390000003" alpha="0.23000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottomMargin" secondItem="ngu-VR-tNX" secondAttribute="bottom" id="45s-L4-vIM"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="ngu-VR-tNX" secondAttribute="trailing" id="QOT-jO-r7x"/>
+                                    <constraint firstItem="ngu-VR-tNX" firstAttribute="leading" secondItem="0fB-Iw-CFs" secondAttribute="leadingMargin" id="tY1-5R-86Y"/>
+                                    <constraint firstItem="ngu-VR-tNX" firstAttribute="top" secondItem="0fB-Iw-CFs" secondAttribute="topMargin" id="zjZ-X8-qml"/>
+                                </constraints>
+                                <size key="customSize" width="376" height="80"/>
                             </collectionViewCell>
                         </cells>
                     </collectionView>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dV4-Of-GIH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Rl5-2t-tKL"/>
+                <swipeGestureRecognizer direction="right" id="GbY-o6-5Tm"/>
             </objects>
             <point key="canvasLocation" x="3336.8000000000002" y="-2094.6026986506749"/>
         </scene>

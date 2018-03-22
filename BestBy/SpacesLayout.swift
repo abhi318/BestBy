@@ -24,7 +24,7 @@ class SpacesLayout: UICollectionViewLayout {
     // MARK: Properties and Variables
     
     /* The amount the user needs to scroll before the featured cell changes */
-    let dragOffset: CGFloat = 180.0
+    let dragOffset: CGFloat = 150.0
     
     var cache = [UICollectionViewLayoutAttributes]()
     
