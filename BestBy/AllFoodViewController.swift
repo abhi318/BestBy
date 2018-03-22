@@ -43,7 +43,6 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.title = currentListName
         
         DispatchQueue.main.async{
             self.allFoodTableView.reloadData()
@@ -90,7 +89,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
 
         let foodItem = currentUser.shared.allSpaces[currentListID]!.contents[indexPath.row]
         
-        print(FoodData.food_data.count)
+        //print(FoodData.food_data.count)
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         
         var ratio = (CGFloat(daysLeft)/40.0)
@@ -106,7 +105,11 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         //cell.foodDetails.backgroundColor = cell.bg_color.backgroundColor
         cell.foodDetails.text = FoodData.food_data[foodItem.name]?.1
         cell.daysToExpire?.text = "\(daysLeft+1) days left"
-        cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
+        if FoodData.food_data[foodItem.name] != nil {
+            cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
+        } else {
+            cell.foodImage.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+        }
         cell.foodName?.text = foodItem.name
 
 
@@ -128,10 +131,11 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (itemSelected == indexPath.row) {
-            return 250
+        let foodItem = currentUser.shared.allSpaces[currentListID]!.contents[indexPath.row]
+        if (itemSelected == indexPath.row && FoodData.food_data[foodItem.name]?.1.count != nil) {
+            return CGFloat(70 + (FoodData.food_data[foodItem.name]?.1.count)! / 2);
         }
-        return 110
+        return 60
     }
     
     

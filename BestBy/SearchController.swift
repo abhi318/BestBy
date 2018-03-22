@@ -55,6 +55,7 @@ class SearchController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Foods"
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -62,7 +63,7 @@ class SearchController: UIViewController {
     func addFoodToUsersList() {
         let foodAdded: String = foodBeingAdded.text!
         
-        let daysToExpire = weeksPicker.selectedRow(inComponent: 0) * 7 + weeksPicker.selectedRow(inComponent: 1)
+        let daysToExpire = weeksPicker.selectedRow(inComponent: 0)
         let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
         let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
         let doe = Int(timeInterval!)
@@ -79,6 +80,7 @@ class SearchController: UIViewController {
             ref.child("AllFoodLists/\(presenter.currentListID!)").childByAutoId().setValue(post)
             ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
         }
+        self.dismiss(animated: true, completion: nil)
         
     }
     
@@ -98,32 +100,53 @@ class SearchController: UIViewController {
         
         searchResults.reloadData()
     }
+    
+}
+
+extension SearchController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        foodBeingAdded.text = searchController.searchBar.text!
+        searchController.searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filteredFood = all_foods
+        searchController.searchBar.resignFirstResponder()
+    }
 }
 
 extension SearchController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
+        return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 31
+        return 90
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return "\(row) wks"
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel = view as! UILabel!
+        if view == nil {  //if no label there yet
+            pickerLabel = UILabel()
         }
-        else {
-            return "\(row) days"
-        }
+        let titleData = "\(row)"
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:20.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
+        pickerLabel!.attributedText = myTitle
+        pickerLabel!.textAlignment = .center
+        
+        return pickerLabel!
+        
     }
-    
 }
 
 extension SearchController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -152,13 +175,15 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
+        if (isFiltering() == false) {
+            filteredFood = all_foods
+        }
         let name_of_food = filteredFood[indexPath.row]
         let time_to_expire = FoodData.food_data[name_of_food]?.0
         foodBeingAdded.text = filteredFood[indexPath.row]
         
-        weeksPicker.selectRow(time_to_expire!/7, inComponent: 0, animated: true)
-        weeksPicker.selectRow(time_to_expire! % 7, inComponent: 1, animated: true)
+        weeksPicker.selectRow(time_to_expire!, inComponent: 0, animated: true)
     }
     
 }
