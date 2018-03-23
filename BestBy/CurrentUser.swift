@@ -41,6 +41,11 @@ final class currentUser {
         ID = nil
         userRef = nil
         allFood.removeAll()
+        allFoodListID = nil
+        allShoppingLists?.removeAll()
+        currentSpace = nil
+        allSpaces.removeAll()
+        otherFoodListIDs.removeAll()
     }
     
 }

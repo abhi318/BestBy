@@ -57,6 +57,7 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     return
                 }
                 print("Login successful")
+                (self.presentingViewController as! LoadingScreen).fillCurrentUserSingleton(user: user!)
                 self.dismiss(animated: true, completion: nil)
             }
             self.loading.stopAnimating()
@@ -97,7 +98,6 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
         let newFoodIDref: DatabaseReference  = self.ref.child("AllFoodLists").childByAutoId()
         let newFoodID = newFoodIDref.key
         
-        self.ref?.child("FoodListInfo/\(newFoodID)").setValue(["name": "All", "sharedWith": [uid:true]])
         self.ref?.child("Users/\(uid)/AllUsersFood").setValue(newFoodID)
     }
     

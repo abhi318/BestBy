@@ -37,7 +37,6 @@ class LoadingScreen: UIViewController {
             for (key, value) in newFood {
                 FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: value["img_name"] as! String))
             }
-            self.group.signal()
         })
     }
     
@@ -56,26 +55,66 @@ class LoadingScreen: UIViewController {
     
     func fillCurrentUserSingleton (user: User) {
         let ref: DatabaseReference = Database.database().reference()
+        
         currentUser.shared.ID = user.uid
         currentUser.shared.userRef = ref.child("Users/\(user.uid)")
+        
         print(user.uid)
-        loadAllUsersFood(userAllFoodRef: currentUser.shared.userRef!.child("AllUsersFood"))
+        
+        loadAllUsersFood(userRef: currentUser.shared.userRef!)
     }
     
-    
-    
-    func loadAllUsersFood(userAllFoodRef: DatabaseReference) {
-        userAllFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
+    func loadAllUsersFood(userRef: DatabaseReference) {
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             print(snapshot)
-            currentUser.shared.allFoodListID = snapshot.value as! String!
-            currentUser.shared.allSpaces[snapshot.value as! String] = FoodList(id: snapshot.value as! String, n: "All", shared:[currentUser.shared.ID!])
-           
-            self.group.wait()
+            let userInfo = (snapshot.value as! [String:Any?])
+            
+            currentUser.shared.allFoodListID = userInfo["AllUsersFood"] as? String
+            currentUser.shared.allSpaces[currentUser.shared.allFoodListID!] = FoodList()
+            currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.name = "All"
+            
+            if (userInfo["Spaces"] != nil) {
+                currentUser.shared.otherFoodListIDs = Array((userInfo["Spaces"] as! [String:String]).keys)
+                var i = 0
+                for listID in currentUser.shared.otherFoodListIDs {
+                    currentUser.shared.allSpaces[listID] = FoodList()
+                    currentUser.shared.allSpaces[listID]?.name = Array((userInfo["Spaces"] as! [String:String]).values)[i]
+                    i+=1
+                }
+            }
+            
+            self.observeAllList(at: currentUser.shared.allFoodListID!)
             
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
             self.present(vc!, animated: true, completion: nil)
         })
+    }
+    
+    func observeAllList(at: String) {
+        let ref: DatabaseReference = Database.database().reference().child("AllFoodLists/\(at)")
+        ref.observe(.childAdded, with: {snapshot in
+            let foodInfo = snapshot.value as! [String:Any]
+            let newFoodItem = FoodItem(id: snapshot.key, n: foodInfo["name"] as! String, t: foodInfo["timestamp"] as! Int)
+            if (foodInfo["spaceName"] as! String != "All") {
+                currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.append(newFoodItem)
+                
+                currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.sort() {
+                    $0.timestamp < $1.timestamp
+                }
+            }
+            
+            currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.append(newFoodItem)
+            currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.name = foodInfo["spaceName"] as? String
+            
+            currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.sort() {
+                $0.timestamp < $1.timestamp
+            }
+        }){(error) in
+            print(error.localizedDescription)
+        }
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

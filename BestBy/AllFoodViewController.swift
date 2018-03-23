@@ -39,7 +39,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
         
-        observeFoodList(at: currentListID)
+        //observeFoodList(at: currentListID)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,39 +49,15 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func observeFoodList(at: String) {
-        let usersDefaultFoodList = ref.child("AllFoodLists/\(at)")
-    
-        usersDefaultFoodList.observe(.childAdded, with: { (snapshot) in
-            let foodList = snapshot.value as? [String:Any] ?? [:]
-            
-            let foodItem = FoodItem(id: snapshot.key, n: foodList["name"] as! String, t: foodList["timestamp"] as! Int)
-            currentUser.shared.allSpaces[at]!.contents.append(foodItem)
-            
-            currentUser.shared.allSpaces[at]!.contents.sort() {
-                $0.timestamp < $1.timestamp
-            }
-
-            self.allFoodTableView.reloadData()
-        })
-        
-        usersDefaultFoodList.observe(.childRemoved, with: { (snapshot) in
-            currentUser.shared.allSpaces.removeValue(forKey: snapshot.key)
-            
-            currentUser.shared.allSpaces[at]!.contents.sort() {
-                $0.timestamp < $1.timestamp
-            }
-            
-            self.allFoodTableView.reloadData()
-        })
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentUser.shared.allSpaces[currentListID]!.contents.count
+        if currentUser.shared.allSpaces[currentListID] != nil {
+            return currentUser.shared.allSpaces[currentListID]!.contents.count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,30 +65,28 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
 
         let foodItem = currentUser.shared.allSpaces[currentListID]!.contents[indexPath.row]
         
-        //print(FoodData.food_data.count)
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         
         var ratio = (CGFloat(daysLeft)/40.0)
-        //ratio = CGFloat(daysLeft)
+
         if ratio > 1 {
             ratio = 1
         }
-        //print("ratio \(ratio)\tiratio \(i_ratio)\tname \(foodItem.name)")
+
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.bg_color.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.7)
         cell.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.1)
-        //print("bg yoyoyo \(cell.bg_color.backgroundColor)")
-        //cell.foodDetails.backgroundColor = cell.bg_color.backgroundColor
+
         cell.foodDetails.text = FoodData.food_data[foodItem.name]?.1
         cell.daysToExpire?.text = "\(daysLeft+1) days left"
+        
         if FoodData.food_data[foodItem.name] != nil {
             cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
         } else {
             cell.foodImage.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
         }
+        
         cell.foodName?.text = foodItem.name
-
-
 
         return cell
     }

@@ -1,6 +1,0 @@
-framework module HFCardCollectionViewLayout {
-  umbrella header "HFCardCollectionViewLayout-umbrella.h"
-
-  export *
-  module * { export * }
-}

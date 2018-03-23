@@ -4,107 +4,49 @@ import FirebaseDatabase
 class SpacesCollectionViewController: UICollectionViewController {
     
     var ref: DatabaseReference!
-    
-//    @IBAction func addNewList(_ sender: Any) {
-//        let alert = UIAlertController(title: "New List", message: "Give it a name", preferredStyle: .alert)
-//        let saveAction = UIAlertAction(title: "Add", style: .default) { _ in
-//            guard let textField = alert.textFields?.first,
-//                let text = textField.text else { return }
-//
-//            let listRef = self.ref.child("AllFoodLists").childByAutoId()
-//
-//            self.ref.child("FoodListInfo/\(listRef.key)/name").setValue(text)
-//            self.ref.child("FoodListInfo/\(listRef.key)/sharedWith/\(currentUser.shared.ID!)").setValue(true)
-//            self.ref.child("Users/\(currentUser.shared.ID!)/UserFoodListIDs/\(listRef.key)").setValue(true)
-//            //self.ref.child("AllFoodLists/\(listRef.key)").setValue(true)
-//        }
-//
-//        let cancelAction = UIAlertAction(title: "Cancel",
-//                                         style: .default)
-//
-//        alert.addTextField()
-//
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//
-//        present(alert, animated: true, completion: nil)
-//    }
-//
+    var sema: DispatchSemaphore = DispatchSemaphore(value: 0)
+    var done:  Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference()
-        self.navigationController?.isNavigationBarHidden = true
+        
         self.title = "Spaces"
-        print(currentUser.shared.allSpaces.count)
-        self.collectionView?.backgroundColor = UIColor(red: 1.0, green: 0.90, blue: 0.67, alpha: 1.0)
-
-        if(currentUser.shared.allSpaces.count == 1) {
-            observeUsersFoodLists()
-        }
-        //UIButton(frame: CGRect(x: 0, y: (self.collectionView?.frame.maxY)!, width: 370, height: 70))
+        //print(currentUser.shared.allSpaces.count)
+        self.collectionView?.backgroundColor = UIColor(red: 1.0, green: 0.78, blue: 0.67, alpha: 1.0)
+        self.collectionView?.frame = CGRect(
+            x: (self.collectionView?.frame.minX)!,
+            y: (self.collectionView?.frame.minY)!+70,
+            width: (self.collectionView?.frame.width)!,
+            height: (self.collectionView?.frame.height)!)
     }
     
-    func observeUsersFoodLists() {
-        ref.child("Users/\(currentUser.shared.ID!)/UserFoodListIDs").observe(.childAdded, with: { (snapshot) in
-            let newFoodListID = snapshot.key
-            currentUser.shared.otherFoodListIDs.append(snapshot.key)
-            self.getListData(listID: newFoodListID)
-        })
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView?.reloadData()
     }
     
-    func getListData(listID: String) {
-        ref.child("FoodListInfo/\(listID)").observeSingleEvent(of: .value, with: { (snapshot) in
-            let listInfo = snapshot.value as! [String: Any]
-            let name = listInfo["name"] as! String
-            let listItem = FoodList(id:snapshot.key, n: name, shared:[])
-            listItem.sharedWith = Array((listInfo["sharedWith"] as! [String:Bool]).keys)
-        
-            
-            currentUser.shared.allSpaces[listID] = (listItem)
-            
-            DispatchQueue.main.async{
-                self.collectionView?.reloadData()
-            }
-        })
-        
-        ref.child("AllFoodLists/\(listID)").observe(.childAdded, with: { snapshot in
-            let itemInfo = snapshot.value as! [String:Any]
-            let newFoodItem = FoodItem(id: snapshot.key, n: itemInfo["name"] as! String, t: itemInfo["timestamp"] as! Int)
-            
-            currentUser.shared.allSpaces[listID]?.contents.append(newFoodItem)
-            
-            currentUser.shared.allSpaces[listID]!.contents.sort() {
-                $0.timestamp < $1.timestamp
-            }
-            
-            DispatchQueue.main.async{
-                self.collectionView?.reloadData()
-            }
-        })
-        
-        ref.child("AllFoodLists/\(listID)").observe(.childRemoved, with: { (snapshot) in
-            let itemInfo = snapshot.value as! [String:Any]
-            currentUser.shared.allSpaces[listID]?.contents = (currentUser.shared.allSpaces[listID]?.contents.filter {$0.ID != snapshot.key})!
-            currentUser.shared.allSpaces[listID]!.contents.sort() {
-                $0.timestamp < $1.timestamp
-            }
-            
-            DispatchQueue.main.async{
-                self.collectionView?.reloadData()
-            }
-        })
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentUser.shared.allSpaces.count
+        if (section == 0) {
+            return currentUser.shared.allSpaces.count
+        }
+        return 1
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if (indexPath.section == 1) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewList", for: indexPath) as! newSpaceClicked
+
+            return cell
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! SpacesCell
         let ratio = 1-Double(indexPath.row)/Double(currentUser.shared.allSpaces.count)
         
-        //cell.contentView.backgroundColor = UIColor(red:1 , green: (180 + 60 * CGFloat(ratio))/255 , blue: 0.63, alpha: 1.0)
         cell.contentView.backgroundColor = UIColor(red: 1.0, green: 0.78 + 0.12 * CGFloat(ratio), blue: 0.67, alpha: 1.0)
         cell.collectionOfFoods?.backgroundColor = UIColor(named:"clear")
         
@@ -118,10 +60,27 @@ class SpacesCollectionViewController: UICollectionViewController {
         cell.listName?.text = foodListAtIndex?.name
         cell.currentList = foodListAtIndex
         cell.collectionOfFoods?.reloadData()
+        
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (indexPath.section == 1) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewList", for: indexPath) as! newSpaceClicked
+            
+            cell.label.isHidden = true
+            cell.newSpaceText?.isHidden = false
+            cell.newSpaceText?.isUserInteractionEnabled = true
+            
+            return
+        }
+        
+        let layout = collectionViewLayout as! SpacesLayout
+        let offset = layout.dragOffset * CGFloat(indexPath.item)
+        if collectionView.contentOffset.y != offset {
+            collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+        }
+        
         if let presenter = navigationController?.childViewControllers[0] as? AllFoodViewController {
             var keyAtIndex:String?
             if (indexPath.item == 0){
@@ -130,19 +89,20 @@ class SpacesCollectionViewController: UICollectionViewController {
             else {
                 keyAtIndex = currentUser.shared.otherFoodListIDs[indexPath.item-1]
             }
-            presenter.currentListID = currentUser.shared.allSpaces[keyAtIndex!]?.ID
+            presenter.currentListID = keyAtIndex
             presenter.currentListName = currentUser.shared.allSpaces[keyAtIndex!]?.name
         }
+
         self.navigationController?.isNavigationBarHidden = false
         _ = navigationController?.popViewController(animated: true)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        if(indexPath.item == 0) {
-            return false
-        }
-        return true
-    }
+//    override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+//        if(indexPath.item == 0) {
+//            return false
+//        }
+//        return true
+//    }
     
     override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let temp = currentUser.shared.otherFoodListIDs[sourceIndexPath.item - 1]
@@ -151,12 +111,42 @@ class SpacesCollectionViewController: UICollectionViewController {
     }
 }
 
+class newSpaceClicked : UICollectionViewCell {
+    
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var newSpaceText: UITextField?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.newSpaceText?.backgroundColor = UIColor(named:"clear")
+        self.newSpaceText?.delegate = self
+        
+    }
+}
+
+extension newSpaceClicked: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == newSpaceText {
+            let listRef = Database.database().reference().child("Users/\(currentUser.shared.ID!)/Spaces").childByAutoId()
+            Database.database().reference().child("Users/\(currentUser.shared.ID!)/Spaces/\(listRef.key)").setValue(textField.text)
+            
+            currentUser.shared.otherFoodListIDs.append(listRef.key)
+            
+            currentUser.shared.allSpaces[listRef.key] = FoodList()
+            currentUser.shared.allSpaces[listRef.key]!.name = textField.text
+            
+            textField.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+}
+
 class SpacesCell : UICollectionViewCell{
     
     @IBOutlet weak var listName:UILabel?
     @IBOutlet weak var collectionOfFoods:UICollectionView?
-    
-    
     
     var currentList:FoodList?
     
@@ -167,27 +157,29 @@ class SpacesCell : UICollectionViewCell{
         self.collectionOfFoods?.delegate = self
         self.collectionOfFoods?.isScrollEnabled = false
     }
+    
 }
+
 
 extension SpacesCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentList!.contents.count
+        if(currentList == nil) {
+            index
+            return 0
+        }
+        return ((currentList!.contents.count < 18) ? currentList!.contents.count : 18)
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FoodCell", for: indexPath) as! FoodPreviewCell
         
-        if (FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!] == nil) {
-            cell.img.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
-        } else {
-            cell.img.image = FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!]!.2
-        }
-        
-        let foodItem = currentUser.shared.allSpaces[(currentList?.ID)!]?.contents[indexPath.item]
-
         if collectionView == collectionOfFoods {
-            
-            //print(currentList!.contents.count)
-            cell.img.image = FoodData.food_data[(currentList?.contents[indexPath.item])!.name]!.2
+            if (FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!] == nil) {
+                cell.img.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+            } else {
+                cell.img.image = FoodData.food_data[((currentList?.contents[indexPath.item])?.name)!]!.2
+            }
             
             let foodItem = currentList?.contents[indexPath.item]
 
@@ -198,13 +190,8 @@ extension SpacesCell: UICollectionViewDelegate, UICollectionViewDataSource {
                 ratio = 1
             }
             
-            
             cell.backgroundColor = UIColor(named:"white")
             cell.ratio = ratio
-            //cell.overlay.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.3)
-            //cell.img.addSubview(overlay)
-            //cell.img.sendSubview(toBack: overlay)
-            //cell.img.sendSubview(toBack: overlay)
         }
             
         return cell

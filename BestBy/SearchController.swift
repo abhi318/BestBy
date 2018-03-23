@@ -68,18 +68,15 @@ class SearchController: UIViewController {
         let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
         let doe = Int(timeInterval!)
         
+        let presenter = presentingViewController?.childViewControllers[0].childViewControllers[0] as! AllFoodViewController
+
         //post name of food, and seconds from reference date (jan 1, 2001) that it will expire
         let post = ["name" : foodAdded,
-                    "timestamp" : doe] as [String : Any]
+                    "timestamp" : doe,
+                    "spaceID": presenter.currentListID,
+                    "spaceName" : presenter.currentListName] as [String : Any]
+        ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
         
-        let presenter = presentingViewController?.childViewControllers[0].childViewControllers[0] as! AllFoodViewController
-        if presenter.currentListName == "All" {
-            ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
-        }
-        else {
-            ref.child("AllFoodLists/\(presenter.currentListID!)").childByAutoId().setValue(post)
-            ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
-        }
         self.dismiss(animated: true, completion: nil)
         
     }

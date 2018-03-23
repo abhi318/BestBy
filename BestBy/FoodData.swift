@@ -30,15 +30,6 @@ class FoodItem {
 }
 
 class FoodList {
-    var ID: String?
     var name: String?
-    var sharedWith: [String] = []
     var contents: [FoodItem] = []
-    
-    init(id: String, n: String, shared: [String] ) {
-        ID = id
-        name = n
-        sharedWith = shared
-    }
-    
 }

@@ -8,24 +8,13 @@
 
 import UIKit
 
-
-/* The heights are declared as constants outside of the class so they can be easily referenced elsewhere */
-struct SpacesLayoutConstants {
-    struct Cell {
-        /* The height of the non-featured cell */
-        static let standardHeight: CGFloat = 70
-        /* The height of the first visible cell */
-        static let featuredHeight: CGFloat = 250
-    }
-}
-
 class SpacesLayout: UICollectionViewLayout {
 
     // MARK: Properties and Variables
     
     /* The amount the user needs to scroll before the featured cell changes */
-    let dragOffset: CGFloat = 150.0
-    
+    let dragOffset: CGFloat = 150
+    var old = -1
     var cache = [UICollectionViewLayoutAttributes]()
     
     /* Returns the item index of the currently featured cell */
@@ -76,12 +65,15 @@ class SpacesLayout: UICollectionViewLayout {
     override func prepare() {
         cache.removeAll(keepingCapacity: false)
         
-        let standardHeight = SpacesLayoutConstants.Cell.standardHeight
-        let featuredHeight = SpacesLayoutConstants.Cell.featuredHeight
+        let standardHeight: CGFloat = 75
+        let featuredHeight: CGFloat = 270
         
         var frame = CGRect()
         var y: CGFloat = 0
-        
+        if featuredItemIndex != old {
+            let strrrr = "idx:  \(featuredItemIndex)"
+            old = featuredItemIndex
+        }
         for item in 0..<numberOfItems {
             // 1
             let indexPath = IndexPath(item: item, section: 0)
@@ -96,11 +88,32 @@ class SpacesLayout: UICollectionViewLayout {
                 // 4
                 let yOffset = standardHeight * nextItemPercentageOffset
                 y = collectionView!.contentOffset.y - yOffset
+//                var q = -1
+//
+//                if indexPath.item == 0 {
+//                    q = (currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]?.contents.count)!
+//                }
+//                else {
+//                    q = (currentUser.shared.allSpaces[currentUser.shared.otherFoodListIDs[indexPath.item-1]]?.contents.count)!
+//
+//                }
+                
+//                let a: CGFloat = CGFloat(3.0) - CGFloat((q + 5) / 6)
+//                height = featuredHeight - (a * 55)
+                
                 height = featuredHeight
+                
             } else if indexPath.item == (featuredItemIndex + 1) && indexPath.item != numberOfItems {
-                // 5
-                let maxY = y + standardHeight
-                height = standardHeight + max((featuredHeight - standardHeight) * nextItemPercentageOffset, 0)
+//                var q = -1
+//                if indexPath.item == 0 {
+//                    q = (currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]?.contents.count)!
+//                }
+//                else {
+//                    q = (currentUser.shared.allSpaces[currentUser.shared.otherFoodListIDs[indexPath.item-1]]?.contents.count)!
+//                }
+                let maxY = standardHeight + y
+                //let a: CGFloat = CGFloat(3.0) - CGFloat((q + 5) / 6)
+                height = standardHeight + max((featuredHeight-standardHeight) * nextItemPercentageOffset, 0)
                 y = maxY - height
             }
             
@@ -111,6 +124,12 @@ class SpacesLayout: UICollectionViewLayout {
             y = (frame).maxY
         }
         
+        let indexPath = IndexPath(item: 0, section: 1)
+        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        attributes.zIndex = 6
+        attributes.frame = CGRect(x: 0, y: y, width: width, height: 70)
+        
+        cache.append(attributes)
     }
     
     /* Return all attributes in the cache whose frame intersects with the rect passed to the method */
