@@ -45,6 +45,8 @@ class LoadingScreen: UIViewController {
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 self.fillCurrentUserSingleton(user: user!)
+                
+                print()
             }
             else {
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController
@@ -59,12 +61,11 @@ class LoadingScreen: UIViewController {
         currentUser.shared.ID = user.uid
         currentUser.shared.userRef = ref.child("Users/\(user.uid)")
         
-        print(user.uid)
-        
-        loadAllUsersFood(userRef: currentUser.shared.userRef!)
+        loadAllUsersFood()
     }
     
-    func loadAllUsersFood(userRef: DatabaseReference) {
+    func loadAllUsersFood() {
+        let userRef: DatabaseReference = currentUser.shared.userRef!
         userRef.observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             print(snapshot)
@@ -82,20 +83,22 @@ class LoadingScreen: UIViewController {
                     currentUser.shared.allSpaces[listID]?.name = Array((userInfo["Spaces"] as! [String:String]).values)[i]
                     i+=1
                 }
+
             }
             
+            userRef.removeAllObservers()
             self.observeAllList(at: currentUser.shared.allFoodListID!)
-            
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
             self.present(vc!, animated: true, completion: nil)
         })
     }
-    
     func observeAllList(at: String) {
         let ref: DatabaseReference = Database.database().reference().child("AllFoodLists/\(at)")
         ref.observe(.childAdded, with: {snapshot in
             let foodInfo = snapshot.value as! [String:Any]
-            let newFoodItem = FoodItem(id: snapshot.key, n: foodInfo["name"] as! String, t: foodInfo["timestamp"] as! Int)
+            let newFoodItem = FoodItem(id: snapshot.key,
+                                       n: foodInfo["name"] as! String,
+                                       t: foodInfo["timestamp"] as! Int)
             if (foodInfo["spaceName"] as! String != "All") {
                 currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.append(newFoodItem)
                 
@@ -110,9 +113,7 @@ class LoadingScreen: UIViewController {
             currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.sort() {
                 $0.timestamp < $1.timestamp
             }
-        }){(error) in
-            print(error.localizedDescription)
-        }
+        })
         
         
     }
@@ -120,7 +121,9 @@ class LoadingScreen: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         Auth.auth().removeStateDidChangeListener(handle!)
-        Database.database().reference().removeAllObservers()
+        //Database.database().reference().removeAllObservers()
+        //Database.database().reference().child("AllFoodLists/\(currentUser.shared.allFoodListID!)").removeAllObservers()
+        //currentUser.shared.userRef!.removeAllObservers()
     }
     
 }

@@ -11,11 +11,7 @@ import Firebase
 import FirebaseDatabase
 import UIKit
 
-var gradient = [UIColor(red:0.50, green:0.79, blue:0.37, alpha:1.0),
-                UIColor(red:0.65, green:0.82, blue:0.43, alpha:1.0),
-                UIColor(red:0.74, green:0.73, blue:0.39, alpha:1.0),
-                UIColor(red:0.79, green:0.60, blue:0.40, alpha:1.0),
-                UIColor(red:0.77, green:0.37, blue:0.35, alpha:1.0)]
+
 
 class AllFoodViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
