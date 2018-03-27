@@ -66,7 +66,7 @@ class SpacesLayout: UICollectionViewLayout {
         cache.removeAll(keepingCapacity: false)
         
         let standardHeight: CGFloat = 75
-        let featuredHeight: CGFloat = 270
+        let featuredHeight: CGFloat = 280
         
         var frame = CGRect()
         var y: CGFloat = 0
@@ -88,29 +88,9 @@ class SpacesLayout: UICollectionViewLayout {
                 // 4
                 let yOffset = standardHeight * nextItemPercentageOffset
                 y = collectionView!.contentOffset.y - yOffset
-//                var q = -1
-//
-//                if indexPath.item == 0 {
-//                    q = (currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]?.contents.count)!
-//                }
-//                else {
-//                    q = (currentUser.shared.allSpaces[currentUser.shared.otherFoodListIDs[indexPath.item-1]]?.contents.count)!
-//
-//                }
-                
-//                let a: CGFloat = CGFloat(3.0) - CGFloat((q + 5) / 6)
-//                height = featuredHeight - (a * 55)
-                
                 height = featuredHeight
                 
             } else if indexPath.item == (featuredItemIndex + 1) && indexPath.item != numberOfItems {
-//                var q = -1
-//                if indexPath.item == 0 {
-//                    q = (currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]?.contents.count)!
-//                }
-//                else {
-//                    q = (currentUser.shared.allSpaces[currentUser.shared.otherFoodListIDs[indexPath.item-1]]?.contents.count)!
-//                }
                 let maxY = standardHeight + y
                 //let a: CGFloat = CGFloat(3.0) - CGFloat((q + 5) / 6)
                 height = standardHeight + max((featuredHeight-standardHeight) * nextItemPercentageOffset, 0)
@@ -124,12 +104,12 @@ class SpacesLayout: UICollectionViewLayout {
             y = (frame).maxY
         }
         
-        let indexPath = IndexPath(item: 0, section: 1)
-        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        attributes.zIndex = 6
-        attributes.frame = CGRect(x: 0, y: y, width: width, height: 70)
-        
-        cache.append(attributes)
+//        let indexPath = IndexPath(item: 0, section: 1)
+//        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+//        attributes.zIndex = 6
+//        attributes.frame = CGRect(x: 0, y: collectionView!.frame.minY, width: width, height: 70)
+//        
+//        cache.append(attributes)
     }
     
     /* Return all attributes in the cache whose frame intersects with the rect passed to the method */
