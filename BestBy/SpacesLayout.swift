@@ -13,7 +13,7 @@ class SpacesLayout: UICollectionViewLayout {
     // MARK: Properties and Variables
     
     /* The amount the user needs to scroll before the featured cell changes */
-    let dragOffset: CGFloat = 150
+    let dragOffset: CGFloat = 90
     var old = -1
     var cache = [UICollectionViewLayoutAttributes]()
     
@@ -65,13 +65,13 @@ class SpacesLayout: UICollectionViewLayout {
     override func prepare() {
         cache.removeAll(keepingCapacity: false)
         
-        let standardHeight: CGFloat = 75
-        let featuredHeight: CGFloat = 280
+        let standardHeight: CGFloat = 45
+        let featuredHeight: CGFloat = 150
         
         var frame = CGRect()
         var y: CGFloat = 0
         if featuredItemIndex != old {
-            let strrrr = "idx:  \(featuredItemIndex)"
+            //let strrrr = "idx:  \(featuredItemIndex)"
             old = featuredItemIndex
         }
         for item in 0..<numberOfItems {

@@ -29,24 +29,24 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         super.viewDidLoad()
         ref = Database.database().reference()
         self.title = "Spaces"
-        newSpace.backgroundColor = gradient[3]
-        textField.backgroundColor = gradient[3].withAlphaComponent(0.5)
+        //newSpace.backgroundColor = gradient[3]
+        //textField.backgroundColor = gradient[3].withAlphaComponent(0.5)
 
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
         self.collectionView?.frame = CGRect(
             x: (self.collectionView?.frame.minX)!,
-            y: (self.collectionView?.frame.minY)!+63,
+            y: (self.collectionView?.frame.minY)! + 63,
             width: (self.collectionView?.frame.width)!,
             height: (self.collectionView?.frame.height)!)
         
         bottomBG = UIView(frame: CGRect(x: 0, y: 200, width: self.view.frame.width, height: self.view.frame.height))
-        topBG = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200))
+        topBG = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
         
         self.collectionView?.backgroundColor = UIColor(named:"clear")
-        bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
-        topBG?.backgroundColor = gradient[0]
+        //bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
+        //topBG?.backgroundColor = gradient[0]
         
         self.view.addSubview(topBG!)
         self.view.addSubview(bottomBG!)
@@ -109,7 +109,7 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
     }
     
     func reloadData() {
-        bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
+        //bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
         self.collectionView?.reloadData()
     }
     
@@ -130,8 +130,8 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         //let ratio = 1-Double(indexPath.row)/Double(currentUser.shared.allSpaces.count)
         
         //cell.contentView.backgroundColor = UIColor(red: 1.0 - 0.2 * CGFloat(ratio), green: 1.0 - 0.2 * CGFloat(ratio), blue: 0.5 + 0.2 * CGFloat(ratio), alpha: 1.0)
-        let bg = indexPath.row % gradient.count
-        cell.backgroundColor = gradient[bg]
+        //let bg = indexPath.row % gradient.count
+        //cell.backgroundColor = gradient[bg]
         
         cell.collectionOfFoods?.backgroundColor = UIColor(named:"clear")
         
