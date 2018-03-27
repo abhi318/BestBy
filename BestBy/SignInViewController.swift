@@ -54,6 +54,12 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                 self.loading.stopAnimating()
                 if let error = error {
                     print(error.localizedDescription )
+                    let userErrorAlert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                    let OKAction = UIAlertAction(title: "OK",
+                                                     style: .default)
+                    userErrorAlert.addAction(OKAction)
+                    self.present(userErrorAlert, animated: true, completion: nil)
+
                     return
                 }
                 print("Login successful")
@@ -68,18 +74,25 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
     }
     
     @IBAction func NewAccountTapped(_ sender: Any) {
-        LoginButton.isHidden = true
-        confirmPassword.isHidden = false;
-        backButton.isHidden = false;
-        
-        if let userEmail = self.email.text, let password = self.password.text,
-            password == self.confirmPassword.text
+        if LoginButton.isHidden == false {
+            LoginButton.isHidden = true
+            confirmPassword.isHidden = false;
+            backButton.isHidden = false;
+        } else {
+            if let userEmail = self.email.text, let password = self.password.text,
+                password == self.confirmPassword.text
             {
                 self.loading.startAnimating()
                 Auth.auth().createUser(withEmail: userEmail, password: password) { (user, error) in
                     self.loading.stopAnimating()
                     if let error = error {
                         print(error.localizedDescription)
+                        let userErrorAlert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                        let OKAction = UIAlertAction(title: "OK",
+                                                     style: .default)
+                        userErrorAlert.addAction(OKAction)
+                        self.present(userErrorAlert, animated: true, completion: nil)
+                        
                         return
                     }
                     print("\(user!.email!) created")
@@ -89,9 +102,16 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     self.dismiss(animated: true, completion: nil)
                 }
             }
-        else {
-            print("fill in a username AND password")
+            else {
+                print("fill in a username AND password")
+                let userErrorAlert = UIAlertController(title: "", message: "Please enter a valid email address and confirm password.", preferredStyle: UIAlertControllerStyle.alert)
+                let OKAction = UIAlertAction(title: "OK",
+                                             style: .default)
+                userErrorAlert.addAction(OKAction)
+                self.present(userErrorAlert, animated: true, completion: nil)
+            }
         }
+
     }
     
     func makeANewFoodList(uid: String) {
