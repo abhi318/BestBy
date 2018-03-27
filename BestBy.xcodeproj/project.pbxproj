@@ -250,6 +250,7 @@
 		C9A6E4A9206A058B00A003C7 /* ribs.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4A7206A058B00A003C7 /* ribs.png */; };
 		C9A6E4AC206A06AD00A003C7 /* peanut-butter.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4AA206A06AD00A003C7 /* peanut-butter.png */; };
 		C9A6E4AD206A06AD00A003C7 /* butter.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4AB206A06AD00A003C7 /* butter.png */; };
+		C9A6E4AF206AD88000A003C7 /* AddFoodToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6E4AE206AD88000A003C7 /* AddFoodToSpaceViewController.swift */; };
 		C9A9C4FC204D151500E9C85A /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A9C4FB204D151500E9C85A /* profile@2x.png */; };
 		C9A9C4FF204D18F400E9C85A /* fridge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A9C4FD204D18F300E9C85A /* fridge@2x.png */; };
 		C9A9C500204D18F400E9C85A /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A9C4FE204D18F400E9C85A /* list@2x.png */; };
@@ -546,6 +547,7 @@
 		C9A6E4A7206A058B00A003C7 /* ribs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ribs.png; sourceTree = "<group>"; };
 		C9A6E4AA206A06AD00A003C7 /* peanut-butter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peanut-butter.png"; sourceTree = "<group>"; };
 		C9A6E4AB206A06AD00A003C7 /* butter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = butter.png; sourceTree = "<group>"; };
+		C9A6E4AE206AD88000A003C7 /* AddFoodToSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodToSpaceViewController.swift; sourceTree = "<group>"; };
 		C9A9C4FB204D151500E9C85A /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
 		C9A9C4FD204D18F300E9C85A /* fridge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fridge@2x.png"; sourceTree = "<group>"; };
 		C9A9C4FE204D18F400E9C85A /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@2x.png"; sourceTree = "<group>"; };
@@ -921,6 +923,7 @@
 				AF85A160204A183400DA44B3 /* ShoppingListsViewController.swift */,
 				C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */,
 				FD4C6A42203780D100C13ABC /* ProfileViewController.swift */,
+				C9A6E4AE206AD88000A003C7 /* AddFoodToSpaceViewController.swift */,
 				FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */,
 				FD4C6A46203C021400C13ABC /* FoodData.swift */,
 				FDDA511F206190A600643514 /* FoodCollectionController.swift */,
@@ -1532,6 +1535,7 @@
 				FD4C6A43203780D100C13ABC /* ProfileViewController.swift in Sources */,
 				FD4C6A412036CC0B00C13ABC /* CurrentUser.swift in Sources */,
 				FDBB38132064BCE0004DB480 /* newSpacesClicked.swift in Sources */,
+				C9A6E4AF206AD88000A003C7 /* AddFoodToSpaceViewController.swift in Sources */,
 				FD4C6A47203C021400C13ABC /* FoodData.swift in Sources */,
 				AF85A161204A183400DA44B3 /* ShoppingListsViewController.swift in Sources */,
 				FD547D2D2046384600E5D630 /* SearchController.swift in Sources */,
