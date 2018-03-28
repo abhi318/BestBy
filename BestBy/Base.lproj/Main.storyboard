@@ -717,9 +717,6 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pAU-OG-TdV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< HEAD
-            <point key="canvasLocation" x="1865" y="339"/>
-=======
             <point key="canvasLocation" x="1398" y="303"/>
         </scene>
         <!--Title-->
@@ -784,7 +781,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GQs-Qb-UWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2567" y="-1361"/>
->>>>>>> a445642f6ae9b1cb68f7c1ad15dea2a4a59a97f2
         </scene>
         <!--Spaces Collection View Controller-->
         <scene sceneID="uOr-Cz-DFb">
@@ -1285,12 +1281,6 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="FY0-ah-F2u">
-<<<<<<< HEAD
-                        <barButtonItem key="rightBarButtonItem" title="Search" id="dxe-U3-1p6">
-                            <connections>
-                                <segue destination="dSJ-sR-x74" kind="show" id="i71-yG-2y3"/>
-                            </connections>
-=======
                         <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="r6Q-YK-hVf">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="72s-OM-FUJ">
                                 <rect key="frame" x="16" y="6" width="44" height="32"/>
@@ -1320,7 +1310,6 @@
                                 </connections>
                             </button>
                             <color key="tintColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
->>>>>>> a445642f6ae9b1cb68f7c1ad15dea2a4a59a97f2
                         </barButtonItem>
                     </navigationItem>
                 </collectionViewController>

@@ -572,7 +572,7 @@
 		FD0664D920328C1400E408CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD0664DE20328C1400E408CD /* BestByTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BestByTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD0664E220328C1400E408CD /* BestByTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestByTests.swift; sourceTree = "<group>"; };
- 		FD0664E420328C1400E408CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD0664E420328C1400E408CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD0664E920328C1400E408CD /* BestByUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BestByUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD0664ED20328C1400E408CD /* BestByUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestByUITests.swift; sourceTree = "<group>"; };
 		FD0664EF20328C1400E408CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1731,7 +1731,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BestBy/BestBy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R4WTTEWA23;
+				DEVELOPMENT_TEAM = F75K5E25VA;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = F75K5E25VA.com.Quatro.BestBy;
@@ -1748,7 +1748,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BestBy/BestBy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R4WTTEWA23;
+				DEVELOPMENT_TEAM = F75K5E25VA;
 				INFOPLIST_FILE = BestBy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = F75K5E25VA.com.Quatro.BestBy;
