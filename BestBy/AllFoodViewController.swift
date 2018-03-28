@@ -73,13 +73,14 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.bg_color.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.7)
         cell.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.1)
 
-        cell.foodDetails.text = FoodData.food_data[foodItem.name]?.1
-        cell.daysToExpire?.text = "\(daysLeft+1) days left"
+        cell.daysToExpire?.text = ( daysLeft > 1000 ) ? "\(infinity) days left" : "\(daysLeft+1) days left"
         
         if FoodData.food_data[foodItem.name] != nil {
+            cell.foodDetails.text = FoodData.food_data[foodItem.name]!.1
             cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
         } else {
             FoodData.food_data[foodItem.name] = (-2, "", UIImage(named: "groceries")!.withRenderingMode(.alwaysOriginal))
+            cell.foodDetails.text = FoodData.food_data[foodItem.name]!.1
             cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
         }
         

@@ -66,17 +66,22 @@ class SearchController: UIViewController {
     func addFoodToUsersList() {
         let foodAdded: String = foodBeingAdded.text!
         
-        let daysToExpire = weeksPicker.selectedRow(inComponent: 0)
+        var daysToExpire = weeksPicker.selectedRow(inComponent: 0)
+        
+        if FoodData.food_data[foodAdded] == nil {
+            FoodData.food_data[foodAdded] = (((daysToExpire == 0) ? -2 : daysToExpire), "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
+        }
+        
+        if FoodData.food_data[foodAdded]!.0 < 0 {
+            daysToExpire = 10000
+        }
+        
         let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
         let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
         let doe = Int(timeInterval!)
         
         let presenter = presentingViewController?.childViewControllers[0].childViewControllers[0] as! AllFoodViewController
 
-        if FoodData.food_data[foodAdded] == nil {
-            FoodData.food_data[foodAdded] = (((daysToExpire == 0) ? -2 : daysToExpire), "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
-        }
-        
         //post name of food, and seconds from reference date (jan 1, 2001) that it will expire
         let post = ["name" : foodAdded,
                     "timestamp" : doe,
@@ -230,7 +235,7 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.textLabel!.text = food_name
-        cell.detailTextLabel?.text = "\(FoodData.food_data[food_name]?.0 ?? 0) days"
+        cell.detailTextLabel?.text = (FoodData.food_data[food_name]!.0 > 0) ? "\(FoodData.food_data[food_name]!.0 ) days" : "\(infinity) days"
         
         return cell
     }
