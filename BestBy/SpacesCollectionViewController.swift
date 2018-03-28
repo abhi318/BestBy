@@ -75,7 +75,10 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
             let allUsersFoods = snapshot.value as! [String: [String: Any]]
             for (item, itemInfo) in allUsersFoods {
                 if (itemInfo["spaceID"] as! String) == cell.listID! {
-                    Database.database().reference(withPath: "AllFoodLists/\(currentUser.shared.allFoodListID!)/\(item)").removeValue()
+                    let foodRef = Database.database().reference().child("AllFoodLists/\(currentUser.shared.allFoodListID!)/\(item)")
+                    print ("food ref: \(foodRef)")
+                    foodRef.updateChildValues(["spaceID" : currentUser.shared.allFoodListID!,
+                                               "spaceName" : "All"])
                 }
             }
         })
