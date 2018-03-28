@@ -63,12 +63,8 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     return
                 }
                 print("Login successful")
-                //(self.presentingViewController as! LoadingScreen).fillCurrentUserSingleton(user: user!)
-//                DispatchQueue.global(qos: .background).async {
-//                    group.wait()
-//                    everySingleFoodLoaded.wait()
-//                    self.dismiss(animated: true, completion: nil)
-//                }
+                
+                self.dismiss(animated: true, completion: nil)
             }
             self.loading.stopAnimating()
         } else {

@@ -51,7 +51,7 @@ extension SpacesCell: UICollectionViewDelegate, UICollectionViewDataSource {
             
             let daysLeft = ((foodItem?.timestamp)! - Int(Date().timeIntervalSinceReferenceDate)) / 86400
             
-            var ratio = (CGFloat(daysLeft)/40.0)
+            var ratio = (CGFloat(daysLeft)/30.0)
             if ratio > 1 {
                 ratio = 1
             }

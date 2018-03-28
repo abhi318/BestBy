@@ -29,11 +29,12 @@ class FoodCollectionController: UICollectionViewController {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
         self.navigationItem.title = cell.foodName.text
         let key = Array(FoodData.food_data.keys)[indexPath.row]
-        //var m = ""
         var daysRemaining = -1
         if FoodData.food_data[key] != nil {
             daysRemaining = FoodData.food_data[key]!.0
-        } else {
+            if FoodData.food_data[key]!.0 < 0 {
+                daysRemaining = 10000
+            }
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1,
@@ -52,31 +53,18 @@ class FoodCollectionController: UICollectionViewController {
             }
         )
         
-        var timeRemaining: UILabel =  {
-            let label = UILabel()
-            label.backgroundColor = UIColor.darkGray.withAlphaComponent(0.6)
-            label.layer.cornerRadius = 10
-            label.text = "none"
-            
-            return label
-        }()
-        
         cell.overlayTimeRemaining(days: daysRemaining)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
-        
         cell.removeOverlay()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
@@ -113,6 +101,9 @@ class FoodCollectionController: UICollectionViewController {
     override func shouldPerformSegue(withIdentifier identifier: String,
                             sender: Any?) -> Bool {
         if self.navigationItem.title == "" || self.navigationItem.title == nil {
+            let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) as! CollectionCell
+            cell.removeOverlay()
+            //collectionView?.deselectItem(at: (collectionView?.indexPathsForSelectedItems![0])!, animated: true)
             return false
         } else {
             return true
@@ -120,6 +111,8 @@ class FoodCollectionController: UICollectionViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        
         if segue.identifier == "addFoodToSpace" {
             if let destinationVC = segue.destination as? AddFoodToSpaceViewController {
                 let key = self.navigationItem.title

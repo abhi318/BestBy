@@ -122,17 +122,6 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return [delete]
     }
-    
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-//        if (segue.identifier == "foodDetail") {
-//            let vc = segue.destination as! FoodDescController
-//            let cell = sender as! FoodCell
-//            allFoodTableView.deselectRow(at: allFoodTableView.indexPath(for: cell)!, animated: true)
-//            print(cell.foodName.text!)
-//            vc.passedValues = [cell.foodName.text!, cell.daysToExpire.text!, (FoodData.food_data[cell.foodName.text!]?.1)!]
-//        }
-//    }
 }
 
 class FoodCell: UITableViewCell {

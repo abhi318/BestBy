@@ -59,6 +59,8 @@ class SearchController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Foods"
         searchController.searchBar.delegate = self
+        searchController.searchBar.returnKeyType = (UIReturnKeyType.done)
+        
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }

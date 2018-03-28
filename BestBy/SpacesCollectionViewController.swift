@@ -21,6 +21,7 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var newSpaceButton: UIView!
     
+    var startLocation: CGPoint = CGPoint.zero
     var ref: DatabaseReference!
     var sema: DispatchSemaphore = DispatchSemaphore(value: 0)
     var done:  Bool = false
@@ -32,9 +33,14 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         super.viewDidLoad()
         ref = Database.database().reference()
         self.title = "Spaces"
-        newSpace.backgroundColor = UIColor.lightGray
-        textField.backgroundColor = UIColor.green.withAlphaComponent(0.5)
 
+        newSpace.clipsToBounds = true
+        newSpace.layer.masksToBounds = true
+        newSpace.translatesAutoresizingMaskIntoConstraints = false
+        newSpace.layer.cornerRadius = 5
+        
+        newSpace.isHidden = false
+        
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
@@ -44,55 +50,71 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
             width: (self.collectionView?.frame.width)!,
             height: (self.collectionView?.frame.height)!)
         
-        bottomBG = UIView(frame: CGRect(x: 0, y: 200, width: self.view.frame.width, height: self.view.frame.height))
-        topBG = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
-        
         self.collectionView?.backgroundColor = UIColor(named:"clear")
-        
-        self.view.addSubview(topBG!)
-        self.view.addSubview(bottomBG!)
-        self.view.sendSubview(toBack: topBG!)
-        self.view.sendSubview(toBack: bottomBG!)
 
         textField.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        let tapOut = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
+        let tapOut = UITapGestureRecognizer(target: self, action: #selector(self.tapOutOfEditing))
         tapOut.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapOut)
     }
 
+    @objc func tapOutOfEditing(sender: UIGestureRecognizer) {
+        textField?.resignFirstResponder()
+    }
+    
     @objc func respondToSwipeGesture(sender: UIGestureRecognizer) {
-        let cell = sender.view as! SpacesCell
-        let idx = self.collectionView.indexPath(for: cell)!
-        if idx.item == 0 {return}
         
-        currentUser.shared.allSpaces[cell.listID!] = nil
-        currentUser.shared.otherFoodListIDs.remove(at: idx.item-1)
         
-        Database.database().reference(withPath: "AllFoodLists/\(currentUser.shared.allFoodListID!)").observeSingleEvent(of: .value, with: { snapshot in
-            let allUsersFoods = snapshot.value as! [String: [String: Any]]
-            for (item, itemInfo) in allUsersFoods {
-                if (itemInfo["spaceID"] as! String) == cell.listID! {
-                    let foodRef = Database.database().reference().child("AllFoodLists/\(currentUser.shared.allFoodListID!)/\(item)")
-                    print ("food ref: \(foodRef)")
-                    foodRef.updateChildValues(["spaceID" : currentUser.shared.allFoodListID!,
-                                               "spaceName" : "All"])
-                }
+        if (sender.state == UIGestureRecognizerState.began) {
+            startLocation = sender.location(in: self.view);
+        }
+        else if (sender.state == UIGestureRecognizerState.ended) {
+            let stopLocation = sender.location(in: self.view);
+            let dx = stopLocation.x - startLocation.x;
+            let dy = stopLocation.y - startLocation.y;
+            let distance = sqrt(dx*dx + dy*dy );
+            NSLog("Distance: %f", distance);
+            
+            if distance > 200 {
+                let cell = sender.view as! SpacesCell
+                let idx = self.collectionView.indexPath(for: cell)!
+                if idx.item == 0 {return}
+                
+                currentUser.shared.allSpaces[cell.listID!] = nil
+                currentUser.shared.otherFoodListIDs.remove(at: idx.item-1)
+                
+                Database.database().reference(withPath: "AllFoodLists/\(currentUser.shared.allFoodListID!)").observeSingleEvent(of: .value, with: { snapshot in
+                    let allUsersFoods = snapshot.value as! [String: [String: Any]]
+                    for (item, itemInfo) in allUsersFoods {
+                        if (itemInfo["spaceID"] as! String) == cell.listID! {
+                            let foodRef = Database.database().reference().child("AllFoodLists/\(currentUser.shared.allFoodListID!)/\(item)")
+                            print ("food ref: \(foodRef)")
+                            foodRef.updateChildValues(["spaceID" : currentUser.shared.allFoodListID!,
+                                                       "spaceName" : "All"])
+                        }
+                    }
+                })
+                
+                Database.database().reference(withPath: "Users/\(currentUser.shared.ID!)/Spaces").observeSingleEvent(of: .value, with: { snapshot in
+                    let allUsersFoods = snapshot.value as! [String: String]
+                    for (item, _) in allUsersFoods {
+                        if item == cell.listID! {
+                            Database.database().reference(withPath:  "Users/\(currentUser.shared.ID!)/Spaces/\(cell.listID!)").removeValue()
+                        }
+                    }
+                })
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [],
+                               animations: {
+                                cell.transform = CGAffineTransform(translationX: -500, y: 0)
+                },
+                               completion: { finished in
+                                self.collectionView.deleteItems(at: [idx])
+                })
             }
-        })
-        
-        Database.database().reference(withPath: "Users/\(currentUser.shared.ID!)/Spaces").observeSingleEvent(of: .value, with: { snapshot in
-            let allUsersFoods = snapshot.value as! [String: String]
-            for (item, _) in allUsersFoods {
-                if item == cell.listID! {
-                    Database.database().reference(withPath:  "Users/\(currentUser.shared.ID!)/Spaces/\(cell.listID!)").removeValue()
-                }
-            }
-        })
-        
-        self.collectionView.deleteItems(at: [idx])
+        }
     }
     
     func textFieldShouldReturn(_ textF: UITextField) -> Bool {
@@ -153,6 +175,11 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
             return currentUser.shared.allSpaces.count
         }
         return 1
+    }
+    
+    @objc func selectCellAt(_ sender: UIGestureRecognizer, idx: IndexPath) {
+        self.collectionView.selectItem(at: idx, animated: true, scrollPosition: .centeredVertically)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
