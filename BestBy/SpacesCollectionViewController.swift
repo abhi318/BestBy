@@ -1,10 +1,14 @@
 import UIKit
+
 import FirebaseDatabase
 
-var gradient = [UIColor(red:150/255, green:206/255, blue:180/255, alpha:1.0),
-                UIColor(red:1.0, green:238/255, blue:173/255, alpha:1.0),
-                UIColor(red:1.0, green:111/255, blue:105/255, alpha:1.0),
-                UIColor(red:1.0, green:204/255, blue:92/255, alpha:1.0)]
+
+//var gradient = [UIColor.white]
+var gradient = [UIColor(red:0.75, green:0.9, blue:0.45, alpha:1.0),
+                UIColor(red:0.56, green:0.83, blue:0.376, alpha:1.0),
+                UIColor(red:0.376, green:0.765, blue:0.318, alpha:1.0),
+                UIColor(red:0.192, green:0.698, blue:0.255,  alpha:1.0),
+                UIColor(red:0, green:0.631, blue:0.196, alpha:1.0)]
 class SpacesCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate{
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -12,7 +16,7 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
     @IBAction func newSpaceClicked(_ sender: Any) {
         newSpace.isHidden = true
         textField.isEnabled = true
-        
+        //let x = self.view.frame.origin.y
         self.textField.becomeFirstResponder()
     }
     @IBOutlet weak var textField: UITextField!
@@ -29,8 +33,11 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         super.viewDidLoad()
         ref = Database.database().reference()
         self.title = "Spaces"
-        newSpace.backgroundColor = gradient[3]
-        textField.backgroundColor = gradient[3].withAlphaComponent(0.5)
+        newSpace.backgroundColor = UIColor.lightGray
+        textField.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+
+        //newSpace.backgroundColor = gradient[3]
+        //textField.backgroundColor = gradient[3].withAlphaComponent(0.5)
 
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -45,21 +52,33 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         topBG = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200))
         
         self.collectionView?.backgroundColor = UIColor(named:"clear")
-        bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
-        topBG?.backgroundColor = gradient[0]
+        //bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
+        //topBG?.backgroundColor = gradient[0]
+        
         
         self.view.addSubview(topBG!)
         self.view.addSubview(bottomBG!)
         self.view.sendSubview(toBack: topBG!)
         self.view.sendSubview(toBack: bottomBG!)
 
+        textField.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         let tapOut = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
         tapOut.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapOut)
+    }
+
+    @objc func respondToSwipeGesture(sender: UIGestureRecognizer) {
+        let cell = sender.view as! SpacesCell
+        let idx = self.collectionView.indexPath(for: cell)!
+        if idx.item == 0 {return}
         
-        textField.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        currentUser.shared.allSpaces[cell.listID!] = nil
+        currentUser.shared.otherFoodListIDs.remove(at: idx.item-1)
+        self.collectionView.deleteItems(at: [idx])
+
     }
     
     func textFieldShouldReturn(_ textF: UITextField) -> Bool {
@@ -80,22 +99,22 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         return true
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             newSpace.isHidden = true
             textField.isEnabled = true
-            if self.view.frame.origin.y == 0{
+            if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height - 50
             }
         }
     }
 
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             newSpace.isHidden = false
             textField.isEnabled = false
             textField.text = ""
-            if self.view.frame.origin.y != 0{
+            if self.view.frame.origin.y != 0 {
                 self.view.frame.origin.y += keyboardSize.height - 50
             }
         }
@@ -109,7 +128,7 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
     }
     
     func reloadData() {
-        bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
+        //bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
         self.collectionView?.reloadData()
     }
     
@@ -127,20 +146,29 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! SpacesCell
-        //let ratio = 1-Double(indexPath.row)/Double(currentUser.shared.allSpaces.count)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        cell.addGestureRecognizer(swipeLeft)
+        
+        let ratio = 1 - Double(indexPath.row)/Double(currentUser.shared.allSpaces.count)
         
         //cell.contentView.backgroundColor = UIColor(red: 1.0 - 0.2 * CGFloat(ratio), green: 1.0 - 0.2 * CGFloat(ratio), blue: 0.5 + 0.2 * CGFloat(ratio), alpha: 1.0)
-        let bg = indexPath.row % gradient.count
-        cell.backgroundColor = gradient[bg]
+        _ = indexPath.row % gradient.count
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor(red: 0.75 * CGFloat(ratio), green: (0.9 - 0.631) * CGFloat(ratio) + 0.631, blue: (0.45 - 0.196) * CGFloat(ratio) + 0.196, alpha: 1.0).cgColor
+        
         
         cell.collectionOfFoods?.backgroundColor = UIColor(named:"clear")
         
         var foodListAtIndex:FoodList?
         if(indexPath.item == 0) {
+            cell.listID = currentUser.shared.allFoodListID!
             foodListAtIndex = currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]
         }
         else {
-            foodListAtIndex = currentUser.shared.allSpaces[currentUser.shared.otherFoodListIDs[indexPath.item-1]]
+            cell.listID = currentUser.shared.otherFoodListIDs[indexPath.item-1]
+            foodListAtIndex = currentUser.shared.allSpaces[cell.listID!]
         }
         cell.listName?.text = foodListAtIndex?.name
         cell.currentList = foodListAtIndex

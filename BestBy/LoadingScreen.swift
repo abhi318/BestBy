@@ -15,13 +15,14 @@ import FirebaseDatabase
 //var img_names:[String] = ["apple-1.png","asparagus.png","avocado.png","banana.png","blueberries.png","broccoli.png","butter.png","cabbage.png","butternut-squash.png","carrot.png","cauliflower.png","chives.png","corn.png","cucumber.png","eggs.png","potatoes-2.png","grapes.png","peas.png","pepper.png","cabbage.png","salad-1.png","salad-1.png","lemon-1.png","lime.png","milk-1.png","mushroom.png","onion-1.png","bell-pepper-red.png","orange.png","peach.png","pear.png","pineapple.png","pmegranate.png","bell-pepper-red.png","potatoes-2.png","salad-1.png","potatoes-2.png","dairy.png","butternut-squash-1.png","strawberry.png","butternut-squash-1.png","potatoes-2.png","tomato.png","watermelon.png","potatoes-2.png","butternut-squash.png","pepper-yellow.png","yogurt.png","potatoes-2.png","cucumber.png"]
 
 var x = [String:String]()
+let group = DispatchSemaphore(value: 0)
+let everySingleFoodLoaded = DispatchSemaphore(value: 0)
 
 class LoadingScreen: UIViewController {
     
     var handle: AuthStateDidChangeListenerHandle?
     var done = false;
     var i = 0;
-    let group = DispatchSemaphore(value: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,12 +32,20 @@ class LoadingScreen: UIViewController {
     
     func loadEverySingleFood() {
         i = 0
-        
-        Database.database().reference().child("EverySingleFood").observeSingleEvent(of: .value, with: { (snapshot) in
+        let allFoodRef: DatabaseReference = Database.database().reference().child("EverySingleFood")
+        allFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
             let newFood = snapshot.value as! [String:[String:Any]]
             for (key, value) in newFood {
-                FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: value["img_name"] as! String))
+                
+                if let img = UIImage(named: value["img_name"] as! String){
+                    FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, img)
+                    continue
+                }
+                FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: "groceries"))
+
+                
             }
+            everySingleFoodLoaded.signal()
         })
     }
     
@@ -45,6 +54,13 @@ class LoadingScreen: UIViewController {
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 self.fillCurrentUserSingleton(user: user!)
+                
+                DispatchQueue.global(qos: .background).async {
+                    group.wait()
+                    everySingleFoodLoaded.wait()
+                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
+                    self.present(vc!, animated: true, completion: nil)
+                }
                 
                 print()
             }
@@ -88,9 +104,12 @@ class LoadingScreen: UIViewController {
             
             userRef.removeAllObservers()
             self.observeAllList(at: currentUser.shared.allFoodListID!)
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
-            self.present(vc!, animated: true, completion: nil)
+            DispatchQueue.global(qos: .background).async {
+                group.wait()
+                group.signal()
+            }
         })
+
     }
     func observeAllList(at: String) {
         let ref: DatabaseReference = Database.database().reference().child("AllFoodLists/\(at)")
@@ -99,6 +118,10 @@ class LoadingScreen: UIViewController {
             let newFoodItem = FoodItem(id: snapshot.key,
                                        n: foodInfo["name"] as! String,
                                        t: foodInfo["timestamp"] as! Int)
+            if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
+                Database.database().reference().child("AllFoodLists/\(at)/\(snapshot.key)").removeValue()
+                return
+            }
             if (foodInfo["spaceName"] as! String != "All") {
                 currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.append(newFoodItem)
                 
@@ -115,6 +138,7 @@ class LoadingScreen: UIViewController {
             }
         })
         
+        group.signal()
         
     }
     

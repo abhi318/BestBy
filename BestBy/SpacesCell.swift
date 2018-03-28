@@ -14,6 +14,7 @@ class SpacesCell : UICollectionViewCell{
     @IBOutlet weak var listName:UILabel?
     @IBOutlet weak var collectionOfFoods:UICollectionView?
     
+    var listID: String?
     var currentList:FoodList?
     
     override func awakeFromNib() {

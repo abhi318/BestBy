@@ -68,7 +68,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         if ratio > 1 {
             ratio = 1
         }
-
+        
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.bg_color.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.7)
         cell.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.1)
@@ -79,7 +79,8 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         if FoodData.food_data[foodItem.name] != nil {
             cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
         } else {
-            cell.foodImage.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+            FoodData.food_data[foodItem.name] = (-2, "", UIImage(named: "groceries")!.withRenderingMode(.alwaysOriginal))
+            cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
         }
         
         cell.foodName?.text = foodItem.name
@@ -106,6 +107,19 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
             return CGFloat(70 + (FoodData.food_data[foodItem.name]?.1.count)! / 2);
         }
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            let id = currentUser.shared.allSpaces[self.currentListID]!.contents[indexPath.row]
+
+            currentUser.shared.allSpaces[self.currentListID]!.contents.remove(at: indexPath.row)
+            Database.database().reference().child("AllFoodLists/\(self.currentListID!)/\(id.ID)").removeValue()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        return [delete]
     }
     
     

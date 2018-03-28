@@ -9,6 +9,9 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import UserNotifications
+
+var infinity = "∞"
 
 class SearchController: UIViewController {
     
@@ -70,6 +73,10 @@ class SearchController: UIViewController {
         
         let presenter = presentingViewController?.childViewControllers[0].childViewControllers[0] as! AllFoodViewController
 
+        if FoodData.food_data[foodAdded] == nil {
+            FoodData.food_data[foodAdded] = (((daysToExpire == 0) ? -2 : daysToExpire), "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
+        }
+        
         //post name of food, and seconds from reference date (jan 1, 2001) that it will expire
         let post = ["name" : foodAdded,
                     "timestamp" : doe,
@@ -77,8 +84,61 @@ class SearchController: UIViewController {
                     "spaceName" : presenter.currentListName] as [String : Any]
         ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
         
+        getNotificationForDay(on: dateOfExpiration!, foodName: foodAdded)
         self.dismiss(animated: true, completion: nil)
         
+    }
+    
+    func getNotificationForDay(on: Date, foodName: String) {
+        let center = UNUserNotificationCenter.current()
+        let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+        center.getPendingNotificationRequests(completionHandler: { requests in
+            for request in requests {
+                
+                let requestTriggerDate = (request.trigger as! UNCalendarNotificationTrigger).nextTriggerDate()
+                
+                let order = calendar.compare(requestTriggerDate!, to: on, toGranularity: .day)
+                if order.rawValue == 0 {
+                    self.addRequest(calendar: calendar, request: request, center: center, foodName: foodName, date: on)
+                    return
+                }
+            }
+            self.addRequest(calendar: calendar, request: nil, center: center, foodName: foodName, date: on)
+            return
+        })
+    }
+    
+    func addRequest(calendar: Calendar, request: UNNotificationRequest?, center: UNUserNotificationCenter, foodName: String, date: Date) {
+        let content = UNMutableNotificationContent()
+        var identifier: String?
+        var trigger: UNCalendarNotificationTrigger?
+        
+        if request == nil {
+            content.title = "What's expiring today?"
+            content.body = "\(foodName)"
+            
+            
+            var triggerDate = Calendar.current.dateComponents([.year,.month,.day], from: date)
+            identifier = "\(triggerDate.month)/\(triggerDate.day)/\(triggerDate.year)"
+
+            triggerDate.hour = 9
+            triggerDate.minute = 0
+            triggerDate.second = 0
+            
+            trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
+                                                        repeats: false)
+        }
+        else {
+            content.title = request!.content.title
+            content.body = request!.content.body + ", \(foodName)"
+        }
+        let request = UNNotificationRequest(identifier: (request != nil) ? request!.identifier : identifier!,
+                                            content: content, trigger: (request != nil) ? request!.trigger : trigger!)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        })
     }
     
     func isFiltering() -> Bool {
@@ -118,7 +178,7 @@ extension SearchController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 90
+        return 1000
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -126,7 +186,11 @@ extension SearchController: UIPickerViewDelegate, UIPickerViewDataSource {
         if view == nil {  //if no label there yet
             pickerLabel = UILabel()
         }
-        let titleData = "\(row)"
+        
+        var titleData = "\(row)"
+        if row == 0 {
+            titleData = infinity
+        }
         let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:20.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
         pickerLabel!.attributedText = myTitle
         pickerLabel!.textAlignment = .center

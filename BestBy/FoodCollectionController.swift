@@ -13,10 +13,12 @@ class FoodCollectionController: UICollectionViewController {
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionCell
         let key = Array(FoodData.food_data.keys)[indexPath.row]
-        if FoodData.food_data[key] != nil {
+        
+        if FoodData.food_data[key] != nil{
             cell.imageView.image = FoodData.food_data[key]!.2
         } else {
-            cell.imageView.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+            FoodData.food_data[key]!.2 = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+            cell.imageView.image = FoodData.food_data[key]!.2
         }
         cell.foodName.text = key
         

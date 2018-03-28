@@ -56,6 +56,16 @@ class SpacesLayout: UICollectionViewLayout {
     // MARK: UICollectionViewLayout
     
     /* Return the size of all the content in the collection view */
+    override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
+        attributes?.alpha = 0
+        attributes?.transform = CGAffineTransform(
+            translationX: -200,
+            y: 0
+        )
+
+        return attributes
+    }
     
     override var collectionViewContentSize : CGSize {
         let contentHeight = (CGFloat(numberOfItems) * dragOffset) + (height - dragOffset)
