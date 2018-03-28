@@ -12,6 +12,49 @@ import Firebase
 
 class ProfileViewController: UIViewController {
     
+    var ref: DatabaseReference!
+    
+    @IBAction func contactUsClicked(_ sender: Any) {
+        
+        let contactAlert = UIAlertController(title: "", message: "Please sumbit your message below and we will email you with our response.", preferredStyle: UIAlertControllerStyle.alert)
+        contactAlert.addTextField { (textField) in
+            textField.placeholder = "Write your message here."
+        }
+        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (action: UIAlertAction) in
+            let messageField = contactAlert.textFields![0] as UITextField
+            self.ref.child("Feedback/\(currentUser.shared.ID!)").childByAutoId().setValue(messageField.text)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        
+        contactAlert.addAction(OKAction)
+        contactAlert.addAction(cancelAction)
+        self.present(contactAlert, animated: true, completion: nil)
+
+    }
+    
+    @IBAction func followUsClicked(_ sender: Any) {
+        let screenName =  "BestByApp"
+        let appURL = NSURL(string: "twitter://user?screen_name=\(screenName)")!
+        let webURL = NSURL(string: "https://twitter.com/\(screenName)")!
+        
+        if UIApplication.shared.canOpenURL(appURL as URL) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(appURL as URL)
+            }
+        } else {
+            //redirect to safari because the user doesn't have Instagram
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(webURL as URL)
+            }
+        }
+    }
+    
     @IBAction func signoutButton(_ sender:Any) {
         try! Auth.auth().signOut()
         currentUser.shared.clear()
@@ -31,6 +74,8 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
     }
     
     override func didReceiveMemoryWarning() {

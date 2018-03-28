@@ -291,7 +291,7 @@
                                                 <rect key="frame" x="5" y="0.0" width="333" height="45"/>
                                                 <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
-                                                <state key="normal" title="FAVORITES">
+                                                <state key="normal" title="FOLLOW US">
                                                     <color key="titleColor" red="0.68235294117647061" green="0.28627450980392155" blue="0.28627450980392155" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -299,6 +299,9 @@
                                                         <integer key="value" value="7"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="followUsClicked:" destination="tXh-qu-rIg" eventType="touchUpInside" id="Ol1-WR-FR3"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -316,7 +319,8 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D95-TX-tnd">
                                                 <rect key="frame" x="5" y="0.0" width="333" height="45"/>
                                                 <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <state key="normal" title="RECENTS">
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                                <state key="normal" title="CONTACT US">
                                                     <color key="titleColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -324,6 +328,9 @@
                                                         <integer key="value" value="7"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="contactUsClicked:" destination="tXh-qu-rIg" eventType="touchUpInside" id="WEk-Qe-eeY"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -342,7 +349,7 @@
                                                 <rect key="frame" x="5" y="0.0" width="333" height="45"/>
                                                 <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
-                                                <state key="normal" title="SETTINGS">
+                                                <state key="normal" title="CHANGE PASSWORD">
                                                     <color key="titleColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -351,7 +358,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <segue destination="NwJ-c4-dN7" kind="show" id="tNI-cQ-cXg"/>
+                                                    <segue destination="Kt7-Gl-ftS" kind="show" id="jjW-yH-4aF"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -428,7 +435,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="0Az-w9-3ci">
-                                <rect key="frame" x="16" y="84" width="343" height="345"/>
+                                <rect key="frame" x="16" y="40" width="343" height="345"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EUq-ma-a8p">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="45"/>
@@ -606,6 +613,141 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rns-U3-Fv2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4540" y="888"/>
+        </scene>
+        <!--Change Password View Controller-->
+        <scene sceneID="9sJ-xa-gwg">
+            <objects>
+                <viewController id="Kt7-Gl-ftS" customClass="ChangePasswordViewController" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hgM-AJ-pXN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DWF-FX-VUx">
+                                <rect key="frame" x="16" y="80" width="343" height="42"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OLD PASSWORD:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLL-5F-iIb">
+                                        <rect key="frame" x="8" y="11.5" width="115" height="20"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                        <color key="textColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d4U-GI-Hqq">
+                                        <rect key="frame" x="166" y="6" width="169" height="30"/>
+                                        <color key="textColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" red="0.92540913820000004" green="0.92554211620000004" blue="0.92537993190000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OLL-5F-iIb" secondAttribute="trailing" constant="20" symbolic="YES" id="AUK-v1-0Q6"/>
+                                    <constraint firstItem="OLL-5F-iIb" firstAttribute="centerY" secondItem="DWF-FX-VUx" secondAttribute="centerY" id="Ct6-Vj-8Rt"/>
+                                    <constraint firstAttribute="trailing" secondItem="d4U-GI-Hqq" secondAttribute="trailing" constant="8" id="cev-85-Q8u"/>
+                                    <constraint firstItem="OLL-5F-iIb" firstAttribute="leading" secondItem="DWF-FX-VUx" secondAttribute="leading" constant="8" id="hqz-8e-nRn"/>
+                                    <constraint firstItem="d4U-GI-Hqq" firstAttribute="top" secondItem="DWF-FX-VUx" secondAttribute="top" constant="6" id="rVq-5N-M7R"/>
+                                    <constraint firstAttribute="bottom" secondItem="d4U-GI-Hqq" secondAttribute="bottom" constant="6" id="xSX-HJ-le5"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="00T-Lq-JUP">
+                                <rect key="frame" x="16" y="130" width="343" height="78"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pMU-ii-wva">
+                                        <rect key="frame" x="166" y="6" width="169" height="30"/>
+                                        <color key="textColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uvx-le-Mo0">
+                                        <rect key="frame" x="166" y="42" width="169" height="30"/>
+                                        <color key="textColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEW PASSWORD:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AxQ-vQ-Jhs">
+                                        <rect key="frame" x="8" y="11" width="117.5" height="19.5"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                        <color key="textColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONFIRM PASSWORD:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ys8-Xz-Seh">
+                                        <rect key="frame" x="8" y="48" width="150" height="19.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Lph-UW-XoP"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                        <color key="textColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.92540913820000004" green="0.92554211620000004" blue="0.92537993190000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="pMU-ii-wva" firstAttribute="centerY" secondItem="AxQ-vQ-Jhs" secondAttribute="centerY" id="DNo-yL-b9W"/>
+                                    <constraint firstItem="pMU-ii-wva" firstAttribute="top" secondItem="00T-Lq-JUP" secondAttribute="top" constant="6" id="EGl-Kw-H0u"/>
+                                    <constraint firstItem="Uvx-le-Mo0" firstAttribute="centerY" secondItem="ys8-Xz-Seh" secondAttribute="centerY" id="OGp-ys-EDN"/>
+                                    <constraint firstAttribute="trailing" secondItem="pMU-ii-wva" secondAttribute="trailing" constant="8" id="RRb-WC-oEQ"/>
+                                    <constraint firstItem="Uvx-le-Mo0" firstAttribute="leading" secondItem="pMU-ii-wva" secondAttribute="leading" id="VMh-0m-pNI"/>
+                                    <constraint firstItem="Uvx-le-Mo0" firstAttribute="top" secondItem="pMU-ii-wva" secondAttribute="bottom" constant="6" id="VtH-nv-gp3"/>
+                                    <constraint firstAttribute="trailing" secondItem="Uvx-le-Mo0" secondAttribute="trailing" constant="8" id="Yjh-qb-emQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="Uvx-le-Mo0" secondAttribute="bottom" constant="6" id="biK-JZ-2jt"/>
+                                    <constraint firstItem="Uvx-le-Mo0" firstAttribute="leading" secondItem="ys8-Xz-Seh" secondAttribute="trailing" constant="8" id="nG2-ER-c8b"/>
+                                    <constraint firstItem="ys8-Xz-Seh" firstAttribute="leading" secondItem="00T-Lq-JUP" secondAttribute="leading" constant="8" id="waS-WK-qsz"/>
+                                    <constraint firstItem="AxQ-vQ-Jhs" firstAttribute="leading" secondItem="00T-Lq-JUP" secondAttribute="leading" constant="8" id="wxQ-6F-4Hk"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="AxQ-vQ-Jhs" secondAttribute="trailing" constant="20" symbolic="YES" id="zn4-N3-JKu"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Tw-js-PZT">
+                                <rect key="frame" x="16" y="216" width="343" height="34"/>
+                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                <state key="normal" title="CHANGE PASSWORD">
+                                    <color key="titleColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="changePassClicked:" destination="Kt7-Gl-ftS" eventType="touchUpInside" id="8Eh-zy-YCY"/>
+                                    <action selector="confirmChange:" destination="Hut-g4-Mfz" eventType="touchUpInside" id="pdi-qJ-tTm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Nra-X8-ll8" firstAttribute="trailing" secondItem="00T-Lq-JUP" secondAttribute="trailing" constant="16" id="3MO-uU-e2U"/>
+                            <constraint firstItem="d4U-GI-Hqq" firstAttribute="leading" secondItem="pMU-ii-wva" secondAttribute="leading" id="9nG-82-JGw"/>
+                            <constraint firstItem="DWF-FX-VUx" firstAttribute="top" secondItem="Nra-X8-ll8" secondAttribute="top" constant="16" id="Adt-RF-nQp"/>
+                            <constraint firstItem="00T-Lq-JUP" firstAttribute="leading" secondItem="Nra-X8-ll8" secondAttribute="leading" constant="16" id="BRR-4V-hFn"/>
+                            <constraint firstItem="00T-Lq-JUP" firstAttribute="top" secondItem="DWF-FX-VUx" secondAttribute="bottom" constant="8" id="DLe-7b-GHz"/>
+                            <constraint firstItem="2Tw-js-PZT" firstAttribute="top" secondItem="00T-Lq-JUP" secondAttribute="bottom" constant="8" id="Hz1-rt-Rio"/>
+                            <constraint firstItem="DWF-FX-VUx" firstAttribute="leading" secondItem="Nra-X8-ll8" secondAttribute="leading" constant="16" id="QlK-to-O42"/>
+                            <constraint firstItem="Nra-X8-ll8" firstAttribute="trailing" secondItem="2Tw-js-PZT" secondAttribute="trailing" constant="16" id="RTu-XJ-ebt"/>
+                            <constraint firstItem="Nra-X8-ll8" firstAttribute="trailing" secondItem="DWF-FX-VUx" secondAttribute="trailing" constant="16" id="lju-A0-ocm"/>
+                            <constraint firstItem="2Tw-js-PZT" firstAttribute="leading" secondItem="Nra-X8-ll8" secondAttribute="leading" constant="16" id="m6e-Dv-ybt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Nra-X8-ll8"/>
+                    </view>
+                    <connections>
+                        <outlet property="confirmPassField" destination="Uvx-le-Mo0" id="wmQ-WH-fLi"/>
+                        <outlet property="newPassField" destination="pMU-ii-wva" id="fIu-ff-XNB"/>
+                        <outlet property="oldPassField" destination="d4U-GI-Hqq" id="80v-zO-u6X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vbz-lM-wmr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Hut-g4-Mfz" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="5288.8000000000002" y="886.50674662668678"/>
         </scene>
         <!--Loading Screen-->
         <scene sceneID="AFh-g2-G2F">
