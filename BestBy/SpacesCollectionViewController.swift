@@ -70,8 +70,26 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         
         currentUser.shared.allSpaces[cell.listID!] = nil
         currentUser.shared.otherFoodListIDs.remove(at: idx.item-1)
+        
+        Database.database().reference(withPath: "AllFoodLists/\(currentUser.shared.allFoodListID!)").observeSingleEvent(of: .value, with: { snapshot in
+            let allUsersFoods = snapshot.value as! [String: [String: Any]]
+            for (item, itemInfo) in allUsersFoods {
+                if (itemInfo["spaceID"] as! String) == cell.listID! {
+                    Database.database().reference(withPath: "AllFoodLists/\(currentUser.shared.allFoodListID!)/\(item)").removeValue()
+                }
+            }
+        })
+        
+        Database.database().reference(withPath: "Users/\(currentUser.shared.ID!)/Spaces").observeSingleEvent(of: .value, with: { snapshot in
+            let allUsersFoods = snapshot.value as! [String: String]
+            for (item, _) in allUsersFoods {
+                if item == cell.listID! {
+                    Database.database().reference(withPath:  "Users/\(currentUser.shared.ID!)/Spaces/\(cell.listID!)").removeValue()
+                }
+            }
+        })
+        
         self.collectionView.deleteItems(at: [idx])
-
     }
     
     func textFieldShouldReturn(_ textF: UITextField) -> Bool {
@@ -117,7 +135,6 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         DispatchQueue.main.async {
             self.reloadData()
         }
-
     }
     
     func reloadData() {

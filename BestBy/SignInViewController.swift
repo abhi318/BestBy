@@ -63,12 +63,20 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     return
                 }
                 print("Login successful")
-                (self.presentingViewController as! LoadingScreen).fillCurrentUserSingleton(user: user!)
-                self.dismiss(animated: true, completion: nil)
+                //(self.presentingViewController as! LoadingScreen).fillCurrentUserSingleton(user: user!)
+//                DispatchQueue.global(qos: .background).async {
+//                    group.wait()
+//                    everySingleFoodLoaded.wait()
+//                    self.dismiss(animated: true, completion: nil)
+//                }
             }
             self.loading.stopAnimating()
         } else {
-           print("email/password can't be empty")
+            let userErrorAlert = UIAlertController(title: "", message: "Please enter a valid email address and confirm password.", preferredStyle: UIAlertControllerStyle.alert)
+            let OKAction = UIAlertAction(title: "OK",
+                                         style: .default)
+            userErrorAlert.addAction(OKAction)
+            self.present(userErrorAlert, animated: true, completion: nil)
         }
 
     }
@@ -119,6 +127,14 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
         let newFoodID = newFoodIDref.key
         
         self.ref?.child("Users/\(uid)/AllUsersFood").setValue(newFoodID)
+        let x = self.ref.child("AllFoodLists").childByAutoId()
+        let y = self.ref.child("AllFoodLists").childByAutoId()
+        let z = self.ref.child("AllFoodLists").childByAutoId()
+        self.ref?.child("Users/\(uid)/Spaces").setValue([x.key : "Fridge",
+                                                         y.key : "Pantry",
+                                                         z.key : "Essentials"])
+
+        
     }
     
     @IBAction func BackToLogin(_ sender: Any) {

@@ -15,47 +15,42 @@ class CollectionCell: UICollectionViewCell {
     
     var timeRemaining: UILabel =  {
         let label = UILabel()
-        label.backgroundColor = UIColor.darkGray.withAlphaComponent(0.6)
-        label.layer.cornerRadius = 10
-        label.text = "none"
+        label.isHidden = true
         return label
     }()
     
     var currentlySelected = false
-    
-    var bubbleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.darkGray
-        view.layer.cornerRadius = 15
-        view.layer.masksToBounds = true
-        //view.frame = CGRect(x: 10, y: 0, width: 70, height: 70)
-        return view
-    }()
-    
-    var textView: UILabel = {
-        let label = UILabel()
-        label.textColor = gradient[0]
-        label.backgroundColor = UIColor.clear
-        label.numberOfLines = 20
-        label.lineBreakMode = .byWordWrapping
-        //label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        //label.frame = CGRect(x: 20, y: 0, width: 50, height: 50)
-        return label
-    }()
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     
     func overlayTimeRemaining(days: Int) {
-        if days == -1 {
-            timeRemaining.text = String("∞")
+        if days < 0 {
+            timeRemaining.attributedText = NSAttributedString(string: infinity, attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:20.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
         }
         else {
-            timeRemaining.text = String("\(days)")
+            timeRemaining.attributedText =  NSAttributedString(string: "\(days)", attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:20.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
         }
+        timeRemaining.textAlignment = .center
+        timeRemaining.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        timeRemaining.layer.cornerRadius = 30
+        var ratio = (CGFloat(days)/30.0)
+        
+        if ratio > 1 {
+            ratio = 1
+        }
+        
+        timeRemaining.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.2)
+
+        timeRemaining.isHidden = !timeRemaining.isHidden
+        timeRemaining.clipsToBounds = true
+        self.addSubview(timeRemaining)
+    }
+    
+    func removeOverlay() {
+        timeRemaining.isHidden = true
     }
         
         

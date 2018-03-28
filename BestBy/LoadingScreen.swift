@@ -61,8 +61,6 @@ class LoadingScreen: UIViewController {
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
                     self.present(vc!, animated: true, completion: nil)
                 }
-                
-                print()
             }
             else {
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signinview") as? SignInViewController

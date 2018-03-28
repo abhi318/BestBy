@@ -55,12 +55,23 @@ class SpacesLayout: UICollectionViewLayout {
     
     // MARK: UICollectionViewLayout
     
+    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
+        attributes?.alpha = 0
+        attributes?.transform = CGAffineTransform(
+            translationX: 0,
+            y: 100
+        )
+        
+        return attributes
+    }
+    
     /* Return the size of all the content in the collection view */
     override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
         attributes?.alpha = 0
         attributes?.transform = CGAffineTransform(
-            translationX: -200,
+            translationX: -400,
             y: 0
         )
 

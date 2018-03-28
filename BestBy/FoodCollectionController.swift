@@ -27,18 +27,14 @@ class FoodCollectionController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
-        cell.layoutSubviews()
         self.navigationItem.title = cell.foodName.text
         let key = Array(FoodData.food_data.keys)[indexPath.row]
         //var m = ""
         var daysRemaining = -1
         if FoodData.food_data[key] != nil {
-            //m = FoodData.food_data[key]!.1
             daysRemaining = FoodData.food_data[key]!.0
         } else {
-            //m = "default"
         }
-        //let old = cell.imageView.frame
         
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1,
             initialSpringVelocity: 5, options: [],
@@ -53,28 +49,26 @@ class FoodCollectionController: UICollectionViewController {
                     },
                     completion: nil
                 )
-            
             }
         )
         
-        cell.overlayTimeRemaining(days: daysRemaining)
+        var timeRemaining: UILabel =  {
+            let label = UILabel()
+            label.backgroundColor = UIColor.darkGray.withAlphaComponent(0.6)
+            label.layer.cornerRadius = 10
+            label.text = "none"
+            
+            return label
+        }()
         
-
-//        let imgFrame = cell.imageView.frame
-//        let nameFrame = cell.foodName.frame
-//
-//        let size = CGSize(width: 150, height: 1000)
-//        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-//
-//        let estimatedFrame =  NSString(string: (FoodData.food_data[key]?.1)!).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12)], context: nil)
-//
-//        var constant:CGFloat = 0.0
-//        if ((indexPath.item + 1) % 4 == 0) {
-//            constant = -80
-//        }
-//
-//        cell.bubbleView.frame = CGRect(x: frameX, y: cell.frame.maxY, width: cell.frame.width * 2, height: cell.frame.width * 2)
-//        cell.textView.frame = CGRect(x: frameX + 10, y: cell.frame.maxY + 2, width: estimatedFrame.width, height: estimatedFrame.height)
+        cell.overlayTimeRemaining(days: daysRemaining)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+        let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
+        
+        cell.removeOverlay()
     }
     
     override func viewDidLoad() {

@@ -63,15 +63,15 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         
-        var ratio = (CGFloat(daysLeft)/40.0)
+        var ratio = (CGFloat(daysLeft)/30.0)
 
         if ratio > 1 {
             ratio = 1
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyle.none
-        cell.bg_color.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.7)
-        cell.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.1)
+        cell.bg_color.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.4)
+        cell.backgroundColor = UIColor(hue: ratio/3, saturation: 1.0, brightness: 1.0, alpha: 0.05)
 
         cell.daysToExpire?.text = ( daysLeft > 1000 ) ? "\(infinity) days left" : "\(daysLeft+1) days left"
         
