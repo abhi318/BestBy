@@ -34,10 +34,10 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         ref = Database.database().reference()
         self.title = "Spaces"
 
-        newSpace.clipsToBounds = true
-        newSpace.layer.masksToBounds = true
-        newSpace.translatesAutoresizingMaskIntoConstraints = false
-        newSpace.layer.cornerRadius = 5
+        //newSpace.clipsToBounds = true
+        //newSpace.layer.masksToBounds = true
+        //newSpace.translatesAutoresizingMaskIntoConstraints = false
+        //newSpace.layer.cornerRadius = 5
         
         newSpace.isHidden = false
         

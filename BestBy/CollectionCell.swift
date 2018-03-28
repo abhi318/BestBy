@@ -27,15 +27,15 @@ class CollectionCell: UICollectionViewCell {
     
     
     func overlayTimeRemaining(days: Int) {
-        if days < 0 {
+        /*if days < 0 {
             timeRemaining.attributedText = NSAttributedString(string: infinity, attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:20.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
         }
         else {
             timeRemaining.attributedText =  NSAttributedString(string: "\(days)", attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:20.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
-        }
-        timeRemaining.textAlignment = .center
-        timeRemaining.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        timeRemaining.layer.cornerRadius = 30
+        }*/
+        //timeRemaining.textAlignment = .center
+        timeRemaining.frame = CGRect(x: 0, y: 0, width: self.frame.width * 1.1, height: self.frame.height * 1.1)
+        timeRemaining.layer.cornerRadius = 10
         var ratio = (CGFloat(days)/30.0)
         
         if ratio > 1 {
