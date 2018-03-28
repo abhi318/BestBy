@@ -26,8 +26,6 @@ class LoadingScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        loadEverySingleFood()
     }
     
     func loadEverySingleFood() {
@@ -76,6 +74,8 @@ class LoadingScreen: UIViewController {
         currentUser.shared.userRef = ref.child("Users/\(user.uid)")
         
         loadAllUsersFood()
+        loadEverySingleFood()
+
     }
     
     func loadAllUsersFood() {
