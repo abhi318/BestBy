@@ -57,6 +57,7 @@ class LoadingScreen: UIViewController {
                     group.wait()
                     everySingleFoodLoaded.wait()
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
+                    
                     self.present(vc!, animated: true, completion: nil)
                 }
             }

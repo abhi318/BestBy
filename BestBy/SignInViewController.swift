@@ -63,7 +63,6 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                     return
                 }
                 print("Login successful")
-                
                 self.dismiss(animated: true, completion: nil)
             }
             self.loading.stopAnimating()
