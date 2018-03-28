@@ -16,7 +16,6 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
     @IBAction func newSpaceClicked(_ sender: Any) {
         newSpace.isHidden = true
         textField.isEnabled = true
-        //let x = self.view.frame.origin.y
         self.textField.becomeFirstResponder()
     }
     @IBOutlet weak var textField: UITextField!
@@ -36,25 +35,19 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         newSpace.backgroundColor = UIColor.lightGray
         textField.backgroundColor = UIColor.green.withAlphaComponent(0.5)
 
-        //newSpace.backgroundColor = gradient[3]
-        //textField.backgroundColor = gradient[3].withAlphaComponent(0.5)
-
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
         self.collectionView?.frame = CGRect(
             x: (self.collectionView?.frame.minX)!,
-            y: (self.collectionView?.frame.minY)!+63,
+            y: (self.collectionView?.frame.minY)! + 63,
             width: (self.collectionView?.frame.width)!,
             height: (self.collectionView?.frame.height)!)
         
         bottomBG = UIView(frame: CGRect(x: 0, y: 200, width: self.view.frame.width, height: self.view.frame.height))
-        topBG = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200))
+        topBG = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
         
         self.collectionView?.backgroundColor = UIColor(named:"clear")
-        //bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
-        //topBG?.backgroundColor = gradient[0]
-        
         
         self.view.addSubview(topBG!)
         self.view.addSubview(bottomBG!)
@@ -128,7 +121,6 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
     }
     
     func reloadData() {
-        //bottomBG?.backgroundColor = gradient[(currentUser.shared.allSpaces.count-1) % gradient.count]
         self.collectionView?.reloadData()
     }
     
@@ -153,11 +145,8 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         
         let ratio = 1 - Double(indexPath.row)/Double(currentUser.shared.allSpaces.count)
         
-        //cell.contentView.backgroundColor = UIColor(red: 1.0 - 0.2 * CGFloat(ratio), green: 1.0 - 0.2 * CGFloat(ratio), blue: 0.5 + 0.2 * CGFloat(ratio), alpha: 1.0)
-        _ = indexPath.row % gradient.count
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor(red: 0.75 * CGFloat(ratio), green: (0.9 - 0.631) * CGFloat(ratio) + 0.631, blue: (0.45 - 0.196) * CGFloat(ratio) + 0.196, alpha: 1.0).cgColor
-        
         
         cell.collectionOfFoods?.backgroundColor = UIColor(named:"clear")
         

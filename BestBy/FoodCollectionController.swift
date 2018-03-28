@@ -3,7 +3,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class FoodCollectionController: UICollectionViewController {
-    
+        
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return FoodData.food_data.count
@@ -26,19 +26,19 @@ class FoodCollectionController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
         cell.layoutSubviews()
+        self.navigationItem.title = cell.foodName.text
         let key = Array(FoodData.food_data.keys)[indexPath.row]
-        var m = ""
+        //var m = ""
         var daysRemaining = -1
         if FoodData.food_data[key] != nil {
-            m = FoodData.food_data[key]!.1
+            //m = FoodData.food_data[key]!.1
             daysRemaining = FoodData.food_data[key]!.0
         } else {
-            m = "default"
+            //m = "default"
         }
-        let old = cell.imageView.frame
+        //let old = cell.imageView.frame
         
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1,
             initialSpringVelocity: 5, options: [],
@@ -114,6 +114,33 @@ class FoodCollectionController: UICollectionViewController {
                 }
             }
         })
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String,
+                            sender: Any?) -> Bool {
+        if self.navigationItem.title == "" || self.navigationItem.title == nil {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addFoodToSpace" {
+            if let destinationVC = segue.destination as? AddFoodToSpaceViewController {
+                let key = self.navigationItem.title
+                destinationVC.selected_food = key
+                self.navigationItem.title = ""
+            }
+        }
+        
+        //if segue.identifier == "addFoodToList" {
+            //if let destinationVC = segue.destination as?  {
+                //                destinationVC.location = loc
+            //}
+       // }
+
+
     }
 }
 
