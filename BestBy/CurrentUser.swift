@@ -30,7 +30,8 @@ final class currentUser {
     var allFood: [String] = [String]()
     
     //all the shopping list IDs
-    var allShoppingLists: [String:[String]]?
+    var allShoppingLists: [String:ShoppingList] = [String:ShoppingList]()
+    var shoppingListIDs: [String] = [String]()
     
     //current space ID, "" or nil if a space isnt selected
     var currentSpace: String?
@@ -42,7 +43,7 @@ final class currentUser {
         userRef = nil
         allFood.removeAll()
         allFoodListID = nil
-        allShoppingLists?.removeAll()
+        allShoppingLists.removeAll()
         currentSpace = nil
         allSpaces.removeAll()
         otherFoodListIDs.removeAll()

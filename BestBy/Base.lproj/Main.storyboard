@@ -535,6 +535,7 @@
                     <connections>
                         <segue destination="xEs-Hz-Nc8" kind="relationship" relationship="viewControllers" id="dBL-DL-6QD"/>
                         <segue destination="uwl-E8-dYj" kind="relationship" relationship="viewControllers" id="Vbf-MN-R0U"/>
+                        <segue destination="PsI-J4-8fB" kind="relationship" relationship="viewControllers" id="gK3-Ot-lwX"/>
                         <segue destination="de9-mb-I5N" kind="relationship" relationship="viewControllers" id="yZc-01-5VT"/>
                     </connections>
                 </tabBarController>
@@ -1066,6 +1067,148 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyP-SL-rP0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3738" y="672"/>
+        </scene>
+        <!--Shopping Lists View Controller-->
+        <scene sceneID="EQ8-ZG-Zfy">
+            <objects>
+                <viewController id="of5-nY-fJ9" customClass="ShoppingListsViewController" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Jp0-bX-LHG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6aA-3x-pKw">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="shopListID" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="shopListID" id="jhI-0B-TLV" customClass="ShoppingListCellTableViewCell" customModule="BestBy" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jhI-0B-TLV" id="gUV-bX-nsH">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Shopping List Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLD-me-p3d">
+                                                    <rect key="frame" x="15" y="11" width="241" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="shopListID"/>
+                                        <connections>
+                                            <outlet property="listNameLabel" destination="VLD-me-p3d" id="Gct-iI-JNp"/>
+                                            <segue destination="vF3-Ae-Sve" kind="show" id="SsA-Hg-som"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="s9b-KE-Eo7"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hT6-Q6-cYP">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="WLH-cb-an5">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cvf-TF-pxz">
+                                <rect key="frame" x="329" y="0.0" width="30" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="34"/>
+                                <state key="normal" title="+"/>
+                                <connections>
+                                    <action selector="addShoppingList:" destination="of5-nY-fJ9" eventType="touchUpInside" id="vHA-ji-IUf"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="shopListsTableView" destination="6aA-3x-pKw" id="LBS-ui-oHs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zRc-1r-RY6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3736.8000000000002" y="1432.5337331334333"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="2wp-5J-H3L">
+            <objects>
+                <viewController id="vF3-Ae-Sve" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ubh-dp-sCV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="W54-cK-BnM">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Gsn-l6-K7U">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gsn-l6-K7U" id="cpX-dr-7in">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="List item name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bJ-YM-TSB">
+                                                    <rect key="frame" x="15" y="11" width="149" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="D00-j9-lLr"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="FCB-Sl-3uw">
+                        <barButtonItem key="rightBarButtonItem" title="+" style="plain" id="vbJ-v4-nzy">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="r5a-Jp-G96">
+                                <rect key="frame" x="329" y="0.0" width="30" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="34"/>
+                                <state key="normal" title="+"/>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="RhE-wR-sUY" id="TnJ-YW-Ybq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hvw-bz-9wb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="RhE-wR-sUY">
+                    <connections>
+                        <outlet property="delegate" destination="vF3-Ae-Sve" id="XZC-bV-ob0"/>
+                        <outlet property="searchContentsController" destination="vF3-Ae-Sve" id="eQJ-08-nGu"/>
+                        <outlet property="searchResultsDataSource" destination="vF3-Ae-Sve" id="lp0-Ps-PXw"/>
+                        <outlet property="searchResultsDelegate" destination="vF3-Ae-Sve" id="lId-XG-UcJ"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="4444" y="1432.5337331334333"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Mqb-3V-BQR">
+            <objects>
+                <navigationController id="PsI-J4-8fB" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" id="eWo-2t-cHg"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="F0G-nJ-d9i">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="of5-nY-fJ9" kind="relationship" relationship="rootViewController" id="kwG-nn-P5r"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AqO-xD-Mf8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3052" y="1433"/>
         </scene>
         <!--Add Food To Space View Controller-->
         <scene sceneID="Xvl-8D-Wo0">

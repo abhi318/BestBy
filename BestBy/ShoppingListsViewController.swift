@@ -23,10 +23,15 @@ class ShoppingListsViewController: UIViewController {
             
             let listRef = self.ref.child("AllShoppingLists").childByAutoId()
             
-            self.ref.child("FoodListInfo/\(listRef.key)/name").setValue(text)
-            self.ref.child("FoodListInfo/\(listRef.key)/sharedWith/\(currentUser.shared.ID!)").setValue(true)
-            self.ref.child("Users/\(currentUser.shared.ID!)/UserShoppingListIDs/\(listRef.key)").setValue(true)
-            self.ref.child("AllFoodLists/\(listRef.key)").setValue(true)
+            self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
+            self.ref.child("AllShoppingLists/\(listRef.key)").setValue(text)
+            
+            currentUser.shared.shoppingListIDs.append(listRef.key)
+            
+            currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
+            currentUser.shared.allShoppingLists[listRef.key]!.name = text
+            
+            self.shopListsTableView.reloadData()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -39,6 +44,7 @@ class ShoppingListsViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,13 +75,15 @@ class ShoppingListsViewController: UIViewController {
 
 extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return currentUser.shared.allShoppingLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "shopListID") as? ShoppingListCellTableViewCell
         
-        let name = "Walmart Shopping List"
+        let listID = currentUser.shared.shoppingListIDs[indexPath.item]
+        let list_for_row = currentUser.shared.allShoppingLists[listID]
+        let name = list_for_row?.name
         cell?.listNameLabel.text = name
         return cell!
     }

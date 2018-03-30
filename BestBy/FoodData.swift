@@ -33,3 +33,22 @@ class FoodList {
     var name: String?
     var contents: [FoodItem] = []
 }
+
+class ListItem {
+    var ID: String
+    var name: String
+    
+    init(id: String, n: String) {
+        ID = id
+        name = n
+    }
+    
+    static func ==(lhs: ListItem, rhs: ListItem) -> Bool {
+        return (lhs.ID == rhs.ID)
+    }
+}
+
+class ShoppingList {
+    var name: String?
+    var contents: [ListItem] = []
+}

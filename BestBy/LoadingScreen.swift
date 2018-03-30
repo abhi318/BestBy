@@ -101,6 +101,16 @@ class LoadingScreen: UIViewController {
 
             }
             
+            if (userInfo["ShoppingLists"] != nil) {
+                currentUser.shared.shoppingListIDs = Array((userInfo["ShoppingLists"] as! [String:String]).keys)
+                var j = 0
+                for shoppingListID in currentUser.shared.shoppingListIDs {
+                    currentUser.shared.allShoppingLists[shoppingListID] = ShoppingList()
+                    currentUser.shared.allShoppingLists[shoppingListID]?.name = Array((userInfo["ShoppingLists"] as! [String:String]).values)[j]
+                    j+=1
+                }
+            }
+            
             userRef.removeAllObservers()
             self.observeAllList(at: currentUser.shared.allFoodListID!)
             DispatchQueue.global(qos: .background).async {
