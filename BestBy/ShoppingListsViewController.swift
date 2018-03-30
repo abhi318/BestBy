@@ -13,6 +13,9 @@ class ShoppingListsViewController: UIViewController {
     
     var ref: DatabaseReference!
     
+    var selectedListID: String!
+    var selectedListName: String!
+    
     @IBOutlet weak var shopListsTableView: UITableView!
     
     @IBAction func addShoppingList(_ sender: Any) {
@@ -24,7 +27,7 @@ class ShoppingListsViewController: UIViewController {
             let listRef = self.ref.child("AllShoppingLists").childByAutoId()
             
             self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
-            self.ref.child("AllShoppingLists/\(listRef.key)").setValue(text)
+            //self.ref.child("AllShoppingLists/\(listRef.key)").setValue(text)
             
             currentUser.shared.shoppingListIDs.append(listRef.key)
             
@@ -62,14 +65,20 @@ class ShoppingListsViewController: UIViewController {
     }
     
     
-    /*
      // MARK: - Navigation
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueToShoppingList" {
+            if let destinationVC = segue.destination as? AddToShopListViewController {
+                let key1 = selectedListID
+                let key2 = selectedListName
+                destinationVC.currentListID = key1
+                destinationVC.currentListName = key2
+            }
+        }
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
      }
-     */
     
 }
 
@@ -88,6 +97,13 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
         return cell!
     }
     
-    
-    
+    func tableView(_ tableView: UITableView,
+                            willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let listID = currentUser.shared.shoppingListIDs[indexPath.item]
+        let list_for_row = currentUser.shared.allShoppingLists[listID]
+        let name = list_for_row?.name
+        selectedListID = listID
+        selectedListName = name
+        return indexPath
+    }
 }

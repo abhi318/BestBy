@@ -113,11 +113,26 @@ class LoadingScreen: UIViewController {
             
             userRef.removeAllObservers()
             self.observeAllList(at: currentUser.shared.allFoodListID!)
+            self.observeEachShoppingList()
             DispatchQueue.global(qos: .background).async {
                 group.wait()
                 group.signal()
             }
         })
+
+    }
+    
+    func observeEachShoppingList() {
+        for shoppingListID in currentUser.shared.shoppingListIDs {
+            let ref: DatabaseReference = Database.database().reference().child("AllShoppingLists/\(shoppingListID)")
+            ref.observe(.childAdded, with: {snapshot in
+                let foodInfo = snapshot.value as! [String:Any]
+                let newListItem = ListItem(id: snapshot.key,
+                                           n: foodInfo["name"] as! String,
+                                           amt: foodInfo["amount"] as! Int)
+                currentUser.shared.allShoppingLists[shoppingListID]!.contents.append(newListItem)
+            })
+        }
 
     }
     func observeAllList(at: String) {

@@ -37,10 +37,12 @@ class FoodList {
 class ListItem {
     var ID: String
     var name: String
+    var amount: Int
     
-    init(id: String, n: String) {
+    init(id: String, n: String, amt: Int) {
         ID = id
         name = n
+        amount = amt
     }
     
     static func ==(lhs: ListItem, rhs: ListItem) -> Bool {
