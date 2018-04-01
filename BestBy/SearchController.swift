@@ -77,7 +77,7 @@ class SearchController: UIViewController {
             ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(foodAdded)").setValue(daysToExpire)
         }
         
-        if daysToExpire < 0 {
+        if daysToExpire <= 0 {
             daysToExpire = 10000
         }
         
@@ -92,9 +92,11 @@ class SearchController: UIViewController {
                     "timestamp" : doe,
                     "spaceID": presenter.currentListID,
                     "spaceName" : presenter.currentListName] as [String : Any]
-        ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
         
-        getNotificationForDay(on: dateOfExpiration!, foodName: foodAdded)
+        ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
+        if daysToExpire < 1000 {
+            getNotificationForDay(on: dateOfExpiration!, foodName: foodAdded)
+        }
         self.dismiss(animated: true, completion: nil)
         
     }

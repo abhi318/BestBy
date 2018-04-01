@@ -21,8 +21,8 @@ class AddToShopListViewController: UIViewController {
     var mustDelete = false
     
     @IBAction func shareSheetClicked(_ sender: Any) {
-        let shareContent = currentListID
-        let activityViewController = UIActivityViewController(activityItems: [shareContent!], applicationActivities: nil)
+        let shareContent = "\(Auth.auth().currentUser!.email!) shared a shopping list with you: \n\(currentListID!)"
+        let activityViewController = UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
         present(activityViewController, animated: true)
     }
     

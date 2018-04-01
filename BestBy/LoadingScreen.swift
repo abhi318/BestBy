@@ -197,7 +197,7 @@ class LoadingScreen: UIViewController {
             self.childAddedSema.wait()
             ref.observe(.childAdded, with: {snapshot in
                 let foodInfo = snapshot.value as! [String:Any]
-                print("info: /(foodInfo)")
+                print("info: \(foodInfo)")
 
                 if(!added.contains(snapshot.key)) {
                     let newFoodItem = FoodItem(id: snapshot.key,

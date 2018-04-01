@@ -63,6 +63,9 @@ class FoodCollectionController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = "Your Food"
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

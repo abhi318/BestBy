@@ -1431,6 +1431,7 @@
                         <viewLayoutGuide key="safeArea" id="UFN-3y-viw"/>
                     </view>
                     <connections>
+                        <outlet property="daysLabel" destination="jfQ-og-CLG" id="xcy-Gn-lf2"/>
                         <outlet property="days_picker" destination="9M5-fW-lUq" id="vgS-Yo-piX"/>
                         <outlet property="food_desc_label" destination="ja0-B3-Mfk" id="GS9-h3-iaE"/>
                         <outlet property="food_img" destination="OlF-7j-RjZ" id="Y7S-v6-8Nb"/>

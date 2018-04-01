@@ -22,6 +22,8 @@ class AddFoodToSpaceViewController: UIViewController {
     @IBOutlet weak var space_picker: UIPickerView!
     @IBOutlet weak var days_picker: UIPickerView!
     
+    @IBOutlet weak var daysLabel: UILabel!
+    
     var selected_food:String!
     var selected_food_ID: String!
     var shoppingListID: String!
@@ -41,7 +43,11 @@ class AddFoodToSpaceViewController: UIViewController {
         days_picker.delegate = self
         days_picker.dataSource = self
         
+        daysLabel.isHidden = false
+        days_picker.isHidden = false
+        
         if from == "ShoppingListsViewController" {
+            daysLabel.isHidden = true
             days_picker.isHidden = true
         }
         
@@ -74,7 +80,7 @@ class AddFoodToSpaceViewController: UIViewController {
                     ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(i.name)").setValue(daysToExpire)
                 }
                 
-                if daysToExpire < 0 {
+                if daysToExpire <= 0 {
                     daysToExpire = 10000
                 }
                 
@@ -97,8 +103,9 @@ class AddFoodToSpaceViewController: UIViewController {
                             "spaceName" : currentListName as Any] as [String : Any]
                 
                 ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
-                
-                getNotificationForDay(on: dateOfExpiration!, foodName: selected_food)
+                if daysToExpire < 1000 {
+                    getNotificationForDay(on: dateOfExpiration!, foodName: selected_food)
+                }
             }
             days_picker.isHidden = false
 

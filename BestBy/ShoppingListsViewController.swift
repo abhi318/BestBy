@@ -27,9 +27,10 @@ class ShoppingListsViewController: UIViewController {
             guard let textField = alert.textFields?.first,
                 let text = textField.text else { return }
             
-            Database.database().reference().child("AllShoppingLists").observeSingleEvent(of: .value, with: { (snapshot) in
-                if snapshot.hasChild(text){
-                    self.inListName = (snapshot.value as! [String: Any])["name"] as! String
+            Database.database().reference().child("AllShoppingLists/\(text)").observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.exists(){
+                    let info = (snapshot.value as! [String: Any])
+                    self.inListName = info["name"] as! String
                     self.inList = true
                 }
                 self.sema.signal()
@@ -43,8 +44,8 @@ class ShoppingListsViewController: UIViewController {
                 }
                 else {
                     let listRef = self.ref.child("AllShoppingLists").childByAutoId()
+                    listRef.child("name").setValue(text)
                     
-                    //listRef.setValue(["name": text])
                     self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
 
                     currentUser.shared.shoppingListIDs.append(listRef.key)
@@ -53,9 +54,10 @@ class ShoppingListsViewController: UIViewController {
                     currentUser.shared.allShoppingLists[listRef.key]!.name = text
                     
                     self.observeShoppingList(at: listRef.key)
-                    DispatchQueue.main.async {
-                        self.shopListsTableView.reloadData()
-                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.shopListsTableView.reloadData()
                 }
             }
         }
@@ -81,8 +83,6 @@ class ShoppingListsViewController: UIViewController {
         currentUser.shared.allShoppingLists[listRef.key]!.name = inListName
         
         self.observeShoppingList(at: listRef.key)
-        
-        self.shopListsTableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -92,6 +92,8 @@ class ShoppingListsViewController: UIViewController {
         
         self.shopListsTableView.delegate = self
         self.shopListsTableView.dataSource = self
+        
+        self.navigationItem.title = "Shopping Lists"
         
         // Do any additional setup after loading the view.
     }
@@ -195,7 +197,7 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
         }
         
         let share = UITableViewRowAction(style: .normal, title: "Share") { (action, indexPath) in
-            let shareContent = listID
+            let shareContent = "\(Auth.auth().currentUser!.email!) is shared a shopping list with you: \n\(listID)" 
             let activityViewController = UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
             self.present(activityViewController, animated: true)
         }
