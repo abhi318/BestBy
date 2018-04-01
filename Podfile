@@ -9,6 +9,7 @@ target 'BestBy' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
+  pod 'UIEmptyState'
   
   # card layout for spaces
   # pod 'HFCardCollectionViewLayout'

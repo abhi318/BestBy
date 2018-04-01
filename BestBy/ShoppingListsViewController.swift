@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import UIEmptyState
 
 class ShoppingListsViewController: UIViewController {
     
@@ -22,6 +23,10 @@ class ShoppingListsViewController: UIViewController {
     @IBOutlet weak var shopListsTableView: UITableView!
     
     @IBAction func addShoppingList(_ sender: Any) {
+        addList()
+    }
+    
+    func addList() {
         let alert = UIAlertController(title: "Add a New List", message: "Give it a name", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Add", style: .default) { _ in
             guard let textField = alert.textFields?.first,
@@ -38,7 +43,7 @@ class ShoppingListsViewController: UIViewController {
             
             DispatchQueue.global(qos: .background).async {
                 self.sema.wait()
-            
+                
                 if self.inList {
                     self.loadShoppingList(at: text)
                 }
@@ -47,7 +52,7 @@ class ShoppingListsViewController: UIViewController {
                     listRef.child("name").setValue(text)
                     
                     self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
-
+                    
                     currentUser.shared.shoppingListIDs.append(listRef.key)
                     
                     currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
@@ -93,9 +98,18 @@ class ShoppingListsViewController: UIViewController {
         self.shopListsTableView.delegate = self
         self.shopListsTableView.dataSource = self
         
+        self.emptyStateDataSource = self
+        self.emptyStateDelegate = self
+        
+        shopListsTableView.tableFooterView = UIView(frame: CGRect.zero)
+        
         self.navigationItem.title = "Shopping Lists"
         
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.reloadEmptyStateForTableView(shopListsTableView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,7 +130,6 @@ class ShoppingListsViewController: UIViewController {
             if snapshot.key != "name" {
                 let newListItem = ListItem(id: snapshot.key,
                                            n: foodInfo)
-                
                 currentUser.shared.allShoppingLists[at]!.contents.append(newListItem)
             }
             
@@ -205,4 +218,40 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
         return [delete, addToSpace, share]
     }
     
+}
+
+extension ShoppingListsViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {
+    
+    var emptyStateImage: UIImage? {
+        return UIImage(named: "list")
+    }
+    
+    var emptyStateTitle: NSAttributedString {
+        let attrs = [NSAttributedStringKey.foregroundColor: UIColor.darkGray,
+                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 22)]
+        return NSAttributedString(string: "No Shopping Lists Yet", attributes: attrs)
+    }
+    
+    var emptyStateButtonTitle: NSAttributedString? {
+        let attrs = [NSAttributedStringKey.foregroundColor: UIColor.white,
+                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)]
+        return NSAttributedString(string: "Make One", attributes: attrs)
+    }
+    
+    var emptyStateButtonSize: CGSize? {
+        return CGSize(width: 100, height: 40)
+    }
+    
+    func emptyStateViewWillShow(view: UIView) {
+        guard let emptyView = view as? UIEmptyStateView else { return }
+        
+        emptyView.button.layer.cornerRadius = 5
+        emptyView.button.layer.borderWidth = 1
+        emptyView.button.layer.borderColor = gradient[4].cgColor
+        emptyView.button.layer.backgroundColor = gradient[2].cgColor
+    }
+    
+    func emptyStatebuttonWasTapped(button: UIButton) {
+        addList()
+    }
 }
