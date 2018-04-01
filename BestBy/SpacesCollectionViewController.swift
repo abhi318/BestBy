@@ -191,8 +191,9 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         
         let ratio = 1 - Double(indexPath.row)/Double(currentUser.shared.allSpaces.count)
         
-        cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor(red: 0.75 * CGFloat(ratio), green: (0.9 - 0.631) * CGFloat(ratio) + 0.631, blue: (0.45 - 0.196) * CGFloat(ratio) + 0.196, alpha: 1.0).cgColor
+//        cell.layer.borderWidth = 1
+//        
+//        cell.layer.borderColor = UIColor(red: 0.75 * CGFloat(ratio), green: (0.9 - 0.631) * CGFloat(ratio) + 0.631, blue: (0.45 - 0.196) * CGFloat(ratio) + 0.196, alpha: 1.0).cgColor
         
         cell.collectionOfFoods?.backgroundColor = UIColor(named:"clear")
         

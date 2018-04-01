@@ -14,6 +14,11 @@ class ProfileViewController: UIViewController {
     
     var ref: DatabaseReference!
     
+    @IBOutlet weak var b1: UIButton!
+    @IBOutlet weak var b2: UIButton!
+    @IBOutlet weak var b3: UIButton!
+    @IBOutlet weak var b4: UIButton!
+    
     @IBOutlet weak var username: UILabel!
     @IBAction func contactUsClicked(_ sender: Any) {
         
@@ -81,6 +86,11 @@ class ProfileViewController: UIViewController {
         
         ref = Database.database().reference()
         username.text = Auth.auth().currentUser?.email
+        
+        b1.backgroundColor = gradient[4].withAlphaComponent(0.7)
+        b2.backgroundColor = gradient[3].withAlphaComponent(0.7)
+        b3.backgroundColor = gradient[2].withAlphaComponent(0.7)
+        b4.backgroundColor = gradient[1].withAlphaComponent(0.7)
     }
     
     override func didReceiveMemoryWarning() {

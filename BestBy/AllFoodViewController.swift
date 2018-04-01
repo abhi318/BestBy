@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 import UIKit
-
+import UIEmptyState
 
 
 class AllFoodViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
@@ -35,6 +35,10 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
         
+        self.emptyStateDataSource = self
+        self.emptyStateDelegate = self
+        
+        allFoodTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,6 +47,11 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         DispatchQueue.main.async{
             self.allFoodTableView.reloadData()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.reloadEmptyStateForTableView(allFoodTableView)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,11 +127,54 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
             currentUser.shared.allSpaces[self.currentListID]!.contents.remove(at: indexPath.row)
             Database.database().reference().child("AllFoodLists/\(self.currentListID!)/\(id.ID)").removeValue()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            self.reloadEmptyStateForTableView(self.allFoodTableView)
         }
         
         return [delete]
     }
 }
+
+extension AllFoodViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {
+    
+    var emptyStateImage: UIImage? {
+        return UIImage(named: "items")
+    }
+    
+    var emptyStateTitle: NSAttributedString {
+        let attrs = [NSAttributedStringKey.foregroundColor: UIColor.darkGray,
+                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 22)]
+        if currentListName == "All" {
+            return NSAttributedString(string: "No Food Yet", attributes: attrs)
+        }
+        else {
+            return NSAttributedString(string: "No Food in \(currentListName!) Yet", attributes: attrs)
+        }
+    }
+    
+    var emptyStateButtonTitle: NSAttributedString? {
+        let attrs = [NSAttributedStringKey.foregroundColor: UIColor.white,
+                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)]
+        return NSAttributedString(string: "Add Some", attributes: attrs)
+    }
+    
+    var emptyStateButtonSize: CGSize? {
+        return CGSize(width: 100, height: 40)
+    }
+    
+    func emptyStateViewWillShow(view: UIView) {
+        guard let emptyView = view as? UIEmptyStateView else { return }
+        
+        emptyView.button.layer.cornerRadius = 5
+        emptyView.button.layer.borderWidth = 1
+        emptyView.button.layer.borderColor = gradient[3].cgColor
+        emptyView.button.layer.backgroundColor = gradient[2].cgColor
+    }
+    
+    func emptyStatebuttonWasTapped(button: UIButton) {
+        performSegue(withIdentifier: "search" , sender: self)
+    }
+}
+
 
 class FoodCell: UITableViewCell {
     

@@ -106,13 +106,15 @@ class SearchController: UIViewController {
         let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         center.getPendingNotificationRequests(completionHandler: { requests in
             for request in requests {
-                
-                let requestTriggerDate = (request.trigger as! UNCalendarNotificationTrigger).nextTriggerDate()
-                
-                let order = calendar.compare(requestTriggerDate!, to: on, toGranularity: .day)
-                if order.rawValue == 0 {
-                    self.addRequest(calendar: calendar, request: request, center: center, foodName: foodName, date: on)
-                    return
+                if let requestTriggerDate = (request.trigger as! UNCalendarNotificationTrigger).nextTriggerDate() {
+                    let order = calendar.compare(requestTriggerDate, to: on, toGranularity: .day)
+                    if order.rawValue == 0 {
+                        self.addRequest(calendar: calendar, request: request, center: center, foodName: foodName, date: on)
+                        return
+                    }
+                }
+                else {
+                    center.removePendingNotificationRequests(withIdentifiers: [request.identifier])
                 }
             }
             self.addRequest(calendar: calendar, request: nil, center: center, foodName: foodName, date: on)
@@ -131,7 +133,7 @@ class SearchController: UIViewController {
             
             
             var triggerDate = Calendar.current.dateComponents([.year,.month,.day], from: date)
-            identifier = "\(triggerDate.month)/\(triggerDate.day)/\(triggerDate.year)"
+            identifier = "\(triggerDate.month!)/\(triggerDate.day!)/\(triggerDate.year!)"
 
             triggerDate.hour = 9
             triggerDate.minute = 0

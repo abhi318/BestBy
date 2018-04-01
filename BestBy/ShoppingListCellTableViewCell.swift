@@ -11,6 +11,7 @@ import UIKit
 class ShoppingListCellTableViewCell: UITableViewCell {
 
     @IBOutlet weak var listNameLabel: UILabel!
+    @IBOutlet weak var newListTextField: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()

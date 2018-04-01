@@ -14,6 +14,7 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet weak var oldPassField: UITextField!
     @IBOutlet weak var newPassField: UITextField!
     @IBOutlet weak var confirmPassField: UITextField!
+    @IBOutlet weak var button: UIButton!
     
     @IBAction func changePassClicked(_ sender: Any) {
         let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
@@ -59,7 +60,7 @@ class ChangePasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        button.backgroundColor = gradient[2].withAlphaComponent(0.7)
         // Do any additional setup after loading the view.
     }
 

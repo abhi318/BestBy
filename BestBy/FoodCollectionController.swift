@@ -63,9 +63,11 @@ class FoodCollectionController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.title = "Your Food"
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.title = "All Items"
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -110,7 +112,10 @@ class FoodCollectionController: UICollectionViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String,
                             sender: Any?) -> Bool {
-        if self.navigationItem.title == "" || self.navigationItem.title == nil {
+        if identifier == "profile" {
+            return true
+        }
+        if self.navigationItem.title == "All Items" || self.navigationItem.title == nil {
             return false
         } else {
             return true
@@ -122,7 +127,12 @@ class FoodCollectionController: UICollectionViewController {
             if let destinationVC = segue.destination as? AddFoodToSpaceViewController {
                 let key = self.navigationItem.title
                 destinationVC.selected_food = key
-                self.navigationItem.title = ""
+            }
+        }
+        if segue.identifier == "addFoodToList" {
+            if let destinationVC = segue.destination as? AddFoodToListFromCollectionViewController {
+                let key = self.navigationItem.title
+                destinationVC.selected_food = key
             }
         }
     }

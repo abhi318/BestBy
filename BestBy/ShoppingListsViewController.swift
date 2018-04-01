@@ -5,12 +5,56 @@
 //  Created by Erin Jensby on 2/27/18.
 //
 
+/*
+ <<<<<<< HEAD
+ addList()
+ }
+ 
+ func addList() {
+ let alert = UIAlertController(title: "Add a New List", message: "Give it a name", preferredStyle: .alert)
+ let saveAction = UIAlertAction(title: "Add", style: .default) { _ in
+ guard let textField = alert.textFields?.first,
+ let text = textField.text else { return }
+ 
+ Database.database().reference().child("AllShoppingLists/\(text)").observeSingleEvent(of: .value, with: { (snapshot) in
+ if snapshot.exists(){
+ let info = (snapshot.value as! [String: Any])
+ self.inListName = info["name"] as! String
+ self.inList = true
+ }
+ self.sema.signal()
+ })
+ 
+ DispatchQueue.global(qos: .background).async {
+ self.sema.wait()
+ 
+ if self.inList {
+ self.loadShoppingList(at: text)
+ }
+ else {
+ let listRef = self.ref.child("AllShoppingLists").childByAutoId()
+ listRef.child("name").setValue(text)
+ 
+ self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
+ 
+ currentUser.shared.shoppingListIDs.append(listRef.key)
+ 
+ currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
+ currentUser.shared.allShoppingLists[listRef.key]!.name = text
+ 
+ self.observeShoppingList(at: listRef.key)
+ }
+ =======
+ */
+
+
+
 import UIKit
 import Firebase
 import FirebaseDatabase
 import UIEmptyState
 
-class ShoppingListsViewController: UIViewController {
+class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     var ref: DatabaseReference!
     
@@ -20,62 +64,61 @@ class ShoppingListsViewController: UIViewController {
     var inListName = ""
     var sema = DispatchSemaphore(value: 0)
     
+    var isCreatingNewList = false
+    
     @IBOutlet weak var shopListsTableView: UITableView!
-    
     @IBAction func addShoppingList(_ sender: Any) {
-        addList()
+        isCreatingNewList = true
+        shopListsTableView.reloadData()
+        self.reloadEmptyStateForTableView(shopListsTableView)
     }
-    
-    func addList() {
-        let alert = UIAlertController(title: "Add a New List", message: "Give it a name", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Add", style: .default) { _ in
-            guard let textField = alert.textFields?.first,
-                let text = textField.text else { return }
+
+    func textFieldShouldReturn(_ textF: UITextField) -> Bool {
+        let text = textF.text
+        Database.database().reference().child("AllShoppingLists/\(String(describing: text))").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists(){
+                let info = (snapshot.value as! [String: Any])
+                self.inListName = info["name"] as! String
+                self.inList = true
+            }
+            self.sema.signal()
+        })
+        
+        DispatchQueue.global(qos: .background).async {
+            self.sema.wait()
             
-            Database.database().reference().child("AllShoppingLists/\(text)").observeSingleEvent(of: .value, with: { (snapshot) in
-                if snapshot.exists(){
-                    let info = (snapshot.value as! [String: Any])
-                    self.inListName = info["name"] as! String
-                    self.inList = true
-                }
-                self.sema.signal()
-            })
+            if self.inList {
+                self.loadShoppingList(at: text!)
+            }
+            else {
+                let listRef = self.ref.child("AllShoppingLists").childByAutoId()
+                listRef.child("name").setValue(text)
+                
+                self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
+                
+                currentUser.shared.shoppingListIDs.append(listRef.key)
+                
+                currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
+                currentUser.shared.allShoppingLists[listRef.key]!.name = text
+                
+                self.observeShoppingList(at: listRef.key)
+            }
             
-            DispatchQueue.global(qos: .background).async {
-                self.sema.wait()
-                
-                if self.inList {
-                    self.loadShoppingList(at: text)
-                }
-                else {
-                    let listRef = self.ref.child("AllShoppingLists").childByAutoId()
-                    listRef.child("name").setValue(text)
-                    
-                    self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
-                    
-                    currentUser.shared.shoppingListIDs.append(listRef.key)
-                    
-                    currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
-                    currentUser.shared.allShoppingLists[listRef.key]!.name = text
-                    
-                    self.observeShoppingList(at: listRef.key)
-                }
-                
-                DispatchQueue.main.async {
-                    self.shopListsTableView.reloadData()
-                }
+            DispatchQueue.main.async {
+                self.shopListsTableView.reloadData()
+                self.reloadEmptyStateForTableView(self.shopListsTableView)
+
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: .default)
+        isCreatingNewList = false
+        textF.isHidden = true
+        textF.resignFirstResponder()
         
-        alert.addTextField()
+        self.shopListsTableView.reloadData()
+        self.reloadEmptyStateForTableView(self.shopListsTableView)
         
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
+        return false
     }
     
     func loadShoppingList(at: String) {
@@ -98,6 +141,9 @@ class ShoppingListsViewController: UIViewController {
         self.shopListsTableView.delegate = self
         self.shopListsTableView.dataSource = self
         
+        self.shopListsTableView.allowsSelection = true
+
+        
         self.emptyStateDataSource = self
         self.emptyStateDelegate = self
         
@@ -105,7 +151,17 @@ class ShoppingListsViewController: UIViewController {
         
         self.navigationItem.title = "Shopping Lists"
         
+        isCreatingNewList = false
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SignInViewController.dismissKeyboard))
+        tap.delegate = self
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
+
+//    @objc func tapOut(_ sender : Any?){
+//        self.dismissKeyboard()
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -132,8 +188,23 @@ class ShoppingListsViewController: UIViewController {
                                            n: foodInfo)
                 currentUser.shared.allShoppingLists[at]!.contents.append(newListItem)
             }
-            
         })
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view?.isKind(of: UIControl.self))! {
+            return false
+        }
+        isCreatingNewList = false
+        shopListsTableView.reloadData()
+        self.dismissKeyboard()
+        self.reloadEmptyStateForTableView(shopListsTableView)
+
+        return true
     }
     
      // MARK: - Navigation
@@ -147,24 +218,42 @@ class ShoppingListsViewController: UIViewController {
                 destinationVC.currentListName = key2
             }
         }
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
      }
     
 }
 
 extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isCreatingNewList {
+            return currentUser.shared.allShoppingLists.count + 1
+        }
         return currentUser.shared.allShoppingLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "shopListID") as? ShoppingListCellTableViewCell
         
-        let listID = currentUser.shared.shoppingListIDs[indexPath.item]
-        let list_for_row = currentUser.shared.allShoppingLists[listID]
-        let name = list_for_row?.name
-        cell?.listNameLabel.text = name
+        if isCreatingNewList {
+            if indexPath.item + 1 == tableView.numberOfRows(inSection: 0) {
+                cell?.newListTextField.delegate = self
+                cell?.listNameLabel.text = ""
+                cell?.newListTextField.isHidden = false
+                cell?.newListTextField.becomeFirstResponder()
+            } else {
+                let listID = currentUser.shared.shoppingListIDs[indexPath.item]
+                let list_for_row = currentUser.shared.allShoppingLists[listID]
+                let name = list_for_row?.name
+                cell?.listNameLabel.text = name
+                cell?.newListTextField.isHidden = true
+            }
+        } else {
+            let listID = currentUser.shared.shoppingListIDs[indexPath.item]
+            let list_for_row = currentUser.shared.allShoppingLists[listID]
+            let name = list_for_row?.name
+            cell?.listNameLabel.text = name
+            cell?.newListTextField.isHidden = true
+
+        }
         return cell!
     }
     
@@ -189,6 +278,7 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
             
             Database.database().reference().child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listID)").removeValue()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            self.reloadEmptyStateForTableView(tableView)
         }
         
         let addToSpace = UITableViewRowAction(style: .normal, title: "Add") { (action, indexPath) in
@@ -210,7 +300,7 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
         }
         
         let share = UITableViewRowAction(style: .normal, title: "Share") { (action, indexPath) in
-            let shareContent = "\(Auth.auth().currentUser!.email!) is shared a shopping list with you: \n\(listID)" 
+            let shareContent = "\(Auth.auth().currentUser!.email!) shared a shopping list with you: \n\(listID)"
             let activityViewController = UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
             self.present(activityViewController, animated: true)
         }
@@ -252,6 +342,8 @@ extension ShoppingListsViewController: UIEmptyStateDataSource, UIEmptyStateDeleg
     }
     
     func emptyStatebuttonWasTapped(button: UIButton) {
-        addList()
+        isCreatingNewList = true
+        shopListsTableView.reloadData()
+        self.reloadEmptyStateForTableView(shopListsTableView)
     }
 }
