@@ -27,26 +27,21 @@ final class currentUser {
     
     //every food the user has
     var allFoodListID: String?
-    var allFood: [String] = [String]()
     
     //all the shopping list IDs
     var allShoppingLists: [String:ShoppingList] = [String:ShoppingList]()
     var shoppingListIDs: [String] = [String]()
     
-    //current space ID, "" or nil if a space isnt selected
-    var currentSpace: String?
-    var allSpaces: [String:FoodList] = [String:FoodList]()    //all the spaces the user has
+    //all the spaces the user has, with key FireBase ListID
+    var allSpaces: [String:FoodList] = [String:FoodList]()
     var otherFoodListIDs: [String] = [String]()
     
     func clear() {
         ID = nil
         userRef = nil
-        allFood.removeAll()
         allFoodListID = nil
         allShoppingLists.removeAll()
-        currentSpace = nil
         allSpaces.removeAll()
         otherFoodListIDs.removeAll()
     }
-    
 }

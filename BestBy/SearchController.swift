@@ -71,10 +71,13 @@ class SearchController: UIViewController {
         var daysToExpire = weeksPicker.selectedRow(inComponent: 0)
         
         if FoodData.food_data[foodAdded] == nil {
-            FoodData.food_data[foodAdded] = (((daysToExpire == 0) ? -2 : daysToExpire), "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
+            daysToExpire = ((daysToExpire == 0) ? -2 : daysToExpire)
+            FoodData.food_data[foodAdded] = (daysToExpire, "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
+            
+            ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(foodAdded)").setValue(daysToExpire)
         }
         
-        if FoodData.food_data[foodAdded]!.0 < 0 {
+        if daysToExpire < 0 {
             daysToExpire = 10000
         }
         
@@ -248,10 +251,14 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
             filteredFood = all_foods
         }
         let name_of_food = filteredFood[indexPath.row]
-        let time_to_expire = FoodData.food_data[name_of_food]?.0
+        var time_to_expire = FoodData.food_data[name_of_food]!.0
         foodBeingAdded.text = filteredFood[indexPath.row]
         
-        weeksPicker.selectRow(time_to_expire!, inComponent: 0, animated: true)
+        if time_to_expire < 0 {
+            time_to_expire = 0
+        }
+        
+        weeksPicker.selectRow(time_to_expire, inComponent: 0, animated: true)
     }
     
 }

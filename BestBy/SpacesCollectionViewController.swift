@@ -19,7 +19,6 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         self.textField.becomeFirstResponder()
     }
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var newSpaceButton: UIView!
     
     var startLocation: CGPoint = CGPoint.zero
     var ref: DatabaseReference!
@@ -140,18 +139,18 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
             newSpace.isHidden = true
             textField.isEnabled = true
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height - 50
+                self.view.frame.origin.y -= keyboardSize.height - newSpace.frame.height
             }
         }
     }
 
     @objc func keyboardWillHide(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let _ = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             newSpace.isHidden = false
             textField.isEnabled = false
             textField.text = ""
             if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height - 50
+                self.view.frame.origin.y = 0
             }
         }
     }
@@ -227,6 +226,7 @@ class SpacesCollectionViewController: UIViewController, UICollectionViewDataSour
         }
 
         self.navigationController?.isNavigationBarHidden = false
+        
         _ = navigationController?.popViewController(animated: true)
     }
     

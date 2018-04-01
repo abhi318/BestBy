@@ -35,11 +35,11 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
         
-        //observeFoodList(at: currentListID)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        self.navigationItem.title = currentListName
+
         DispatchQueue.main.async{
             self.allFoodTableView.reloadData()
         }

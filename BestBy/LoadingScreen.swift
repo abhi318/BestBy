@@ -23,6 +23,8 @@ class LoadingScreen: UIViewController {
     var handle: AuthStateDidChangeListenerHandle?
     var done = false;
     var i = 0;
+    var childAddedSema = DispatchSemaphore(value: 0)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +58,11 @@ class LoadingScreen: UIViewController {
                 DispatchQueue.global(qos: .background).async {
                     group.wait()
                     everySingleFoodLoaded.wait()
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
-                    
-                    self.present(vc!, animated: true, completion: nil)
+                    everySingleFoodLoaded.wait()
+                    DispatchQueue.main.async{
+                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
+                        self.present(vc!, animated: true, completion: nil)
+                    }
                 }
             }
             else {
@@ -76,7 +80,22 @@ class LoadingScreen: UIViewController {
         
         loadAllUsersFood()
         loadEverySingleFood()
-
+        loadUsersExtraFood()
+    }
+    
+    func loadUsersExtraFood() {
+        let userRef: DatabaseReference = currentUser.shared.userRef!
+        userRef.child("ExtraFoods").observeSingleEvent(of: .value, with: { (snapshot) in
+            if !snapshot.exists() {
+                everySingleFoodLoaded.signal()
+                return
+            }
+            let extraItems = snapshot.value as! [String : Int]
+            for (item, doe) in extraItems {
+                FoodData.food_data[item] = (doe, "", UIImage(named: "groceries"))
+            }
+            everySingleFoodLoaded.signal()
+        })
     }
     
     func loadAllUsersFood() {
@@ -98,7 +117,6 @@ class LoadingScreen: UIViewController {
                     currentUser.shared.allSpaces[listID]?.name = Array((userInfo["Spaces"] as! [String:String]).values)[i]
                     i+=1
                 }
-
             }
             
             if (userInfo["ShoppingLists"] != nil) {
@@ -109,15 +127,10 @@ class LoadingScreen: UIViewController {
                     currentUser.shared.allShoppingLists[shoppingListID]?.name = Array((userInfo["ShoppingLists"] as! [String:String]).values)[j]
                     j+=1
                 }
+                self.observeEachShoppingList()
             }
             
-            userRef.removeAllObservers()
             self.observeAllList(at: currentUser.shared.allFoodListID!)
-            self.observeEachShoppingList()
-            DispatchQueue.global(qos: .background).async {
-                group.wait()
-                group.signal()
-            }
         })
 
     }
@@ -126,44 +139,92 @@ class LoadingScreen: UIViewController {
         for shoppingListID in currentUser.shared.shoppingListIDs {
             let ref: DatabaseReference = Database.database().reference().child("AllShoppingLists/\(shoppingListID)")
             ref.observe(.childAdded, with: {snapshot in
-                let foodInfo = snapshot.value as! [String:Any]
-                let newListItem = ListItem(id: snapshot.key,
-                                           n: foodInfo["name"] as! String,
-                                           amt: foodInfo["amount"] as! Int)
-                currentUser.shared.allShoppingLists[shoppingListID]!.contents.append(newListItem)
+                let foodInfo = snapshot.value as! String
+                if snapshot.key != "name" {
+                    let newListItem = ListItem(id: snapshot.key,
+                                               n: foodInfo)
+                    currentUser.shared.allShoppingLists[shoppingListID]!.contents.append(newListItem)
+                }
             })
         }
-
     }
     func observeAllList(at: String) {
         let ref: DatabaseReference = Database.database().reference().child("AllFoodLists/\(at)")
-        ref.observe(.childAdded, with: {snapshot in
-            let foodInfo = snapshot.value as! [String:Any]
-            let newFoodItem = FoodItem(id: snapshot.key,
-                                       n: foodInfo["name"] as! String,
-                                       t: foodInfo["timestamp"] as! Int)
-            if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
-                Database.database().reference().child("AllFoodLists/\(at)/\(snapshot.key)").removeValue()
+        var added: Set<String> = []
+        
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if !snapshot.exists() {
+                group.signal()
+                self.childAddedSema.signal()
+
                 return
             }
-            if (foodInfo["spaceName"] as! String != "All") {
-                currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.append(newFoodItem)
+            let allFoods = snapshot.value as! [String : [String : Any]]
+            
+            for (key, foodInfo) in allFoods {
+                print("info: \(foodInfo)")
                 
-                currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.sort() {
+                let newFoodItem = FoodItem(id: key,
+                                           n: foodInfo["name"] as! String,
+                                           t: foodInfo["timestamp"] as! Int)
+                added.insert(key)
+                
+                if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
+                    Database.database().reference().child("AllFoodLists/\(at)/\(snapshot.key)").removeValue()
+                    return
+                }
+                if (foodInfo["spaceName"] as! String != "All") {
+                    currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.append(newFoodItem)
+                    
+                    currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.sort() {
+                        $0.timestamp < $1.timestamp
+                    }
+                }
+                
+                currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.append(newFoodItem)
+                currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.name = foodInfo["spaceName"] as? String
+                
+                currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.sort() {
                     $0.timestamp < $1.timestamp
                 }
             }
-            
-            currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.append(newFoodItem)
-            currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.name = foodInfo["spaceName"] as? String
-            
-            currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.sort() {
-                $0.timestamp < $1.timestamp
-            }
+        
+            group.signal()
+            self.childAddedSema.signal()
         })
         
-        group.signal()
-        
+        DispatchQueue.global(qos: .background).async {
+            self.childAddedSema.wait()
+            ref.observe(.childAdded, with: {snapshot in
+                let foodInfo = snapshot.value as! [String:Any]
+                print("info: /(foodInfo)")
+
+                if(!added.contains(snapshot.key)) {
+                    let newFoodItem = FoodItem(id: snapshot.key,
+                                               n: foodInfo["name"] as! String,
+                                               t: foodInfo["timestamp"] as! Int)
+                    
+                    if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
+                        Database.database().reference().child("AllFoodLists/\(at)/\(snapshot.key)").removeValue()
+                        return
+                    }
+                    if (foodInfo["spaceName"] as! String != "All") {
+                        currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.append(newFoodItem)
+                        
+                        currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.sort() {
+                            $0.timestamp < $1.timestamp
+                        }
+                    }
+                    
+                    currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.append(newFoodItem)
+                    currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.name = foodInfo["spaceName"] as? String
+                    
+                    currentUser.shared.allSpaces[foodInfo["spaceID"] as! String]!.contents.sort() {
+                        $0.timestamp < $1.timestamp
+                    }
+                }
+            })
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

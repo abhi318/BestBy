@@ -45,6 +45,8 @@ class AddFoodToShopListViewController: UIViewController {
         self.amountPicker.delegate = self
         self.amountPicker.dataSource = self
         
+        self.amountPicker.selectRow(1, inComponent: 0, animated: true)
+        
         self.AllFoodsTableView.dataSource = self
         self.AllFoodsTableView.delegate = self
         
@@ -79,12 +81,11 @@ class AddFoodToShopListViewController: UIViewController {
         let foodAdded: String = nameLabel.text!
         let amount = amountPicker.selectedRow(inComponent: 0)
         
-        //post name of food, and seconds from reference date (jan 1, 2001) that it will expire
-        let post = ["name" : foodAdded,
-                    "amount" : amount] as [String : Any]
-        ref.child("AllShoppingLists/\(currentListID)").childByAutoId().setValue(post)
+        for _ in 0..<amount {
+            let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
+            ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(foodAdded)
+        }
         
-        //dismiss(animated: true, completion: nil)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -137,7 +138,6 @@ extension AddFoodToShopListViewController: UITableViewDelegate, UITableViewDataS
         }
         nameLabel.text = filteredFood[indexPath.row]
     }
-    
 }
 
 extension AddFoodToShopListViewController: UIPickerViewDelegate, UIPickerViewDataSource {

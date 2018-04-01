@@ -14,6 +14,7 @@ class ProfileViewController: UIViewController {
     
     var ref: DatabaseReference!
     
+    @IBOutlet weak var username: UILabel!
     @IBAction func contactUsClicked(_ sender: Any) {
         
         let contactAlert = UIAlertController(title: "", message: "Please sumbit your message below and we will email you with our response.", preferredStyle: UIAlertControllerStyle.alert)
@@ -56,11 +57,14 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func signoutButton(_ sender:Any) {
-        try! Auth.auth().signOut()
-        currentUser.shared.clear()
         let logOutAlert = UIAlertController(title: "", message: "Are you sure you want to log out?", preferredStyle: UIAlertControllerStyle.alert)
         let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
             (action: UIAlertAction) in
+            
+            try! Auth.auth().signOut()
+            currentUser.shared.clear()
+            FoodData.food_data.removeAll()
+            
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loadingScreen") as? LoadingScreen
             self.present(vc!, animated: true, completion: nil)
         }
@@ -76,6 +80,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         ref = Database.database().reference()
+        username.text = Auth.auth().currentUser?.email
     }
     
     override func didReceiveMemoryWarning() {

@@ -18,7 +18,14 @@ class AddToShopListViewController: UIViewController {
     
     var currentListID: String!
     var currentListName: String!
-
+    var mustDelete = false
+    
+    @IBAction func shareSheetClicked(_ sender: Any) {
+        let shareContent = currentListID
+        let activityViewController = UIActivityViewController(activityItems: [shareContent!], applicationActivities: nil)
+        present(activityViewController, animated: true)
+    }
+    
     @IBOutlet weak var shoppingListTableView: UITableView!
         
     override func viewDidLoad() {
@@ -32,6 +39,8 @@ class AddToShopListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         // this isn't getting info quick enough... fix this tomorrow
+        self.navigationItem.title = currentListName
+
         shoppingListTableView.reloadData()
     }
 
@@ -70,8 +79,30 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
 
         let foodItem = currentUser.shared.allShoppingLists[currentListID]!.contents[indexPath.row]
         cell.textLabel!.text = foodItem.name
-        cell.detailTextLabel?.text = String(foodItem.amount)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[indexPath.row]
+
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            currentUser.shared.allShoppingLists[self.currentListID]!.contents.remove(at: indexPath.row)
+            Database.database().reference().child("AllShoppingLists/\(self.currentListID!)/\(item.ID)").removeValue()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        let addToSpace = UITableViewRowAction(style: .normal, title: "Add") { (action, indexPath) in
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addItemToSpaces") as! AddFoodToSpaceViewController
+            vc.selected_food = item.name
+            vc.selected_food_ID = item.ID
+            vc.shoppingListID = self.currentListID
+            vc.idx = indexPath
+            vc.from = "AddToShopListViewController"
+            
+            self.show(vc, sender: self)
+        }
+        
+        return [delete, addToSpace]
     }
 }
 

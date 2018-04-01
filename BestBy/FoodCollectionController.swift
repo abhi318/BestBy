@@ -64,6 +64,13 @@ class FoodCollectionController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if(collectionView!.indexPathsForSelectedItems!.count > 0) {
+            let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) as! CollectionCell
+            cell.removeOverlay()
+        }
+    }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -101,9 +108,6 @@ class FoodCollectionController: UICollectionViewController {
     override func shouldPerformSegue(withIdentifier identifier: String,
                             sender: Any?) -> Bool {
         if self.navigationItem.title == "" || self.navigationItem.title == nil {
-            let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) as! CollectionCell
-            cell.removeOverlay()
-            //collectionView?.deselectItem(at: (collectionView?.indexPathsForSelectedItems![0])!, animated: true)
             return false
         } else {
             return true
@@ -111,8 +115,6 @@ class FoodCollectionController: UICollectionViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        
         if segue.identifier == "addFoodToSpace" {
             if let destinationVC = segue.destination as? AddFoodToSpaceViewController {
                 let key = self.navigationItem.title
@@ -120,19 +122,10 @@ class FoodCollectionController: UICollectionViewController {
                 self.navigationItem.title = ""
             }
         }
-        
-        //if segue.identifier == "addFoodToList" {
-            //if let destinationVC = segue.destination as?  {
-                //                destinationVC.location = loc
-            //}
-       // }
-
-
     }
 }
 
 extension FoodCollectionController: UICollectionViewDelegateFlowLayout {
-
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
