@@ -125,6 +125,14 @@ class FoodCollectionController: UICollectionViewController {
                 self.navigationItem.title = ""
             }
         }
+        if segue.identifier == "addFoodToList" {
+            if let destinationVC = segue.destination as? AddFoodToListFromCollectionViewController {
+                let key = self.navigationItem.title
+                destinationVC.selected_food = key
+                self.navigationItem.title = ""
+            }
+        }
+
     }
 }
 
