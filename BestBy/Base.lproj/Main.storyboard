@@ -1081,27 +1081,27 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopping List Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLD-me-p3d">
-                                                    <rect key="frame" x="15" y="11" width="345" height="22"/>
+                                                    <rect key="frame" x="8" y="8" width="360" height="27.5"/>
                                                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Give it a name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0jF-DA-B7i">
-                                                    <rect key="frame" x="15" y="11" width="345" height="22"/>
+                                                    <rect key="frame" x="23" y="19" width="329" height="6"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="top" secondItem="0jF-DA-B7i" secondAttribute="top" id="9Na-Lr-ZFC"/>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="bottom" secondItem="0jF-DA-B7i" secondAttribute="bottom" id="DNa-cL-CbY"/>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="trailing" secondItem="0jF-DA-B7i" secondAttribute="trailing" id="Fpp-XN-Luw"/>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="leading" secondItem="gUV-bX-nsH" secondAttribute="leadingMargin" id="LfC-AP-dte"/>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="trailing" secondItem="gUV-bX-nsH" secondAttribute="trailingMargin" id="oKu-Lz-4GI"/>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="leading" secondItem="0jF-DA-B7i" secondAttribute="leading" id="veS-zy-VSR"/>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="bottom" secondItem="gUV-bX-nsH" secondAttribute="bottomMargin" id="w4c-rV-s7t"/>
-                                                <constraint firstItem="VLD-me-p3d" firstAttribute="top" secondItem="gUV-bX-nsH" secondAttribute="topMargin" id="yLM-9m-vfW"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="0jF-DA-B7i" secondAttribute="trailing" constant="8" id="1Qc-9Z-ibS"/>
+                                                <constraint firstItem="VLD-me-p3d" firstAttribute="top" secondItem="gUV-bX-nsH" secondAttribute="top" constant="8" id="Asp-bJ-4OM"/>
+                                                <constraint firstItem="0jF-DA-B7i" firstAttribute="leading" secondItem="gUV-bX-nsH" secondAttribute="leadingMargin" constant="8" id="Jvs-yF-380"/>
+                                                <constraint firstItem="0jF-DA-B7i" firstAttribute="top" secondItem="gUV-bX-nsH" secondAttribute="topMargin" constant="8" id="RH5-Hd-Jcl"/>
+                                                <constraint firstItem="VLD-me-p3d" firstAttribute="leading" secondItem="gUV-bX-nsH" secondAttribute="leading" constant="8" id="kQq-Ww-Eeq"/>
+                                                <constraint firstAttribute="bottom" secondItem="VLD-me-p3d" secondAttribute="bottom" constant="8" id="lnD-Y3-XzK"/>
+                                                <constraint firstItem="VLD-me-p3d" firstAttribute="trailing" secondItem="gUV-bX-nsH" secondAttribute="trailingMargin" constant="8" id="oKu-Lz-4GI"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="0jF-DA-B7i" secondAttribute="bottom" constant="8" id="r3V-Ml-taa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration" identifier="shopListID"/>

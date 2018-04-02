@@ -72,7 +72,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         
-        var ratio = (CGFloat(daysLeft)/30.0)
+        var ratio = (CGFloat(daysLeft)/14.0)
 
         if ratio > 1 {
             ratio = 1

@@ -29,7 +29,7 @@ class CollectionCell: UICollectionViewCell {
     func overlayTimeRemaining(days: Int) {
         timeRemaining.frame = CGRect(x: 0, y: 0, width: self.frame.width * 1.1, height: self.frame.height * 1.1)
         timeRemaining.layer.cornerRadius = 10
-        var ratio = (CGFloat(days)/30.0)
+        var ratio = (CGFloat(days)/14.0)
         
         if ratio > 1 {
             ratio = 1
