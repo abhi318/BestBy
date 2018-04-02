@@ -1035,21 +1035,36 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="FY0-ah-F2u">
-                        <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="r6Q-YK-hVf">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="72s-OM-FUJ">
-                                <rect key="frame" x="16" y="6" width="44" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" style="plain" id="r6Q-YK-hVf">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="72s-OM-FUJ">
+                                    <rect key="frame" x="16" y="6" width="44" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
+                                    <color key="tintColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <state key="normal" title="+" image="fridgeSelected.png">
+                                        <color key="titleColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <segue destination="goB-fC-YB7" kind="show" identifier="addFoodToSpace" id="gwg-NA-19r"/>
+                                    </connections>
+                                </button>
                                 <color key="tintColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="+" image="fridgeSelected.png">
-                                    <color key="titleColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="goB-fC-YB7" kind="show" identifier="addFoodToSpace" id="gwg-NA-19r"/>
-                                </connections>
-                            </button>
-                            <color key="tintColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </barButtonItem>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="uvb-ZY-Xwi">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nGr-Gb-690">
+                                    <rect key="frame" x="68" y="6" width="44" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
+                                    <state key="normal" title="+" image="listSelected.png">
+                                        <color key="titleColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <segue destination="2wo-ac-5J0" kind="show" identifier="addFoodToList" id="hHE-lN-Bzr"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" image="settings.png" id="Dgd-QV-DCB">
                             <connections>
                                 <segue destination="tXh-qu-rIg" kind="show" identifier="profile" id="NNH-Hb-rxh"/>
@@ -1483,20 +1498,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G27-Ss-goo">
-                                <rect key="frame" x="16" y="45" width="90" height="90"/>
+                                <rect key="frame" x="16" y="89" width="90" height="90"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="90" id="6Sq-ID-alO"/>
                                     <constraint firstAttribute="width" constant="90" id="Aq1-g6-gBA"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Food Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTF-4Y-sjX">
-                                <rect key="frame" x="126" y="75.5" width="233" height="29"/>
+                                <rect key="frame" x="126" y="119.5" width="233" height="29"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopping List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vlV-ZG-QSp">
-                                <rect key="frame" x="16" y="233" width="108.5" height="23.5"/>
+                                <rect key="frame" x="16" y="277" width="108.5" height="23.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="t3g-Qi-QWc"/>
                                 </constraints>
@@ -1505,7 +1520,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0h-Wy-67F">
-                                <rect key="frame" x="16" y="276.5" width="150" height="23.5"/>
+                                <rect key="frame" x="16" y="320.5" width="150" height="23.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="fly-Op-eUE"/>
                                 </constraints>
@@ -1514,19 +1529,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FBN-Pv-eth">
-                                <rect key="frame" x="176" y="220" width="183" height="50"/>
+                                <rect key="frame" x="176" y="264" width="183" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="XVp-jp-LPG"/>
                                 </constraints>
                             </pickerView>
                             <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Vjn-ea-30U">
-                                <rect key="frame" x="176" y="264" width="183" height="50"/>
+                                <rect key="frame" x="176" y="308" width="183" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="6s4-zW-k00"/>
                                 </constraints>
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWP-Mb-BDo">
-                                <rect key="frame" x="16" y="334" width="343" height="35"/>
+                                <rect key="frame" x="16" y="378" width="343" height="35"/>
                                 <color key="backgroundColor" red="0.91764705882352937" green="0.61568627450980395" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="ROI-nb-pny"/>
@@ -1544,7 +1559,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1I-dv-QJ7">
-                                <rect key="frame" x="16" y="143" width="343" height="80"/>
+                                <rect key="frame" x="16" y="187" width="343" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="GDA-6h-VJx"/>
                                 </constraints>
@@ -1596,6 +1611,7 @@
     </scenes>
     <resources>
         <image name="fridgeSelected.png" width="32" height="32"/>
+        <image name="listSelected.png" width="32" height="32"/>
         <image name="log_in_bg.jpg" width="575" height="863"/>
         <image name="settings.png" width="32" height="32"/>
         <image name="temp_logo.png" width="512" height="512"/>
