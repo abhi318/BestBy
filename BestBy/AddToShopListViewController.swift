@@ -46,7 +46,7 @@ class AddToShopListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         // this isn't getting info quick enough... fix this tomorrow
         self.navigationItem.title = currentListName
-
+        
         shoppingListTableView.reloadData()
     }
     

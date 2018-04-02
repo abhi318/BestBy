@@ -28,6 +28,7 @@ class AddFoodToSpaceViewController: UIViewController {
     var selected_food_ID: String!
     var shoppingListID: String!
     var idx: IndexPath!
+    var desc: String!
     
     var from: String!
     
@@ -52,9 +53,20 @@ class AddFoodToSpaceViewController: UIViewController {
         }
         
         food_name_label.text = selected_food
-        food_img.image = FoodData.food_data[selected_food]!.2
-        food_desc_label.text = FoodData.food_data[selected_food]!.1
-        var time_to_expire = FoodData.food_data[selected_food]!.0
+        
+        var time_to_expire = 0
+        if FoodData.food_data[selected_food] == nil {
+            food_img.image = UIImage(named: "groceries")
+            food_desc_label.text = desc
+            time_to_expire = -2
+
+        }
+        else {
+            food_img.image = FoodData.food_data[selected_food]!.2
+            food_desc_label.text = FoodData.food_data[selected_food]!.1
+            time_to_expire = FoodData.food_data[selected_food]!.0
+        }
+        
         if time_to_expire < 0 {
             time_to_expire = 0
         }
@@ -108,12 +120,11 @@ class AddFoodToSpaceViewController: UIViewController {
                 }
             }
             days_picker.isHidden = false
-
+            
             currentUser.shared.shoppingListIDs.remove(at: idx.row)
             currentUser.shared.allShoppingLists.removeValue(forKey: selected_food_ID)
             
-            let x = Database.database().reference().child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(selected_food_ID!)")
-            x.removeValue()
+            Database.database().reference().child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(selected_food_ID!)").removeValue()
         }
         else {
             let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())

@@ -69,8 +69,6 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
     @IBOutlet weak var shopListsTableView: UITableView!
     @IBAction func addShoppingList(_ sender: Any) {
         isCreatingNewList = true
-        shopListsTableView.reloadData()
-        self.reloadEmptyStateForTableView(shopListsTableView)
     }
 
     func textFieldShouldReturn(_ textF: UITextField) -> Bool {
@@ -107,16 +105,18 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
             DispatchQueue.main.async {
                 self.shopListsTableView.reloadData()
                 self.reloadEmptyStateForTableView(self.shopListsTableView)
-
             }
         }
         
         isCreatingNewList = false
         textF.isHidden = true
         textF.resignFirstResponder()
+        textF.text = ""
         
-        self.shopListsTableView.reloadData()
-        self.reloadEmptyStateForTableView(self.shopListsTableView)
+        DispatchQueue.main.async {
+            self.shopListsTableView.reloadData()
+            self.reloadEmptyStateForTableView(self.shopListsTableView)
+        }
         
         return false
     }
@@ -231,30 +231,34 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "shopListID") as? ShoppingListCellTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "shopListID") as! ShoppingListCellTableViewCell
         
         if isCreatingNewList {
             if indexPath.item + 1 == tableView.numberOfRows(inSection: 0) {
-                cell?.newListTextField.delegate = self
-                cell?.listNameLabel.text = ""
-                cell?.newListTextField.isHidden = false
-                cell?.newListTextField.becomeFirstResponder()
+                cell.newListTextField.delegate = self
+                cell.listNameLabel.text = ""
+                cell.newListTextField.isHidden = false
+                cell.newListTextField.becomeFirstResponder()
             } else {
                 let listID = currentUser.shared.shoppingListIDs[indexPath.item]
                 let list_for_row = currentUser.shared.allShoppingLists[listID]
                 let name = list_for_row?.name
-                cell?.listNameLabel.text = name
-                cell?.newListTextField.isHidden = true
+                cell.listNameLabel.text = name
+                cell.newListTextField.isHidden = true
             }
         } else {
             let listID = currentUser.shared.shoppingListIDs[indexPath.item]
             let list_for_row = currentUser.shared.allShoppingLists[listID]
             let name = list_for_row?.name
-            cell?.listNameLabel.text = name
-            cell?.newListTextField.isHidden = true
+            cell.listNameLabel.text = name
+            cell.newListTextField.isHidden = true
 
         }
-        return cell!
+        
+        cell.listNameLabel.sizeToFit()
+        cell.textLabel?.sizeToFit()
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView,
@@ -283,7 +287,7 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
         
         let addToSpace = UITableViewRowAction(style: .normal, title: "Add") { (action, indexPath) in
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addItemToSpaces") as! AddFoodToSpaceViewController
-            vc.selected_food = list_for_row?.name!
+            vc.selected_food = list_for_row!.name!
 
             vc.idx = indexPath
             vc.selected_food_ID = listID
@@ -294,7 +298,7 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
                 desc += "\(i.name), "
             }
             
-            FoodData.food_data[list_for_row!.name!] = (10000, desc, UIImage(named: "groceries"))
+            vc.desc = desc
             
             self.show(vc, sender: self)
         }
