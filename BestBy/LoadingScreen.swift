@@ -10,10 +10,6 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-//var realNames:[String] = ["apples","asparagus","avocados","bananas","blueberries","broccoli","butter","butter lettuce","butternut squash","carrots","cauliflower","celery","corn","cucumber","eggs","fingerling potatoes","grapes","green beans","green bell peppers","iceburg lettuce","kale","leaf lettuce","lemons","limes","milk","mushrooms","onions","orange bell peppers","oranges","peaches","pears","pineapples","pomegranates","red bell peppers","red potatoes","romaine lettuce","russet potatoes","sour cream","spaghetti squash","strawberries","summer squash","sweet potatoes","tomatoes","watermelon","white potatoes","winter squash","yellow bell peppers","yogurt","yukon gold potatoes","zucchini"]
-//
-//var img_names:[String] = ["apple-1.png","asparagus.png","avocado.png","banana.png","blueberries.png","broccoli.png","butter.png","cabbage.png","butternut-squash.png","carrot.png","cauliflower.png","chives.png","corn.png","cucumber.png","eggs.png","potatoes-2.png","grapes.png","peas.png","pepper.png","cabbage.png","salad-1.png","salad-1.png","lemon-1.png","lime.png","milk-1.png","mushroom.png","onion-1.png","bell-pepper-red.png","orange.png","peach.png","pear.png","pineapple.png","pmegranate.png","bell-pepper-red.png","potatoes-2.png","salad-1.png","potatoes-2.png","dairy.png","butternut-squash-1.png","strawberry.png","butternut-squash-1.png","potatoes-2.png","tomato.png","watermelon.png","potatoes-2.png","butternut-squash.png","pepper-yellow.png","yogurt.png","potatoes-2.png","cucumber.png"]
-
 var x = [String:String]()
 let group = DispatchSemaphore(value: 0)
 let everySingleFoodLoaded = DispatchSemaphore(value: 0)
@@ -25,6 +21,10 @@ class LoadingScreen: UIViewController {
     var i = 0;
     var childAddedSema = DispatchSemaphore(value: 0)
     
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +71,8 @@ class LoadingScreen: UIViewController {
             }
         }
     }
+    
+    
     
     func fillCurrentUserSingleton (user: User) {
         let ref: DatabaseReference = Database.database().reference()
@@ -166,11 +168,13 @@ class LoadingScreen: UIViewController {
                 
                 let newFoodItem = FoodItem(id: key,
                                            n: foodInfo["name"] as! String,
-                                           t: foodInfo["timestamp"] as! Int)
+                                           t: foodInfo["timestamp"] as! Int,
+                                           space_id: foodInfo["spaceID"] as! String)
                 added.insert(key)
                 
                 if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
                     Database.database().reference().child("AllFoodLists/\(at)/\(snapshot.key)").removeValue()
+                    
                     return
                 }
                 if (foodInfo["spaceName"] as! String != "All") {
@@ -202,7 +206,8 @@ class LoadingScreen: UIViewController {
                 if(!added.contains(snapshot.key)) {
                     let newFoodItem = FoodItem(id: snapshot.key,
                                                n: foodInfo["name"] as! String,
-                                               t: foodInfo["timestamp"] as! Int)
+                                               t: foodInfo["timestamp"] as! Int,
+                                               space_id: foodInfo["spaceID"] as! String)
                     
                     if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
                         Database.database().reference().child("AllFoodLists/\(at)/\(snapshot.key)").removeValue()

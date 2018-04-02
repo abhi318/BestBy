@@ -17,11 +17,13 @@ class FoodItem {
     var ID: String
     var name: String
     var timestamp: Int
+    var spaceID: String
     
-    init(id: String, n: String, t: Int ) {
+    init(id: String, n: String, t: Int, space_id: String ) {
         ID = id
         name = n
         timestamp = t
+        spaceID = space_id
     }
     
     static func ==(lhs: FoodItem, rhs: FoodItem) -> Bool {

@@ -118,18 +118,18 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
 extension AddToShopListViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     var emptyStateImage: UIImage? {
-        return UIImage(named: "items")
+        return UIImage(named: "basket_512")
     }
     
     var emptyStateTitle: NSAttributedString {
         let attrs = [NSAttributedStringKey.foregroundColor: UIColor.darkGray,
-                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 22)]
+                     NSAttributedStringKey.font: UIFont(name: "AvenirNext-Regular", size:22.0)!]
         return NSAttributedString(string: "No Items in \(currentListName!) yet", attributes: attrs)
     }
     
     var emptyStateButtonTitle: NSAttributedString? {
         let attrs = [NSAttributedStringKey.foregroundColor: UIColor.white,
-                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)]
+                     NSAttributedStringKey.font: UIFont(name: "AvenirNext-Regular", size:16.0)!]
         return NSAttributedString(string: "Add Some", attributes: attrs)
     }
     

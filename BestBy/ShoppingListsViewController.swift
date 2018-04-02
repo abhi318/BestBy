@@ -317,18 +317,18 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
 extension ShoppingListsViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     var emptyStateImage: UIImage? {
-        return UIImage(named: "list")
+        return UIImage(named: "list_512")
     }
     
     var emptyStateTitle: NSAttributedString {
         let attrs = [NSAttributedStringKey.foregroundColor: UIColor.darkGray,
-                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 22)]
+                     NSAttributedStringKey.font: UIFont(name: "AvenirNext-Regular", size:22.0)!]
         return NSAttributedString(string: "No Shopping Lists Yet", attributes: attrs)
     }
     
     var emptyStateButtonTitle: NSAttributedString? {
         let attrs = [NSAttributedStringKey.foregroundColor: UIColor.white,
-                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)]
+                     NSAttributedStringKey.font: UIFont(name: "AvenirNext-Regular", size:16.0)!]
         return NSAttributedString(string: "Make One", attributes: attrs)
     }
     

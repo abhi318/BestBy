@@ -3,7 +3,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class FoodCollectionController: UICollectionViewController {
-        
+            
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return FoodData.food_data.count

@@ -978,7 +978,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GCQ-Mw-5q6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2900" y="646"/>
+            <point key="canvasLocation" x="3089" y="404"/>
         </scene>
         <!--Food Collection Controller-->
         <scene sceneID="NT2-S2-Q4x">
@@ -1059,7 +1059,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyP-SL-rP0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3738" y="672"/>
+            <point key="canvasLocation" x="3737" y="404"/>
         </scene>
         <!--Shopping Lists View Controller-->
         <scene sceneID="EQ8-ZG-Zfy">
