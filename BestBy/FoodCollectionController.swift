@@ -115,6 +115,15 @@ class FoodCollectionController: UICollectionViewController {
         if identifier == "profile" {
             return true
         }
+        if identifier == "addFoodToList" {
+            if currentUser.shared.allShoppingLists.count == 0 {
+                if self.navigationController?.parent is MainViewController {
+                    let tabbar = self.navigationController?.parent as! UITabBarController
+                    tabbar.selectedIndex = 1
+                }
+                return false
+            }
+        }
         if self.navigationItem.title == "All Items" || self.navigationItem.title == nil {
             return false
         } else {
