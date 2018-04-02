@@ -60,7 +60,7 @@ class ChangePasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        button.backgroundColor = gradient[2].withAlphaComponent(0.7)
+        //button.backgroundColor = gradient[2].withAlphaComponent(0.7)
         // Do any additional setup after loading the view.
     }
 

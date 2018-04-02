@@ -247,6 +247,8 @@
 		C99B60D6206338FB00B89A4D /* itemsSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C99B60D4206338FB00B89A4D /* itemsSelected@2x.png */; };
 		C99B60D82063527B00B89A4D /* temp_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C99B60D72063527B00B89A4D /* temp_logo.png */; };
 		C9A69F7620709BCC00F62B8A /* AddFoodToListFromCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A69F7520709BCC00F62B8A /* AddFoodToListFromCollectionViewController.swift */; };
+		C9A69F7A2071A7DE00F62B8A /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A69F792071A7DD00F62B8A /* settings@2x.png */; };
+		C9A69F7C2071A92C00F62B8A /* list_512.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A69F7B2071A92C00F62B8A /* list_512.png */; };
 		C9A6E4A8206A058B00A003C7 /* tofu.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4A6206A058B00A003C7 /* tofu.png */; };
 		C9A6E4A9206A058B00A003C7 /* ribs.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4A7206A058B00A003C7 /* ribs.png */; };
 		C9A6E4AC206A06AD00A003C7 /* peanut-butter.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4AA206A06AD00A003C7 /* peanut-butter.png */; };
@@ -549,6 +551,8 @@
 		C99B60D4206338FB00B89A4D /* itemsSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemsSelected@2x.png"; sourceTree = "<group>"; };
 		C99B60D72063527B00B89A4D /* temp_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temp_logo.png; sourceTree = "<group>"; };
 		C9A69F7520709BCC00F62B8A /* AddFoodToListFromCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodToListFromCollectionViewController.swift; sourceTree = "<group>"; };
+		C9A69F792071A7DD00F62B8A /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
+		C9A69F7B2071A92C00F62B8A /* list_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_512.png; sourceTree = "<group>"; };
 		C9A6E4A6206A058B00A003C7 /* tofu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tofu.png; sourceTree = "<group>"; };
 		C9A6E4A7206A058B00A003C7 /* ribs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ribs.png; sourceTree = "<group>"; };
 		C9A6E4AA206A06AD00A003C7 /* peanut-butter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peanut-butter.png"; sourceTree = "<group>"; };
@@ -952,6 +956,8 @@
 				FD0664D920328C1400E408CD /* Info.plist */,
 				C948F5162060AD080098AC16 /* food_imgs */,
 				C9A9C4FB204D151500E9C85A /* profile@2x.png */,
+				C9A69F7B2071A92C00F62B8A /* list_512.png */,
+				C9A69F792071A7DD00F62B8A /* settings@2x.png */,
 				C9CCFAEC204B2F6400B0B8FE /* log_in_bg.jpg */,
 				C99B60D3206338FA00B89A4D /* items@2x.png */,
 				C99B60D4206338FB00B89A4D /* itemsSelected@2x.png */,
@@ -1151,6 +1157,7 @@
 				C948F4FD2060ACC10098AC16 /* ladle.png in Resources */,
 				C948F5002060ACC10098AC16 /* strawberry.png in Resources */,
 				C948F43F2060ACC10098AC16 /* doughnut-1.png in Resources */,
+				C9A69F7A2071A7DE00F62B8A /* settings@2x.png in Resources */,
 				C948F4E32060ACC10098AC16 /* milk-1.png in Resources */,
 				C948F4CD2060ACC10098AC16 /* bread.png in Resources */,
 				C948F48D2060ACC10098AC16 /* potatoes-2.png in Resources */,
@@ -1169,6 +1176,7 @@
 				C948F48B2060ACC10098AC16 /* water.png in Resources */,
 				C948F4722060ACC10098AC16 /* chili.png in Resources */,
 				C948F4E02060ACC10098AC16 /* broccoli.png in Resources */,
+				C9A69F7C2071A92C00F62B8A /* list_512.png in Resources */,
 				C948F4D22060ACC10098AC16 /* pot.png in Resources */,
 				C948F4302060ACC10098AC16 /* mug.png in Resources */,
 				C948F4DE2060ACC10098AC16 /* strainer.png in Resources */,

@@ -187,7 +187,7 @@
             </objects>
             <point key="canvasLocation" x="1207" y="339"/>
         </scene>
-        <!--Profile-->
+        <!--Settings-->
         <scene sceneID="bx7-Qh-IK0">
             <objects>
                 <viewController id="tXh-qu-rIg" customClass="ProfileViewController" customModule="BestBy" customModuleProvider="target" sceneMemberID="viewController">
@@ -196,7 +196,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HOx-gd-pRV">
-                                <rect key="frame" x="16" y="208.5" width="343" height="265"/>
+                                <rect key="frame" x="16" y="89" width="343" height="265"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5r-OL-ad3">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="25"/>
@@ -212,7 +212,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T6m-RT-oh0">
                                                 <rect key="frame" x="5" y="0.0" width="333" height="45"/>
-                                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                                 <state key="normal" title="FOLLOW US">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -241,7 +241,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D95-TX-tnd">
                                                 <rect key="frame" x="5" y="0.0" width="333" height="45"/>
-                                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.8901960784313725" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                                 <state key="normal" title="CONTACT US">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -270,7 +270,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iyF-2Y-9D7">
                                                 <rect key="frame" x="5" y="0.0" width="333" height="45"/>
-                                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.91764705882352937" green="0.61568627450980395" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                                 <state key="normal" title="CHANGE PASSWORD">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -299,7 +299,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PwD-je-PR8">
                                                 <rect key="frame" x="5" y="0.0" width="333" height="45"/>
-                                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.93333333333333335" green="0.68235294117647061" blue="0.68235294117647061" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                                 <state key="normal" title="LOGOUT">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -333,12 +333,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Fny-4q-rmk" firstAttribute="trailing" secondItem="HOx-gd-pRV" secondAttribute="trailing" constant="16" id="LeV-5H-ifB"/>
-                            <constraint firstItem="HOx-gd-pRV" firstAttribute="centerY" secondItem="Fny-4q-rmk" secondAttribute="centerY" id="ee6-Nx-vS5"/>
+                            <constraint firstItem="HOx-gd-pRV" firstAttribute="top" secondItem="Fny-4q-rmk" secondAttribute="top" constant="25" id="dP1-TY-r1X"/>
                             <constraint firstItem="HOx-gd-pRV" firstAttribute="leading" secondItem="Fny-4q-rmk" secondAttribute="leading" constant="16" id="xAo-WQ-AQw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Fny-4q-rmk"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="6Yp-9R-XgA"/>
+                    <navigationItem key="navigationItem" title="Settings" id="6Yp-9R-XgA"/>
                     <connections>
                         <outlet property="b1" destination="T6m-RT-oh0" id="L1B-p1-nxo"/>
                         <outlet property="b2" destination="D95-TX-tnd" id="SOH-j3-0N1"/>
@@ -444,7 +444,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Tw-js-PZT">
                                 <rect key="frame" x="16" y="216" width="343" height="34"/>
-                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.91764705882352937" green="0.61568627450980395" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                 <state key="normal" title="CHANGE PASSWORD">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1050,7 +1050,7 @@
                             </button>
                             <color key="tintColor" red="0.86666666670000003" green="0.36470588240000001" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="profile.png" id="Dgd-QV-DCB">
+                        <barButtonItem key="rightBarButtonItem" image="settings.png" id="Dgd-QV-DCB">
                             <connections>
                                 <segue destination="tXh-qu-rIg" kind="show" identifier="profile" id="NNH-Hb-rxh"/>
                             </connections>
@@ -1389,12 +1389,12 @@
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSU-di-n5S">
                                 <rect key="frame" x="16" y="378" width="343" height="35"/>
-                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.91764705879999997" green="0.61568627450000002" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="lGu-zP-a0z"/>
                                 </constraints>
                                 <state key="normal" title="ADD TO SPACE">
-                                    <color key="titleColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1527,12 +1527,12 @@
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWP-Mb-BDo">
                                 <rect key="frame" x="16" y="334" width="343" height="35"/>
-                                <color key="backgroundColor" red="0.80392156859999997" green="0.39607843139999999" blue="0.3803921569" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.91764705882352937" green="0.61568627450980395" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="ROI-nb-pny"/>
                                 </constraints>
                                 <state key="normal" title="ADD TO LIST">
-                                    <color key="titleColor" red="0.68235294120000001" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1591,13 +1591,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2s4-dh-Ibo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5564" y="672"/>
+            <point key="canvasLocation" x="5164" y="672"/>
         </scene>
     </scenes>
     <resources>
         <image name="fridgeSelected.png" width="32" height="32"/>
         <image name="log_in_bg.jpg" width="575" height="863"/>
-        <image name="profile.png" width="32" height="32"/>
+        <image name="settings.png" width="32" height="32"/>
         <image name="temp_logo.png" width="512" height="512"/>
     </resources>
 </document>
