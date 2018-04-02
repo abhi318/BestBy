@@ -5,49 +5,6 @@
 //  Created by Erin Jensby on 2/27/18.
 //
 
-/*
- <<<<<<< HEAD
- addList()
- }
- 
- func addList() {
- let alert = UIAlertController(title: "Add a New List", message: "Give it a name", preferredStyle: .alert)
- let saveAction = UIAlertAction(title: "Add", style: .default) { _ in
- guard let textField = alert.textFields?.first,
- let text = textField.text else { return }
- 
- Database.database().reference().child("AllShoppingLists/\(text)").observeSingleEvent(of: .value, with: { (snapshot) in
- if snapshot.exists(){
- let info = (snapshot.value as! [String: Any])
- self.inListName = info["name"] as! String
- self.inList = true
- }
- self.sema.signal()
- })
- 
- DispatchQueue.global(qos: .background).async {
- self.sema.wait()
- 
- if self.inList {
- self.loadShoppingList(at: text)
- }
- else {
- let listRef = self.ref.child("AllShoppingLists").childByAutoId()
- listRef.child("name").setValue(text)
- 
- self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
- 
- currentUser.shared.shoppingListIDs.append(listRef.key)
- 
- currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
- currentUser.shared.allShoppingLists[listRef.key]!.name = text
- 
- self.observeShoppingList(at: listRef.key)
- }
- =======
- */
-
-
 
 import UIKit
 import Firebase

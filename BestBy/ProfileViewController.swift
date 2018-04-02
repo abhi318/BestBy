@@ -86,12 +86,6 @@ class ProfileViewController: UIViewController {
         
         ref = Database.database().reference()
         username.text = Auth.auth().currentUser?.email
-        
-
-//        b1.backgroundColor = gradient[4].withAlphaComponent(0.7)
-//        b2.backgroundColor = gradient[3].withAlphaComponent(0.7)
-//        b3.backgroundColor = gradient[2].withAlphaComponent(0.7)
-//        b4.backgroundColor = gradient[1].withAlphaComponent(0.7)
     }
     
     override func didReceiveMemoryWarning() {
