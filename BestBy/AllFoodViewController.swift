@@ -125,7 +125,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
             
             let id = currentUser.shared.allSpaces[self.currentListID]!.contents[indexPath.row]
 
-            if self.currentListName == "All" {
+            if self.currentListName == "All" && id.spaceID != currentUser.shared.allFoodListID{
                 var i = 0
                 for item in currentUser.shared.allSpaces[id.spaceID]!.contents {
                     if item.ID ==  id.ID {

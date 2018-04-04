@@ -175,7 +175,7 @@ class LoadingScreen: UIViewController {
                 if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
                     Database.database().reference().child("AllFoodLists/\(at)/\(snapshot.key)").removeValue()
                     
-                    return
+                    continue
                 }
                 if (foodInfo["spaceName"] as! String != "All") {
                     currentUser.shared.allSpaces[currentUser.shared.allFoodListID!]!.contents.append(newFoodItem)
