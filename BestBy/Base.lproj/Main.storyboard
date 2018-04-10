@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -196,7 +197,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HOx-gd-pRV">
-                                <rect key="frame" x="16" y="89" width="343" height="265"/>
+                                <rect key="frame" x="16" y="246" width="343" height="265"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5r-OL-ad3">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="25"/>
@@ -329,11 +330,20 @@
                                     <constraint firstItem="usG-JI-JwL" firstAttribute="top" secondItem="PyO-aa-DqI" secondAttribute="bottom" constant="15" id="V5j-Gp-1kq"/>
                                 </constraints>
                             </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="wQf-ky-k1b">
+                                <rect key="frame" x="112.5" y="80" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="wQf-ky-k1b" secondAttribute="height" multiplier="1:1" id="OM6-Ij-7DE"/>
+                                    <constraint firstAttribute="width" constant="150" id="cFx-GM-kOB"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Fny-4q-rmk" firstAttribute="centerX" secondItem="wQf-ky-k1b" secondAttribute="centerX" id="JPY-AN-6Eb"/>
                             <constraint firstItem="Fny-4q-rmk" firstAttribute="trailing" secondItem="HOx-gd-pRV" secondAttribute="trailing" constant="16" id="LeV-5H-ifB"/>
-                            <constraint firstItem="HOx-gd-pRV" firstAttribute="top" secondItem="Fny-4q-rmk" secondAttribute="top" constant="25" id="dP1-TY-r1X"/>
+                            <constraint firstItem="wQf-ky-k1b" firstAttribute="top" secondItem="Fny-4q-rmk" secondAttribute="top" constant="16" id="P4N-sH-I4T"/>
+                            <constraint firstItem="HOx-gd-pRV" firstAttribute="top" secondItem="wQf-ky-k1b" secondAttribute="bottom" constant="16" id="ZBb-iO-lOw"/>
                             <constraint firstItem="HOx-gd-pRV" firstAttribute="leading" secondItem="Fny-4q-rmk" secondAttribute="leading" constant="16" id="xAo-WQ-AQw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Fny-4q-rmk"/>
@@ -344,12 +354,13 @@
                         <outlet property="b2" destination="D95-TX-tnd" id="SOH-j3-0N1"/>
                         <outlet property="b3" destination="iyF-2Y-9D7" id="KvH-dQ-6Nb"/>
                         <outlet property="b4" destination="PwD-je-PR8" id="3dE-cd-4y1"/>
+                        <outlet property="userimage" destination="wQf-ky-k1b" id="rQt-TK-cp7"/>
                         <outlet property="username" destination="S5r-OL-ad3" id="936-Qr-X0W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Ce-Ab-OlU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4444" y="-31"/>
+            <point key="canvasLocation" x="4444" y="-31.03448275862069"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="9sJ-xa-gwg">
@@ -1610,6 +1621,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="default_profile.png" width="225" height="225"/>
         <image name="fridgeSelected.png" width="32" height="32"/>
         <image name="listSelected.png" width="32" height="32"/>
         <image name="log_in_bg.jpg" width="575" height="863"/>

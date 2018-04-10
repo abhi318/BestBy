@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import FirebaseStorage
 
 class ProfileViewController: UIViewController {
     
@@ -19,7 +20,19 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var b3: UIButton!
     @IBOutlet weak var b4: UIButton!
     
+    @IBOutlet weak var userimage: UIImageView!
     @IBOutlet weak var username: UILabel!
+    
+    @objc func imageTapped(gesture: UIGestureRecognizer) {
+        // if the tapped view is a UIImageView then set it to imageview
+        if (gesture.view as? UIImageView) != nil {
+            let myPickerController = UIImagePickerController()
+            myPickerController.delegate = self;
+            myPickerController.sourceType =  UIImagePickerControllerSourceType.photoLibrary
+            self.present(myPickerController, animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func contactUsClicked(_ sender: Any) {
         
         let contactAlert = UIAlertController(title: "", message: "Please sumbit your message below and we will email you with our response.", preferredStyle: UIAlertControllerStyle.alert)
@@ -86,9 +99,63 @@ class ProfileViewController: UIViewController {
         
         ref = Database.database().reference()
         username.text = Auth.auth().currentUser?.email
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped(gesture:)))
+        
+        userimage.addGestureRecognizer(tapGesture)
+        userimage.isUserInteractionEnabled = true
+        userimage.clipsToBounds = true
+        userimage.layer.cornerRadius = 75
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if currentUser.shared.profile_img != nil {
+            userimage.image = currentUser.shared.profile_img
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }
+
+extension ProfileViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate
+{
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
+    {
+        let image_data = info[UIImagePickerControllerOriginalImage] as? UIImage
+        
+        currentUser.shared.profile_img = image_data!
+        
+        let storageRef = Storage.storage().reference()
+        let profImageRef = storageRef.child("profImages/\(currentUser.shared.ID!).png")
+        
+        let data = UIImagePNGRepresentation(image_data!)!
+
+        // Upload the file to the path "images/rivers.jpg"
+        let _ = profImageRef
+            .putData(data, metadata: nil) { (metadata, error) in
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                return
+            }
+                
+            //let photoURL = metadata.downloadURL
+            let changeRequest = Auth.auth().currentUser!.createProfileChangeRequest()
+                
+            changeRequest.photoURL = metadata.downloadURL()
+                changeRequest.commitChanges { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("photo updated")
+                }
+            }
+        }
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+

@@ -72,8 +72,10 @@ class FoodCollectionController: UICollectionViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         if(collectionView!.indexPathsForSelectedItems!.count > 0) {
-            let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) as! CollectionCell
-            cell.removeOverlay()
+            if let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) {
+                let c = cell as! CollectionCell
+                c.removeOverlay()
+            }
         }
     }
 

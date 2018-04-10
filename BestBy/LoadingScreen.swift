@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import FirebaseStorage
 
 var x = [String:String]()
 let group = DispatchSemaphore(value: 0)
@@ -79,6 +80,17 @@ class LoadingScreen: UIViewController {
         
         currentUser.shared.ID = user.uid
         currentUser.shared.userRef = ref.child("Users/\(user.uid)")
+        
+        let profImageRef = Storage.storage().reference(forURL: (user.photoURL?.absoluteString)!)
+
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        profImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                currentUser.shared.profile_img = UIImage(data: data!)
+            }
+        }
         
         loadAllUsersFood()
         loadEverySingleFood()

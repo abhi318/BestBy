@@ -23,6 +23,7 @@ final class currentUser {
     
     // MARK: Local Variable
     var ID: String?
+    var profile_img: UIImage?
     var userRef: DatabaseReference?
     
     //every food the user has
