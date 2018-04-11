@@ -365,11 +365,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Ce-Ab-OlU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< HEAD
             <point key="canvasLocation" x="3737" y="-31"/>
-=======
-            <point key="canvasLocation" x="4444" y="-31.03448275862069"/>
->>>>>>> da525a7d4d4141a08305c2261f2085585eba17e0
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="9sJ-xa-gwg">
