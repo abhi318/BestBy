@@ -122,12 +122,25 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            
             let id = currentUser.shared.allSpaces[self.currentListID]!.contents[indexPath.row]
 
+            if self.currentListName == "All" && id.spaceID != currentUser.shared.allFoodListID{
+                var i = 0
+                for item in currentUser.shared.allSpaces[id.spaceID]!.contents {
+                    if item.ID ==  id.ID {
+                        currentUser.shared.allSpaces[id.spaceID]!.contents.remove(at: i)
+                    }
+                    i += 1
+                }
+            }
+            
             currentUser.shared.allSpaces[self.currentListID]!.contents.remove(at: indexPath.row)
-            Database.database().reference().child("AllFoodLists/\(self.currentListID!)/\(id.ID)").removeValue()
+
             tableView.deleteRows(at: [indexPath], with: .fade)
             self.reloadEmptyStateForTableView(self.allFoodTableView)
+            Database.database().reference().child("AllFoodLists/\(currentUser.shared.allFoodListID!)/\(id.ID)").removeValue()
+
         }
         
         return [delete]
@@ -137,12 +150,12 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
 extension AllFoodViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     var emptyStateImage: UIImage? {
-        return UIImage(named: "items")
+        return UIImage(named: "basket_512")
     }
     
     var emptyStateTitle: NSAttributedString {
         let attrs = [NSAttributedStringKey.foregroundColor: UIColor.darkGray,
-                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 22)]
+                     NSAttributedStringKey.font: UIFont(name: "AvenirNext-Regular", size:22.0)!]
         if currentListName == "All" {
             return NSAttributedString(string: "No Food Yet", attributes: attrs)
         }
@@ -153,7 +166,7 @@ extension AllFoodViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {
     
     var emptyStateButtonTitle: NSAttributedString? {
         let attrs = [NSAttributedStringKey.foregroundColor: UIColor.white,
-                     NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)]
+                     NSAttributedStringKey.font: UIFont(name: "AvenirNext-Regular", size:16.0)!]
         return NSAttributedString(string: "Add Some", attributes: attrs)
     }
     

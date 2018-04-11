@@ -44,7 +44,6 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         Auth.auth().removeStateDidChangeListener(handle!)
-
     }
     
     @IBAction func LogInTapped(_ sender: Any) {
