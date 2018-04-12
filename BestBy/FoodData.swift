@@ -17,13 +17,11 @@ class FoodItem {
     var ID: String
     var name: String
     var timestamp: Int
-    var spaceID: String
     
-    init(id: String, n: String, t: Int, space_id: String ) {
+    init(id: String, n: String, t: Int) {
         ID = id
         name = n
         timestamp = t
-        spaceID = space_id
     }
     
     static func ==(lhs: FoodItem, rhs: FoodItem) -> Bool {
@@ -34,6 +32,11 @@ class FoodItem {
 class FoodList {
     var name: String?
     var contents: [FoodItem] = []
+    
+    func clear() {
+        name = nil
+        contents.removeAll()
+    }
 }
 
 class ListItem {

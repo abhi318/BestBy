@@ -120,11 +120,29 @@ class ProfileViewController: UIViewController {
     }
 }
 
+extension UIImage {
+    func resizeImage(targetSize: CGSize) -> UIImage {
+        let size = self.size
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        let newSize = widthRatio > heightRatio ?  CGSize(width: size.width * heightRatio, height: size.height * heightRatio) : CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        self.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+}
+
 extension ProfileViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate
 {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
     {
-        let image_data = info[UIImagePickerControllerOriginalImage] as? UIImage
+        var image_data = info[UIImagePickerControllerOriginalImage] as? UIImage
+        image_data = image_data?.resizeImage(targetSize: CGSize(width: 512, height: 512))
         
         currentUser.shared.profile_img = image_data!
         
@@ -133,15 +151,14 @@ extension ProfileViewController: UIImagePickerControllerDelegate,UINavigationCon
         
         let data = UIImagePNGRepresentation(image_data!)!
 
-        // Upload the file to the path "images/rivers.jpg"
-        let _ = profImageRef
-            .putData(data, metadata: nil) { (metadata, error) in
+        // Upload the file to firebase
+    
+        profImageRef.delete(completion: nil)
+        let _ = profImageRef.putData(data, metadata: nil) { (metadata, error) in
             guard let metadata = metadata else {
-                // Uh-oh, an error occurred!
                 return
             }
-                
-            //let photoURL = metadata.downloadURL
+            
             let changeRequest = Auth.auth().currentUser!.createProfileChangeRequest()
                 
             changeRequest.photoURL = metadata.downloadURL()

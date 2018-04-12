@@ -89,9 +89,7 @@ class SearchController: UIViewController {
 
         //post name of food, and seconds from reference date (jan 1, 2001) that it will expire
         let post = ["name" : foodAdded,
-                    "timestamp" : doe,
-                    "spaceID": presenter.currentListID,
-                    "spaceName" : presenter.currentListName] as [String : Any]
+                    "timestamp" : doe] as [String : Any]
         
         ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
         if daysToExpire < 1000 {

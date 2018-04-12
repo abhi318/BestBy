@@ -6,6 +6,23 @@
 //
 
 
+/*
+ 
+ func observeEachShoppingList() {
+ for shoppingListID in currentUser.shared.shoppingListIDs {
+ let ref: DatabaseReference = Database.database().reference().child("AllShoppingLists/\(shoppingListID)")
+ ref.observe(.childAdded, with: {snapshot in
+ let foodInfo = snapshot.value as! String
+ if snapshot.key != "name" {
+ let newListItem = ListItem(id: snapshot.key,
+ n: foodInfo)
+ currentUser.shared.allShoppingLists[shoppingListID]!.contents.append(newListItem)
+ }
+ })
+ }
+ }
+ */
+
 import UIKit
 import Firebase
 import FirebaseDatabase

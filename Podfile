@@ -9,6 +9,7 @@ target 'BestBy' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'FirebaseUI/Storage'
   pod 'Firebase/Auth'
   pod 'UIEmptyState'
   

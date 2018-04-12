@@ -2,17 +2,65 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class FoodCollectionController: UICollectionViewController {
-            
-    override func collectionView(_ collectionView: UICollectionView,
-                                 numberOfItemsInSection section: Int) -> Int {
-        return FoodData.food_data.count
+class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchControllerDelegate {
+
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredFood = Array(FoodData.food_data.keys)
+    var searchActive : Bool = false
+    var foodBeingAdded: String?
+    
+    @IBOutlet var collectionView: UICollectionView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = true
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Foods"
+        searchController.searchBar.delegate = self
+
+        searchController.searchBar.returnKeyType = (UIReturnKeyType.done)
+
+        searchController.searchBar.becomeFirstResponder()
+        navigationItem.searchController = searchController
+
+        filteredFood = Array(FoodData.food_data.keys)
     }
     
-    override func collectionView(_ collectionView: UICollectionView,
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //self.navigationItem.title = "All Items"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if(collectionView!.indexPathsForSelectedItems!.count > 0) {
+            if let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) {
+                let c = cell as! CollectionCell
+                c.removeOverlay()
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                                 numberOfItemsInSection section: Int) -> Int {
+        if searchActive {
+            return filteredFood.count
+        }
+        else
+        {
+            return FoodData.food_data.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionCell
-        let key = Array(FoodData.food_data.keys)[indexPath.row]
+        
+        let key = filteredFood[indexPath.row]
         
         if FoodData.food_data[key] != nil{
             cell.imageView.image = FoodData.food_data[key]!.2
@@ -25,10 +73,10 @@ class FoodCollectionController: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
         self.navigationItem.title = cell.foodName.text
-        let key = Array(FoodData.food_data.keys)[indexPath.row]
+        let key = filteredFood[indexPath.row]
         var daysRemaining = -1
         if FoodData.food_data[key] != nil {
             daysRemaining = FoodData.food_data[key]!.0
@@ -56,29 +104,24 @@ class FoodCollectionController: UICollectionViewController {
         cell.overlayTimeRemaining(days: daysRemaining)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
         cell.removeOverlay()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationItem.title = "All Items"
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        if(collectionView!.indexPathsForSelectedItems!.count > 0) {
-            if let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) {
-                let c = cell as! CollectionCell
-                c.removeOverlay()
-            }
-        }
-    }
 
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if (kind == UICollectionElementKindSectionHeader) {
+            let headerView:UICollectionReusableView =  collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "CollectionViewHeader", for: indexPath)
+            
+            return headerView
+        }
+        
+        return UICollectionReusableView()
+        
+    }
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
@@ -146,6 +189,42 @@ class FoodCollectionController: UICollectionViewController {
                 destinationVC.selected_food = key
             }
         }
+    }
+
+}
+
+
+extension FoodCollectionController: UISearchBarDelegate, UISearchResultsUpdating {
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let all_food_names = Array(FoodData.food_data.keys)
+        filteredFood = all_food_names.filter({( food_name : String) -> Bool in
+            return food_name.lowercased().contains((searchController.searchBar.text!).lowercased())
+        })
+        
+        self.collectionView!.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchActive = true
+        collectionView!.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false
+        collectionView!.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filteredFood = Array(FoodData.food_data.keys)
+        searchController.searchBar.resignFirstResponder()
     }
 }
 

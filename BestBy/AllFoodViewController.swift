@@ -19,6 +19,8 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var userFoodRef: DatabaseReference!
     var ref: DatabaseReference!
+    var foodRef: DatabaseReference!
+    var foodHandle: DatabaseHandle!
     var currentListID: String! = currentUser.shared.allFoodListID!
     var currentListName: String! = "All"
     
@@ -31,6 +33,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         ref = Database.database().reference()
+        foodRef = ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)")
         
         allFoodTableView.dataSource = self
         allFoodTableView.delegate = self
@@ -41,12 +44,45 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         allFoodTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
+    func observeFoodList() {
+        foodHandle = foodRef.observe(.childAdded, with: { (snapshot) in
+            if(!added.contains(snapshot.key)) {
+                let foodInfo = snapshot.value as! [String : Any]
+            
+                print("info: \(foodInfo)")
+            
+                let newFoodItem = FoodItem(id: snapshot.key,
+                                           n: foodInfo["name"] as! String,
+                                           t: foodInfo["timestamp"] as! Int)
+                added.insert(snapshot.key)
+            
+                if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
+                    self.foodRef.child("\(snapshot.key)").removeValue()
+                }
+                    
+                else {
+                    currentUser.shared.allFood.append(newFoodItem)
+                    currentUser.shared.allFood.sort() {
+                        $0.timestamp < $1.timestamp
+                    }
+                    
+                    DispatchQueue.main.async{
+                        self.allFoodTableView.reloadData()
+                    }
+                }
+            }
+        })
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.title = currentListName
 
-        DispatchQueue.main.async{
-            self.allFoodTableView.reloadData()
-        }
+        observeFoodList()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        foodRef.removeObserver(withHandle: foodHandle)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,16 +95,13 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if currentUser.shared.allSpaces[currentListID] != nil {
-            return currentUser.shared.allSpaces[currentListID]!.contents.count
-        }
-        return 0
+        return currentUser.shared.allFood.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodCell
 
-        let foodItem = currentUser.shared.allSpaces[currentListID]!.contents[indexPath.row]
+        let foodItem = currentUser.shared.allFood[indexPath.row]
         
         let daysLeft = (foodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400
         
@@ -112,7 +145,7 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let foodItem = currentUser.shared.allSpaces[currentListID]!.contents[indexPath.row]
+        let foodItem = currentUser.shared.allFood[indexPath.row]
         if (itemSelected == indexPath.row && FoodData.food_data[foodItem.name]?.1.count != nil) {
             return CGFloat(70 + (FoodData.food_data[foodItem.name]?.1.count)! / 2);
         }
@@ -123,23 +156,12 @@ class AllFoodViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             
-            let id = currentUser.shared.allSpaces[self.currentListID]!.contents[indexPath.row]
-
-            if self.currentListName == "All" && id.spaceID != currentUser.shared.allFoodListID{
-                var i = 0
-                for item in currentUser.shared.allSpaces[id.spaceID]!.contents {
-                    if item.ID ==  id.ID {
-                        currentUser.shared.allSpaces[id.spaceID]!.contents.remove(at: i)
-                    }
-                    i += 1
-                }
-            }
-            
-            currentUser.shared.allSpaces[self.currentListID]!.contents.remove(at: indexPath.row)
+            let id = currentUser.shared.allFood[indexPath.row]
+            currentUser.shared.allFood.remove(at: indexPath.row)
 
             tableView.deleteRows(at: [indexPath], with: .fade)
             self.reloadEmptyStateForTableView(self.allFoodTableView)
-            Database.database().reference().child("AllFoodLists/\(currentUser.shared.allFoodListID!)/\(id.ID)").removeValue()
+            self.foodRef.child("\(id.ID)").removeValue()
 
         }
         

@@ -286,6 +286,7 @@
 		FD7AA9822071AF2300949AE1 /* basket_512.png in Resources */ = {isa = PBXBuildFile; fileRef = FD7AA9812071AF2300949AE1 /* basket_512.png */; };
 		FDBB38112064B91F004DB480 /* SpacesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBB38102064B91F004DB480 /* SpacesCell.swift */; };
 		FDBED3F7204DB21E005765AA /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBED3F6204DB21E005765AA /* CollectionCell.swift */; };
+		FDC4C892207D6EA500D4A3DC /* SearchCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC4C891207D6EA500D4A3DC /* SearchCollectionReusableView.swift */; };
 		FDCDFDCE206B77D0003FE7EF /* BestByIcon in Resources */ = {isa = PBXBuildFile; fileRef = FDCDFDCD206B77D0003FE7EF /* BestByIcon */; };
 		FDDA5120206190A600643514 /* FoodCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA511F206190A600643514 /* FoodCollectionController.swift */; };
 		FDDEDA55206278AD005AC6FB /* SpacesLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */; };
@@ -601,6 +602,7 @@
 		FD7AA9812071AF2300949AE1 /* basket_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basket_512.png; sourceTree = "<group>"; };
 		FDBB38102064B91F004DB480 /* SpacesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesCell.swift; sourceTree = "<group>"; };
 		FDBED3F6204DB21E005765AA /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
+		FDC4C891207D6EA500D4A3DC /* SearchCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionReusableView.swift; sourceTree = "<group>"; };
 		FDCDFDCD206B77D0003FE7EF /* BestByIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BestByIcon; path = BestBy/BestByIcon; sourceTree = "<group>"; };
 		FDDA511F206190A600643514 /* FoodCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionController.swift; sourceTree = "<group>"; };
 		FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesLayout.swift; sourceTree = "<group>"; };
@@ -927,17 +929,19 @@
 			children = (
 				FD7AA9812071AF2300949AE1 /* basket_512.png */,
 				FD16E52F2069F398001ACCF4 /* BestBy.entitlements */,
+				FD50C40A2062584000507FA0 /* SpacesCollectionViewController.swift */,
+				FDBB38102064B91F004DB480 /* SpacesCell.swift */,
+				FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */,
 				FD16E52E2064E967001ACCF4 /* trash */,
 				FD0664CD20328C1400E408CD /* AppDelegate.swift */,
 				FD0664CF20328C1400E408CD /* SignInViewController.swift */,
 				FD547D2E204CC9DC00E5D630 /* LoadingScreen.swift */,
 				FD0665012032FBF900E408CD /* MainViewController.swift */,
-				FD50C40A2062584000507FA0 /* SpacesCollectionViewController.swift */,
 				C9A6E4B2206DFFE000A003C7 /* AddToShopListViewController.swift */,
-				FDBB38102064B91F004DB480 /* SpacesCell.swift */,
-				FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */,
 				FD4C6A3E2036C94300C13ABC /* AllFoodViewController.swift */,
 				FD547D2C2046384600E5D630 /* SearchController.swift */,
+				FDDA511F206190A600643514 /* FoodCollectionController.swift */,
+				FDC4C891207D6EA500D4A3DC /* SearchCollectionReusableView.swift */,
 				C9A69F7520709BCC00F62B8A /* AddFoodToListFromCollectionViewController.swift */,
 				AF85A160204A183400DA44B3 /* ShoppingListsViewController.swift */,
 				C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */,
@@ -947,7 +951,6 @@
 				C9A6E4B0206B11FB00A003C7 /* ChangePasswordViewController.swift */,
 				FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */,
 				FD4C6A46203C021400C13ABC /* FoodData.swift */,
-				FDDA511F206190A600643514 /* FoodCollectionController.swift */,
 				FDBED3F6204DB21E005765AA /* CollectionCell.swift */,
 				FD0664D120328C1400E408CD /* Main.storyboard */,
 				FD0664D420328C1400E408CD /* Assets.xcassets */,
@@ -1466,6 +1469,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-BestBy/Pods-BestBy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/UIEmptyState/UIEmptyState.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -1474,6 +1478,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIEmptyState.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -1571,6 +1576,7 @@
 				C9A6E4B1206B11FB00A003C7 /* ChangePasswordViewController.swift in Sources */,
 				C9A6E4AF206AD88000A003C7 /* AddFoodToSpaceViewController.swift in Sources */,
 				C9A69F7620709BCC00F62B8A /* AddFoodToListFromCollectionViewController.swift in Sources */,
+				FDC4C892207D6EA500D4A3DC /* SearchCollectionReusableView.swift in Sources */,
 				FD4C6A47203C021400C13ABC /* FoodData.swift in Sources */,
 				AF85A161204A183400DA44B3 /* ShoppingListsViewController.swift in Sources */,
 				FD547D2D2046384600E5D630 /* SearchController.swift in Sources */,

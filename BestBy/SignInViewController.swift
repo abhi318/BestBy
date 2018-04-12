@@ -121,14 +121,6 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
         let newFoodID = newFoodIDref.key
         
         self.ref?.child("Users/\(uid)/AllUsersFood").setValue(newFoodID)
-        let x = self.ref.child("AllFoodLists").childByAutoId()
-        let y = self.ref.child("AllFoodLists").childByAutoId()
-        let z = self.ref.child("AllFoodLists").childByAutoId()
-        self.ref?.child("Users/\(uid)/Spaces").setValue([x.key : "Fridge",
-                                                         y.key : "Pantry",
-                                                         z.key : "Essentials"])
-
-        
     }
     
     @IBAction func BackToLogin(_ sender: Any) {

@@ -19,7 +19,6 @@ class AddFoodToSpaceViewController: UIViewController {
     @IBOutlet weak var food_name_label: UILabel!
     @IBOutlet weak var food_desc_label: UILabel!
     
-    @IBOutlet weak var space_picker: UIPickerView!
     @IBOutlet weak var days_picker: UIPickerView!
     
     @IBOutlet weak var daysLabel: UILabel!
@@ -39,8 +38,6 @@ class AddFoodToSpaceViewController: UIViewController {
 
         ref = Database.database().reference()
 
-        space_picker.delegate = self
-        space_picker.dataSource = self
         days_picker.delegate = self
         days_picker.dataSource = self
         
@@ -79,7 +76,6 @@ class AddFoodToSpaceViewController: UIViewController {
         var daysToExpire = days_picker.selectedRow(inComponent: 0)
 
         if (from == "ShoppingListsViewController") {
-
             for i in currentUser.shared.allShoppingLists[selected_food_ID]!.contents {
                 if FoodData.food_data[i.name] != nil{
                     daysToExpire = FoodData.food_data[i.name]!.0
@@ -99,20 +95,9 @@ class AddFoodToSpaceViewController: UIViewController {
                 let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
                 let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
                 let doe = Int(timeInterval!)
-                
-                var currentListID = currentUser.shared.allFoodListID
-                
-                let space_idx = space_picker.selectedRow(inComponent: 0)
-                if space_idx != 0 {
-                    currentListID = currentUser.shared.otherFoodListIDs[space_idx - 1]
-                }
-                
-                let currentListName = currentUser.shared.allSpaces[currentListID!]!.name
-                
+                                
                 let post = ["name" : i.name,
-                            "timestamp" : doe,
-                            "spaceID": currentListID as Any,
-                            "spaceName" : currentListName as Any] as [String : Any]
+                            "timestamp" : doe] as [String : Any]
                 
                 ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
                 if daysToExpire < 1000 {
@@ -130,8 +115,6 @@ class AddFoodToSpaceViewController: UIViewController {
             let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
             let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
             let doe = Int(timeInterval!)
-
-            var currentListID = currentUser.shared.allFoodListID
         
             if FoodData.food_data[selected_food] == nil {
                 daysToExpire = ((daysToExpire == 0) ? -2 : daysToExpire)
@@ -143,18 +126,9 @@ class AddFoodToSpaceViewController: UIViewController {
             if daysToExpire < 0 {
                 daysToExpire = 10000
             }
-            
-            let space_idx = space_picker.selectedRow(inComponent: 0)
-            if space_idx != 0 {
-                currentListID = currentUser.shared.otherFoodListIDs[space_idx - 1]
-            }
         
-            let currentListName = currentUser.shared.allSpaces[currentListID!]?.name
-
             let post = ["name" : selected_food,
-                        "timestamp" : doe,
-                        "spaceID": currentListID as Any,
-                        "spaceName" : currentListName as Any] as [String : Any]
+                        "timestamp" : doe] as [String : Any]
         
             ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
         
@@ -248,11 +222,7 @@ extension AddFoodToSpaceViewController: UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == space_picker {
-            return currentUser.shared.allSpaces.count
-        } else {
-            return 90
-        }
+        return 90
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -260,18 +230,7 @@ extension AddFoodToSpaceViewController: UIPickerViewDelegate, UIPickerViewDataSo
         if view == nil {  //if no label there yet
             pickerLabel = UILabel()
         }
-        var titleData = "\(row)"
-        if pickerView == space_picker {
-            var keyAtIndex:String?
-            if (row == 0){
-                keyAtIndex = currentUser.shared.allFoodListID
-            }
-            else {
-                keyAtIndex = currentUser.shared.otherFoodListIDs[row - 1]
-            }
-            let currentListName = currentUser.shared.allSpaces[keyAtIndex!]?.name
-            titleData = currentListName!
-        }
+        let titleData = "\(row)"
         
         let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:18.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
         pickerLabel!.attributedText = myTitle
