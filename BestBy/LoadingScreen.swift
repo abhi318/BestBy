@@ -20,6 +20,7 @@ var x = [String:String]()
 let group = DispatchSemaphore(value: 0)
 let everySingleFoodLoaded = DispatchSemaphore(value: 0)
 var added: Set<String> = []
+var addedShoppingLists: Set<String> = []
 
 class LoadingScreen: UIViewController {
     
@@ -37,25 +38,6 @@ class LoadingScreen: UIViewController {
         super.viewDidLoad()
     }
     
-    func loadEverySingleFood() {
-        i = 0
-        let allFoodRef: DatabaseReference = Database.database().reference().child("EverySingleFood")
-        allFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            let newFood = snapshot.value as! [String:[String:Any]]
-            for (key, value) in newFood {
-                
-                if let img = UIImage(named: value["img_name"] as! String){
-                    FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, img)
-                    continue
-                }
-                FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: "groceries"))
-
-                
-            }
-            everySingleFoodLoaded.signal()
-        })
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         //try! Auth.auth().signOut()
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
@@ -64,7 +46,6 @@ class LoadingScreen: UIViewController {
                 
                 DispatchQueue.global(qos: .background).async {
                     group.wait()
-                    everySingleFoodLoaded.wait()
                     everySingleFoodLoaded.wait()
                     DispatchQueue.main.async{
                         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
@@ -100,19 +81,23 @@ class LoadingScreen: UIViewController {
         
         loadAllUsersFood()
         loadEverySingleFood()
-        loadUsersExtraFood()
+        //loadUsersExtraFood()
     }
     
-    func loadUsersExtraFood() {
-        let userRef: DatabaseReference = currentUser.shared.userRef!
-        userRef.child("ExtraFoods").observeSingleEvent(of: .value, with: { (snapshot) in
-            if !snapshot.exists() {
-                everySingleFoodLoaded.signal()
-                return
-            }
-            let extraItems = snapshot.value as! [String : Int]
-            for (item, doe) in extraItems {
-                FoodData.food_data[item] = (doe, "", UIImage(named: "groceries"))
+    func loadEverySingleFood() {
+        i = 0
+        let allFoodRef: DatabaseReference = Database.database().reference().child("EverySingleFood")
+        allFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            let newFood = snapshot.value as! [String:[String:Any]]
+            for (key, value) in newFood {
+                
+                if let img = UIImage(named: value["img_name"] as! String){
+                    FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, img)
+                    continue
+                }
+                FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: "groceries"))
+                
+                
             }
             everySingleFoodLoaded.signal()
         })
@@ -129,17 +114,16 @@ class LoadingScreen: UIViewController {
             
             if (userInfo["ShoppingLists"] != nil) {
                 currentUser.shared.shoppingListIDs = Array((userInfo["ShoppingLists"] as! [String:String]).keys)
-                var j = 0
-                for shoppingListID in currentUser.shared.shoppingListIDs {
-                    currentUser.shared.allShoppingLists[shoppingListID] = ShoppingList()
-                    currentUser.shared.allShoppingLists[shoppingListID]?.name = Array((userInfo["ShoppingLists"] as! [String:String]).values)[j]
-                    j+=1
+                
+                for i in currentUser.shared.shoppingListIDs {
+                    currentUser.shared.allShoppingLists[i] = ShoppingList()
+                    currentUser.shared.allShoppingLists[i]?.name = (userInfo["ShoppingLists"] as! [String:String])[i]
+                    addedShoppingLists.insert(i)
                 }
             }
             
             self.observeAllList(at: currentUser.shared.allFoodListID!)
         })
-
     }
     
     func observeAllList(at: String) {
@@ -148,7 +132,6 @@ class LoadingScreen: UIViewController {
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             if !snapshot.exists() {
                 group.signal()
-                self.childAddedSema.signal()
 
                 return
             }
@@ -174,7 +157,6 @@ class LoadingScreen: UIViewController {
             }
         
             group.signal()
-            self.childAddedSema.signal()
         })
     }
     

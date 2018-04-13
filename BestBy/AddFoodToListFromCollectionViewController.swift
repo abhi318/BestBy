@@ -53,10 +53,14 @@ class AddFoodToListFromCollectionViewController: UIViewController {
             ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(selected_food)
         }
         
-        self.navigationController?.popToRootViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
 
     }
     
+    @IBAction func cancelClicked(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

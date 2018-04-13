@@ -31,6 +31,7 @@ import UIEmptyState
 class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     var ref: DatabaseReference!
+    var handle: DatabaseHandle!
     
     var selectedListID: String!
     var selectedListName: String!
@@ -72,8 +73,6 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
                 
                 currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
                 currentUser.shared.allShoppingLists[listRef.key]!.name = text
-                
-                self.observeShoppingList(at: listRef.key)
             }
             
             DispatchQueue.main.async {
@@ -103,8 +102,6 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
         
         currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
         currentUser.shared.allShoppingLists[listRef.key]!.name = inListName
-        
-        self.observeShoppingList(at: listRef.key)
     }
     
     override func viewDidLoad() {
@@ -132,10 +129,6 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
-//    @objc func tapOut(_ sender : Any?){
-//        self.dismissKeyboard()
-//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -146,6 +139,12 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
         DispatchQueue.main.async{
             self.shopListsTableView.reloadData()
         }
+        observeShoppingLists()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        currentUser.shared.userRef!.child("ShoppingLists").removeObserver(withHandle: handle)
     }
     
     override func didReceiveMemoryWarning() {
@@ -153,16 +152,21 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
         // Dispose of any resources that can be recreated.
     }
     
-    func observeShoppingList(at: String) {
-        let ref: DatabaseReference = Database.database().reference().child("AllShoppingLists/\(at)")
-        ref.observe(.childAdded, with: {snapshot in
-            let foodInfo = snapshot.value as! String
-            if snapshot.key != "name" {
-                let newListItem = ListItem(id: snapshot.key,
-                                           n: foodInfo)
-                currentUser.shared.allShoppingLists[at]!.contents.append(newListItem)
+    func observeShoppingLists() {
+        let ref: DatabaseReference = currentUser.shared.userRef!.child("ShoppingLists")
+        handle = ref.observe(.childAdded, with: {snapshot in
+            let listName = snapshot.value as! String
+            if !addedShoppingLists.contains(snapshot.key) {
+                currentUser.shared.shoppingListIDs.append(snapshot.key)
+                currentUser.shared.allShoppingLists[snapshot.key] = ShoppingList()
+                currentUser.shared.allShoppingLists[snapshot.key]!.name = listName
+                
+                DispatchQueue.main.async{
+                    self.shopListsTableView.reloadData()
+                }
             }
         })
+        
     }
     
     @objc func dismissKeyboard() {
@@ -199,9 +203,9 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
 extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isCreatingNewList {
-            return currentUser.shared.allShoppingLists.count + 1
+            return currentUser.shared.shoppingListIDs.count + 1
         }
-        return currentUser.shared.allShoppingLists.count
+        return currentUser.shared.shoppingListIDs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

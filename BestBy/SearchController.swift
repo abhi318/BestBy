@@ -74,7 +74,9 @@ class SearchController: UIViewController {
             daysToExpire = ((daysToExpire == 0) ? -2 : daysToExpire)
             FoodData.food_data[foodAdded] = (daysToExpire, "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
             
-            ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(foodAdded)").setValue(daysToExpire)
+            ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(foodAdded)").setValue(["doe": daysToExpire,
+                                                                "desc": ""])
+            
         }
         
         if daysToExpire <= 0 {

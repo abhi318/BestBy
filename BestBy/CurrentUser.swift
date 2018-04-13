@@ -28,21 +28,17 @@ final class currentUser {
     
     //every food the user has
     var allFoodListID: String?
+    var allFood: [FoodItem] = [FoodItem]()
     
     //all the shopping list IDs
     var allShoppingLists: [String:ShoppingList] = [String:ShoppingList]()
     var shoppingListIDs: [String] = [String]()
-    
-    //all the spaces the user has, with key FireBase ListID
-    var allFood: [FoodItem] = [FoodItem]()
-    var otherFoodListIDs: [String] = [String]()
-    
+        
     func clear() {
         ID = nil
         userRef = nil
         allFoodListID = nil
         allShoppingLists.removeAll()
         allFood.removeAll()
-        otherFoodListIDs.removeAll()
     }
 }

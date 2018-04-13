@@ -1,15 +1,34 @@
 import UIKit
+import FirebaseDatabase
 
 private let reuseIdentifier = "Cell"
 
-class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchControllerDelegate {
+class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    let searchController = UISearchController(searchResultsController: nil)
+    @IBOutlet var searchBar: UISearchBar!
     var filteredFood = Array(FoodData.food_data.keys)
+    var allFood = Array(FoodData.food_data.keys)
     var searchActive : Bool = false
     var foodBeingAdded: String?
+    var flag: Bool = false
+    var handle: DatabaseHandle!
     
     @IBOutlet var collectionView: UICollectionView!
+    
+    func observeExtraFoods() {
+        let userRef: DatabaseReference = currentUser.shared.userRef!
+        let x = currentUser.shared.ID
+        handle = userRef.child("ExtraFoods").observe(.childAdded, with: { (snapshot) in
+            let extraItemInfo = snapshot.value as! [String : Any]
+            FoodData.food_data[snapshot.key] = (extraItemInfo["doe"] as! Int, extraItemInfo["desc"] as! String, UIImage(named: "groceries"))
+            self.allFood = Array(FoodData.food_data.keys)
+            self.filteredFood = self.allFood
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,30 +36,23 @@ class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICo
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = true
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Foods"
-        searchController.searchBar.delegate = self
-
-        searchController.searchBar.returnKeyType = (UIReturnKeyType.done)
-
-        searchController.searchBar.becomeFirstResponder()
-        navigationItem.searchController = searchController
-
-        filteredFood = Array(FoodData.food_data.keys)
+        searchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.navigationItem.title = "All Items"
+        observeExtraFoods()
+        flag = false
+        self.navigationItem.title = "All Items"
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        currentUser.shared.userRef?.removeObserver(withHandle: handle)
         if(collectionView!.indexPathsForSelectedItems!.count > 0) {
             if let cell = collectionView?.cellForItem(at: (collectionView?.indexPathsForSelectedItems![0])!) {
                 let c = cell as! CollectionCell
-                c.removeOverlay()
+                c.addToShoppingList.isHidden = true
+                c.addToSpace.isHidden = true
             }
         }
     }
@@ -48,11 +60,10 @@ class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         if searchActive {
-            return filteredFood.count
+            return filteredFood.count + 1
         }
-        else
-        {
-            return FoodData.food_data.count
+        else {
+            return allFood.count + 1
         }
     }
     
@@ -60,7 +71,44 @@ class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICo
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionCell
         
-        let key = filteredFood[indexPath.row]
+        var key:String
+        var count: Int
+        
+        if cell.isSelected {
+            cell.addToSpace.isHidden = false
+            cell.addToShoppingList.isHidden = false
+        }
+        else {
+            cell.addToSpace.isHidden = true
+            cell.addToShoppingList.isHidden = true
+        }
+        
+        if searchActive {
+            count = filteredFood.count
+            if indexPath.row == count {
+                cell.imageView.image = UIImage(named:"add.png")
+                let screenSize: CGRect = cell.imageView.bounds
+                cell.imageView.frame = CGRect(x: screenSize.width * 0.25, y: screenSize.height * 0.1, width: screenSize.width * 0.8, height: screenSize.height * 0.8)
+                cell.foodName.text = "Add New"
+                cell.addToSpace.isHidden = true
+                cell.addToShoppingList.isHidden = true
+                return cell
+            }
+            key = filteredFood[indexPath.row]
+        }
+        else {
+            count = allFood.count
+            if indexPath.row == count {
+                cell.imageView.image = UIImage(named:"add.png")
+                let screenSize: CGRect = cell.imageView.bounds
+                cell.imageView.frame = CGRect(x: screenSize.width * 0.25, y: screenSize.height * 0.1, width: screenSize.width * 0.8, height: screenSize.height * 0.8)
+                cell.addToSpace.isHidden = true
+                cell.addToShoppingList.isHidden = true
+                cell.foodName.text = "Add New"
+                return cell
+            }
+            key = allFood[indexPath.row]
+        }
         
         if FoodData.food_data[key] != nil{
             cell.imageView.image = FoodData.food_data[key]!.2
@@ -75,9 +123,33 @@ class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
+        
+        var key:String
+        var count: Int
+        flag = false
+        if searchActive {
+            count = filteredFood.count
+            if indexPath.row == count {
+                flag = true
+                performSegue(withIdentifier: "addNewFood", sender: self)
+                return
+            }
+            key = filteredFood[indexPath.row]
+        }
+        else {
+            count = allFood.count
+            if indexPath.row == count {
+                flag = true
+                performSegue(withIdentifier: "addNewFood", sender: self)
+                return
+            }
+            
+            key = allFood[indexPath.row]
+        }
+        
         self.navigationItem.title = cell.foodName.text
-        let key = filteredFood[indexPath.row]
         var daysRemaining = -1
+        
         if FoodData.food_data[key] != nil {
             daysRemaining = FoodData.food_data[key]!.0
             if FoodData.food_data[key]!.0 < 0 {
@@ -100,26 +172,18 @@ class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICo
                 )
             }
         )
-        
-        cell.overlayTimeRemaining(days: daysRemaining)
+        cell.addToSpace.isHidden = false
+        cell.addToShoppingList.isHidden = false
+        //cell.overlayTimeRemaining(days: daysRemaining)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
-        cell.removeOverlay()
-    }
-
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if (kind == UICollectionElementKindSectionHeader) {
-            let headerView:UICollectionReusableView =  collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "CollectionViewHeader", for: indexPath)
-            
-            return headerView
+        guard let cell = collectionView.cellForItem(at: indexPath) else {
+            return //the cell is not visible
         }
-        
-        return UICollectionReusableView()
-        
+        let c = cell as! CollectionCell
+        c.addToShoppingList.isHidden = true
+        c.addToSpace.isHidden = true
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -157,74 +221,52 @@ class FoodCollectionController: UIViewController, UICollectionViewDelegate, UICo
     
     override func shouldPerformSegue(withIdentifier identifier: String,
                             sender: Any?) -> Bool {
-        if identifier == "profile" {
+        if identifier == "addNewFood" && flag {
             return true
         }
-        if identifier == "addFoodToList" {
-            if currentUser.shared.allShoppingLists.count == 0 {
-                if self.navigationController?.parent is MainViewController {
-                    let tabbar = self.navigationController?.parent as! UITabBarController
-                    tabbar.selectedIndex = 1
-                }
-                return false
-            }
-        }
-        if self.navigationItem.title == "All Items" || self.navigationItem.title == nil {
-            return false
-        } else {
+        if identifier == "addToShoppingList" && currentUser.shared.shoppingListIDs.count > 0 {
             return true
         }
+        
+        return false
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addFoodToSpace" {
-            if let destinationVC = segue.destination as? AddFoodToSpaceViewController {
-                let key = self.navigationItem.title
-                destinationVC.selected_food = key
-            }
-        }
-        if segue.identifier == "addFoodToList" {
+        if segue.identifier == "addToShoppingList" {
             if let destinationVC = segue.destination as? AddFoodToListFromCollectionViewController {
-                let key = self.navigationItem.title
-                destinationVC.selected_food = key
+                destinationVC.selected_food = self.navigationItem.title
             }
         }
     }
-
 }
 
 
-extension FoodCollectionController: UISearchBarDelegate, UISearchResultsUpdating {
-    func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
-    }
-    
-    func searchBarIsEmpty() -> Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        let all_food_names = Array(FoodData.food_data.keys)
-        filteredFood = all_food_names.filter({( food_name : String) -> Bool in
-            return food_name.lowercased().contains((searchController.searchBar.text!).lowercased())
-        })
-        
-        self.collectionView!.reloadData()
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+extension FoodCollectionController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let names = allFood
+        if searchText == "" {
+            searchActive = false
+            filteredFood = allFood
+            collectionView.reloadData()
+            return
+        }
         searchActive = true
-        collectionView!.reloadData()
+        filteredFood = names.filter({( food_name : String) -> Bool in
+            return food_name.lowercased().contains(searchText.lowercased())
+        })
+        collectionView.reloadData()
+
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false
-        collectionView!.reloadData()
+        searchBar.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        filteredFood = Array(FoodData.food_data.keys)
-        searchController.searchBar.resignFirstResponder()
+        searchActive = false
+        collectionView.reloadData()
+        searchBar.resignFirstResponder()
     }
 }
 
