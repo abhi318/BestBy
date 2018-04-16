@@ -12,8 +12,6 @@ import FirebaseDatabase
 import UIEmptyState
 import UserNotifications
 
-var foodAddedToShoppingList: Set<String> = []
-
 class AddToShopListViewController: UIViewController {
 
     private var data: [FoodItem] = []
@@ -25,14 +23,50 @@ class AddToShopListViewController: UIViewController {
     var currentListName: String!
     var mustDelete = false
     
-    @IBAction func shareSheetClicked(_ sender: Any) {
-        let shareContent = "\(Auth.auth().currentUser!.email!) shared a shopping list with you: \n\(currentListID!)"
-        let activityViewController = UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
-        present(activityViewController, animated: true)
+    @IBOutlet weak var shoppingListTableView: UITableView!
+    
+    @IBAction func transferSelectedClicked(_ sender: Any) {
+        print("OK, marked as Closed")
+        for idx in shoppingListTableView.indexPathsForSelectedRows! {
+            let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[idx.row]
+            
+            var daysToExpire = -2
+            
+            if FoodData.food_data[item.name] != nil{
+                daysToExpire = FoodData.food_data[item.name]!.0
+            }
+                
+            else {
+                FoodData.food_data[item.name] = (daysToExpire, "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
+                self.ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(item.name)").setValue(["doe": daysToExpire,
+                                                                                                    "desc": ""])
+            }
+            
+            if daysToExpire <= 0 {
+                daysToExpire = 10000
+            }
+            
+            let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
+            let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
+            let doe = Int(timeInterval!)
+            
+            let post = ["name" : item.name,
+                        "timestamp" : doe] as [String : Any]
+            
+            self.ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
+            if daysToExpire < 1000 {
+                getNotificationForDay(on: dateOfExpiration!, foodName: item.name)
+            }
+            Database.database().reference().child("AllShoppingLists/\(self.currentListID!)/\(item.ID)").removeValue()
+        }
+        for idx in shoppingListTableView.indexPathsForSelectedRows!.sorted(by: >) {
+            currentUser.shared.allShoppingLists[self.currentListID]!.contents.remove(at: idx.row)
+            
+            shoppingListTableView.deleteRows(at: [idx], with: .fade)
+            self.reloadEmptyStateForTableView(shoppingListTableView)
+        }
     }
     
-    @IBOutlet weak var shoppingListTableView: UITableView!
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,7 +78,8 @@ class AddToShopListViewController: UIViewController {
         self.shoppingListTableView.delegate = self
         self.shoppingListTableView.dataSource = self
         
-        self.shoppingListTableView.allowsSelection = false
+        self.shoppingListTableView.allowsSelection = true
+        self.shoppingListTableView.allowsMultipleSelection = true
         
         ref = Database.database().reference()
     }
@@ -52,8 +87,8 @@ class AddToShopListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         // this isn't getting info quick enough... fix this tomorrow
         super.viewWillAppear(animated)
-        self.navigationItem.title = currentListName
         observeShoppingList()
+        self.navigationItem.title = currentListName
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,7 +98,7 @@ class AddToShopListViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        ref.child("AllShoppingLists/\(currentListID)").removeObserver(withHandle: handle)
+        ref.child("AllShoppingLists/\(currentListID!)").removeObserver(withHandle: handle)
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,7 +110,8 @@ class AddToShopListViewController: UIViewController {
     func observeShoppingList() {
         let curRef = ref.child("AllShoppingLists/\(currentListID!)")
         handle = curRef.observe(.childAdded, with: {(snapshot) in
-            if snapshot.key != "name" && !foodAddedToShoppingList.contains(snapshot.key){
+            if snapshot.key != "name" && snapshot.key != "sharedWith" && !foodAddedToShoppingList.contains(snapshot.key)
+            {
                 foodAddedToShoppingList.insert(snapshot.key)
                 
                 currentUser.shared.allShoppingLists[self.currentListID]!.contents.append(ListItem(id: snapshot.key, n: snapshot.value as! String))
@@ -112,24 +148,30 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "listItemID", for: indexPath)
-
+        cell.selectionStyle = .none
         let foodItem = currentUser.shared.allShoppingLists[currentListID]!.contents[indexPath.row]
         cell.textLabel!.text = foodItem.name
         return cell
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)!
+        cell.accessoryType = .checkmark
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)!
+        cell.accessoryType = .none
+    }
 
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            currentUser.shared.allShoppingLists[self.currentListID]!.contents.remove(at: indexPath.row)
-            Database.database().reference().child("AllShoppingLists/\(self.currentListID!)/\(item.ID)").removeValue()
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            self.reloadEmptyStateForTableView(self.shoppingListTableView)
-        }
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[indexPath.row]
         
-        let addToSpace = UITableViewRowAction(style: .normal, title: "Add") { (action, indexPath) in
+        let transferAction = UIContextualAction(style: .destructive, title:  "Transfer", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            print("OK, marked as Closed")
+            
             var daysToExpire = -2
             
             if FoodData.food_data[item.name] != nil{
@@ -152,12 +194,29 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
             
             let post = ["name" : item.name,
                         "timestamp" : doe] as [String : Any]
-
+            
             self.ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
             if daysToExpire < 1000 {
-                self.getNotificationForDay(on: dateOfExpiration!, foodName: item.name)
+                getNotificationForDay(on: dateOfExpiration!, foodName: item.name)
             }
             
+            currentUser.shared.allShoppingLists[self.currentListID]!.contents.remove(at: indexPath.row)
+            Database.database().reference().child("AllShoppingLists/\(self.currentListID!)/\(item.ID)").removeValue()
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.reloadEmptyStateForTableView(tableView)
+            success(true)
+        })
+        transferAction.image = UIImage(named: "tick")
+        transferAction.backgroundColor = gradient[2]
+        return UISwipeActionsConfiguration(actions: [transferAction])
+        
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[indexPath.row]
+
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             currentUser.shared.allShoppingLists[self.currentListID]!.contents.remove(at: indexPath.row)
             Database.database().reference().child("AllShoppingLists/\(self.currentListID!)/\(item.ID)").removeValue()
             
@@ -165,63 +224,8 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
             self.reloadEmptyStateForTableView(self.shoppingListTableView)
         }
         
-        
-        
-        return [delete, addToSpace]
+        return [delete]
     }
-    
-    func getNotificationForDay(on: Date, foodName: String) {
-        let center = UNUserNotificationCenter.current()
-        let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-        center.getPendingNotificationRequests(completionHandler: { requests in
-            for request in requests {
-                
-                let requestTriggerDate = (request.trigger as! UNCalendarNotificationTrigger).nextTriggerDate()
-                
-                let order = calendar.compare(requestTriggerDate!, to: on, toGranularity: .day)
-                if order.rawValue == 0 {
-                    self.addRequest(calendar: calendar, request: request, center: center, foodName: foodName, date: on)
-                    return
-                }
-            }
-            self.addRequest(calendar: calendar, request: nil, center: center, foodName: foodName, date: on)
-            return
-        })
-    }
-    
-    func addRequest(calendar: Calendar, request: UNNotificationRequest?, center: UNUserNotificationCenter, foodName: String, date: Date) {
-        let content = UNMutableNotificationContent()
-        var identifier: String?
-        var trigger: UNCalendarNotificationTrigger?
-        
-        if request == nil {
-            content.title = "What's expiring today?"
-            content.body = "\(foodName)"
-            
-            
-            var triggerDate = Calendar.current.dateComponents([.year,.month,.day], from: date)
-            identifier = "\(triggerDate.month!)/\(triggerDate.day!)/\(triggerDate.year!)"
-            
-            triggerDate.hour = 9
-            triggerDate.minute = 0
-            triggerDate.second = 0
-            
-            trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
-                                                    repeats: false)
-        }
-        else {
-            content.title = request!.content.title
-            content.body = request!.content.body + ", \(foodName)"
-        }
-        let request = UNNotificationRequest(identifier: (request != nil) ? request!.identifier : identifier!,
-                                            content: content, trigger: (request != nil) ? request!.trigger : trigger!)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        })
-    }
-    
 }
 
 extension AddToShopListViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {

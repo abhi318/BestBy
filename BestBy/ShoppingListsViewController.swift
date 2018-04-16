@@ -6,32 +6,19 @@
 //
 
 
-/*
- 
- func observeEachShoppingList() {
- for shoppingListID in currentUser.shared.shoppingListIDs {
- let ref: DatabaseReference = Database.database().reference().child("AllShoppingLists/\(shoppingListID)")
- ref.observe(.childAdded, with: {snapshot in
- let foodInfo = snapshot.value as! String
- if snapshot.key != "name" {
- let newListItem = ListItem(id: snapshot.key,
- n: foodInfo)
- currentUser.shared.allShoppingLists[shoppingListID]!.contents.append(newListItem)
- }
- })
- }
- }
- */
 
 import UIKit
-import Firebase
 import FirebaseDatabase
+import FirebaseStorage
 import UIEmptyState
+
+var addedSharedUsers: Set<String> = []
 
 class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     var ref: DatabaseReference!
     var handle: DatabaseHandle!
+    var storageRef: StorageReference!
     
     var selectedListID: String!
     var selectedListName: String!
@@ -44,43 +31,19 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
     @IBOutlet weak var shopListsTableView: UITableView!
     @IBAction func addShoppingList(_ sender: Any) {
         isCreatingNewList = true
+        shopListsTableView.reloadData()
     }
-
+    
+    
     func textFieldShouldReturn(_ textF: UITextField) -> Bool {
         let text = textF.text
-        Database.database().reference().child("AllShoppingLists/\(String(describing: text))").observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.exists(){
-                let info = (snapshot.value as! [String: Any])
-                self.inListName = info["name"] as! String
-                self.inList = true
-            }
-            self.sema.signal()
-        })
         
-        DispatchQueue.global(qos: .background).async {
-            self.sema.wait()
-            
-            if self.inList {
-                self.loadShoppingList(at: text!)
-            }
-            else {
-                let listRef = self.ref.child("AllShoppingLists").childByAutoId()
-                listRef.child("name").setValue(text)
-                
-                self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
-                
-                currentUser.shared.shoppingListIDs.append(listRef.key)
-                
-                currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
-                currentUser.shared.allShoppingLists[listRef.key]!.name = text
-            }
-            
-            DispatchQueue.main.async {
-                self.shopListsTableView.reloadData()
-                self.reloadEmptyStateForTableView(self.shopListsTableView)
-            }
-        }
+        let listRef = self.ref.child("AllShoppingLists").childByAutoId()
+        listRef.child("name").setValue(text)
+        listRef.child("sharedWith/\(currentUser.shared.ID!)").setValue(true)
         
+        self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listRef.key)").setValue(text)
+    
         isCreatingNewList = false
         textF.isHidden = true
         textF.resignFirstResponder()
@@ -96,18 +59,16 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
     
     func loadShoppingList(at: String) {
         let listRef = self.ref.child("AllShoppingLists\(at)")
+        
+        listRef.child("sharedWith/\(currentUser.shared.ID!)").setValue(true)
         self.ref.child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(at)").setValue(inListName)
-        
-        currentUser.shared.shoppingListIDs.append(listRef.key)
-        
-        currentUser.shared.allShoppingLists[listRef.key] = ShoppingList()
-        currentUser.shared.allShoppingLists[listRef.key]!.name = inListName
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
+        storageRef = Storage.storage().reference()
         
         self.shopListsTableView.delegate = self
         self.shopListsTableView.dataSource = self
@@ -136,8 +97,8 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        DispatchQueue.main.async{
-            self.shopListsTableView.reloadData()
+        if let index = self.shopListsTableView.indexPathForSelectedRow {
+            self.shopListsTableView.deselectRow(at: index, animated: true)
         }
         observeShoppingLists()
     }
@@ -145,6 +106,9 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         currentUser.shared.userRef!.child("ShoppingLists").removeObserver(withHandle: handle)
+        for ID in currentUser.shared.shoppingListIDs {
+            ref.child("AllShoppingLists/\(ID)/sharedWith").removeAllObservers()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -153,19 +117,49 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
     }
     
     func observeShoppingLists() {
-        let ref: DatabaseReference = currentUser.shared.userRef!.child("ShoppingLists")
-        handle = ref.observe(.childAdded, with: {snapshot in
+        
+//        let picsDownloaded = DispatchSemaphore(value:0)
+        
+        let userShoppingListref: DatabaseReference = currentUser.shared.userRef!.child("ShoppingLists")
+        handle = userShoppingListref.observe(.childAdded, with: {snapshot in
             let listName = snapshot.value as! String
             if !addedShoppingLists.contains(snapshot.key) {
+                addedShoppingLists.insert(snapshot.key)
                 currentUser.shared.shoppingListIDs.append(snapshot.key)
                 currentUser.shared.allShoppingLists[snapshot.key] = ShoppingList()
                 currentUser.shared.allShoppingLists[snapshot.key]!.name = listName
                 
                 DispatchQueue.main.async{
                     self.shopListsTableView.reloadData()
+                    self.reloadEmptyStateForTableView(self.shopListsTableView)
                 }
             }
         })
+        
+        for ID in currentUser.shared.shoppingListIDs {
+            ref.child("AllShoppingLists/\(ID)/sharedWith").observe(.childAdded, with: {(snapshot) in
+                print(snapshot)
+                print(ID)
+                print(self.ref.child("AllShoppingLists/\(ID)/sharedWith"))
+                
+                if snapshot.key != currentUser.shared.ID && !addedSharedUsers.contains(snapshot.key){
+                    addedSharedUsers.insert(snapshot.key)
+                    let profImageRef = self.storageRef.child("profImages/\(snapshot.key).png")
+                    
+                    profImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                        if error != nil {
+                            currentUser.shared.allShoppingLists[ID]!.sharedWith.append((snapshot.key, UIImage(named: "default_profile.png")!))
+                        } else {
+                            currentUser.shared.allShoppingLists[ID]!.sharedWith.append((snapshot.key, UIImage(data: data!)!))
+                        }
+                        DispatchQueue.main.async{
+                            self.shopListsTableView.reloadData()
+                            self.reloadEmptyStateForTableView(self.shopListsTableView)
+                        }
+                    }
+                }
+            })
+        }
         
     }
     
@@ -211,18 +205,21 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "shopListID") as! ShoppingListCellTableViewCell
         
+        cell.shareWithTextField.isHidden = true
         if isCreatingNewList {
             if indexPath.item + 1 == tableView.numberOfRows(inSection: 0) {
                 cell.newListTextField.delegate = self
                 cell.listNameLabel.text = ""
                 cell.newListTextField.isHidden = false
                 cell.newListTextField.becomeFirstResponder()
+                cell.shareListButton.isHidden = true
             } else {
                 let listID = currentUser.shared.shoppingListIDs[indexPath.item]
                 let list_for_row = currentUser.shared.allShoppingLists[listID]
                 let name = list_for_row?.name
                 cell.listNameLabel.text = name
                 cell.newListTextField.isHidden = true
+                cell.listID = listID
             }
         } else {
             let listID = currentUser.shared.shoppingListIDs[indexPath.item]
@@ -230,11 +227,11 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
             let name = list_for_row?.name
             cell.listNameLabel.text = name
             cell.newListTextField.isHidden = true
-
+            cell.listID = listID
+            cell.shareListButton.isHidden = false
         }
         
         cell.listNameLabel.sizeToFit()
-        cell.textLabel?.sizeToFit()
         
         return cell
     }
@@ -249,47 +246,129 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
         return indexPath
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
         let listID = currentUser.shared.shoppingListIDs[indexPath.row]
-        let list_for_row = currentUser.shared.allShoppingLists[listID]
         
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+        let transferAction = UIContextualAction(style: .destructive, title:  "Transfer", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            print("OK, marked as Closed")
+            
+            let ref = Database.database().reference()
+            ref.child("AllShoppingLists/\(listID)").observeSingleEvent(of: .value, with:  { (snapshot) in
+                print(snapshot)
+                let info = snapshot.value as! [String:Any]
+                for (id, name) in info {
+                    if id == "name" || id == "sharedWith" {continue}
+                    let foodName = name as! String
+                    var daysToExpire = -2
+                    
+                    if FoodData.food_data[foodName] != nil {
+                        daysToExpire = FoodData.food_data[foodName]!.0
+                    } else {
+                        FoodData.food_data[foodName] = (daysToExpire, "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
+                        self.ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(foodName)").setValue(["doe": daysToExpire,
+                                                                                                            "desc": ""])
+                    }
+                    
+                    if daysToExpire <= 0 {
+                        daysToExpire = 10000
+                    }
+                    
+                    let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
+                    let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
+                    let doe = Int(timeInterval!)
+
+                    let post = ["name" : foodName,
+                                "timestamp" : doe] as [String : Any]
+                    
+                    self.ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
+                    
+                    if daysToExpire < 1000 {
+                        getNotificationForDay(on: dateOfExpiration!, foodName: foodName)
+                    }
+                }
+            })
             
             currentUser.shared.shoppingListIDs.remove(at: indexPath.row)
             currentUser.shared.allShoppingLists.removeValue(forKey: listID)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.reloadEmptyStateForTableView(self.shopListsTableView)
+
+            currentUser.shared.userRef!.child("ShoppingLists/\(listID)").removeValue()
+            success(true)
+        })
+        transferAction.image = UIImage(named: "tick")
+        transferAction.backgroundColor = gradient[2]
+        return UISwipeActionsConfiguration(actions: [transferAction])
+        
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let listID = currentUser.shared.shoppingListIDs[indexPath.row]
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            
+            
+            currentUser.shared.shoppingListIDs.remove(at: indexPath.row)
+            let x = currentUser.shared.allShoppingLists.removeValue(forKey: listID)
+            if x!.sharedWith.count == 0 {
+                Database.database().reference().child("AllShoppingLists/\(listID)").removeValue()
+            }
             
             Database.database().reference().child("Users/\(currentUser.shared.ID!)/ShoppingLists/\(listID)").removeValue()
             tableView.deleteRows(at: [indexPath], with: .fade)
             self.reloadEmptyStateForTableView(tableView)
         }
-        
-        let addToSpace = UITableViewRowAction(style: .normal, title: "Add") { (action, indexPath) in
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addItemToSpaces") as! AddFoodToSpaceViewController
-            vc.selected_food = list_for_row!.name!
 
-            vc.idx = indexPath
-            vc.selected_food_ID = listID
-            vc.from = "ShoppingListsViewController"
-            
-            var desc = ""
-            for i in list_for_row!.contents {
-                desc += "\(i.name), "
-            }
-            
-            vc.desc = desc
-            
-            self.show(vc, sender: self)
-        }
-        
-        let share = UITableViewRowAction(style: .normal, title: "Share") { (action, indexPath) in
-            let shareContent = "\(Auth.auth().currentUser!.email!) shared a shopping list with you: \n\(listID)"
-            let activityViewController = UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
-            self.present(activityViewController, animated: true)
-        }
-        
-        return [delete, addToSpace, share]
+        return [delete]
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let tableCell = cell as? ShoppingListCellTableViewCell else { return }
+        
+        if isCreatingNewList && indexPath.item + 1 == tableView.numberOfRows(inSection: 0) {
+            tableCell.sharedWithCollectionView.isHidden = true
+        }
+        else {
+            tableCell.sharedWithCollectionView.isHidden = false
+            tableCell.sharedWithCollectionView.sendSubview(toBack: tableCell)
+            tableCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
+            tableCell.sharedWithCollectionView.isUserInteractionEnabled = false
+        }
+
+    }
+    
+}
+
+extension ShoppingListsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        let x = currentUser.shared.shoppingListIDs[collectionView.tag]
+        return currentUser.shared.allShoppingLists[x]!.sharedWith.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell",
+                                                      for: indexPath) as! sharedWithCell
+
+        cell.imageView.image = currentUser.shared.allShoppingLists[currentUser.shared.shoppingListIDs[collectionView.tag]]!.sharedWith[indexPath.item].1
+        cell.layer.cornerRadius = cell.frame.width/2
+        cell.clipsToBounds = true
+        
+        
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: 40, height: 40)
+    }
 }
 
 extension ShoppingListsViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {

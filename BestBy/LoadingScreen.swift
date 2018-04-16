@@ -21,6 +21,8 @@ let group = DispatchSemaphore(value: 0)
 let everySingleFoodLoaded = DispatchSemaphore(value: 0)
 var added: Set<String> = []
 var addedShoppingLists: Set<String> = []
+var foodAddedToShoppingList: Set<String> = []
+
 
 class LoadingScreen: UIViewController {
     
@@ -43,9 +45,14 @@ class LoadingScreen: UIViewController {
         handle = Auth.auth().addStateDidChangeListener{ (auth, user) in
             if user != nil {
                 self.fillCurrentUserSingleton(user: user!)
+
+                added.removeAll()
+                addedShoppingLists.removeAll()
+                foodAddedToShoppingList.removeAll()
                 
                 DispatchQueue.global(qos: .background).async {
                     group.wait()
+                    everySingleFoodLoaded.wait()
                     everySingleFoodLoaded.wait()
                     DispatchQueue.main.async{
                         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainViewController") as? MainViewController
@@ -67,21 +74,27 @@ class LoadingScreen: UIViewController {
         
         currentUser.shared.ID = user.uid
         currentUser.shared.userRef = ref.child("Users/\(user.uid)")
-        
-        let profImageRef = Storage.storage().reference(forURL: (user.photoURL!.absoluteString))
+        let encodedUserEmail = (user.email!).replacingOccurrences(of: ".", with: ",")
+        ref.child("Users/\(encodedUserEmail)").setValue(user.uid)
 
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        profImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                currentUser.shared.profile_img = UIImage(data: data!)
+        if user.photoURL == nil {
+            currentUser.shared.profile_img = UIImage(named: "default_profile.png")
+        } else {
+            let profImageRef = Storage.storage().reference(forURL: (user.photoURL!.absoluteString))
+
+            // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+            profImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    currentUser.shared.profile_img = UIImage(named: "default_profile.png")
+                    print(error.localizedDescription)
+                } else {
+                    currentUser.shared.profile_img = UIImage(data: data!)
+                }
             }
         }
         
         loadAllUsersFood()
         loadEverySingleFood()
-        //loadUsersExtraFood()
     }
     
     func loadEverySingleFood() {
@@ -90,14 +103,11 @@ class LoadingScreen: UIViewController {
         allFoodRef.observeSingleEvent(of: .value, with: { (snapshot) in
             let newFood = snapshot.value as! [String:[String:Any]]
             for (key, value) in newFood {
-                
                 if let img = UIImage(named: value["img_name"] as! String){
                     FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, img)
                     continue
                 }
                 FoodData.food_data[key] = (value["doe"] as! Int, value["desc"] as! String, UIImage(named: "groceries"))
-                
-                
             }
             everySingleFoodLoaded.signal()
         })
@@ -112,12 +122,25 @@ class LoadingScreen: UIViewController {
             
             currentUser.shared.allFoodListID = userInfo["AllUsersFood"] as? String
             
+            if (userInfo["ExtraFoods"] != nil) {
+                let extras = userInfo["ExtraFoods"] as! [String:[String:Any]]
+                for (itemName, itemInfo) in extras {
+                    if FoodData.food_data[itemName] != nil {
+                        FoodData.food_data[itemName]!.0 = itemInfo["doe"] as! Int
+                        FoodData.food_data[itemName]!.1 = itemInfo["desc"] as! String
+                    } else {
+                        FoodData.food_data[itemName] = (itemInfo["doe"] as! Int, itemInfo["desc"] as! String, UIImage(named: "groceries"))
+                    }
+                }
+            }
+            everySingleFoodLoaded.signal()
+            
             if (userInfo["ShoppingLists"] != nil) {
                 currentUser.shared.shoppingListIDs = Array((userInfo["ShoppingLists"] as! [String:String]).keys)
                 
                 for i in currentUser.shared.shoppingListIDs {
                     currentUser.shared.allShoppingLists[i] = ShoppingList()
-                    currentUser.shared.allShoppingLists[i]?.name = (userInfo["ShoppingLists"] as! [String:String])[i]
+                    currentUser.shared.allShoppingLists[i]!.name = (userInfo["ShoppingLists"] as! [String:String])[i]
                     addedShoppingLists.insert(i)
                 }
             }
@@ -132,7 +155,6 @@ class LoadingScreen: UIViewController {
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             if !snapshot.exists() {
                 group.signal()
-
                 return
             }
             let allFoods = snapshot.value as! [String : [String : Any]]

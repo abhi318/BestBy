@@ -10,7 +10,6 @@ import UIKit
 import FirebaseDatabase
 
 class AddNewFoodController: UIViewController, UITextViewDelegate {
-    
     @IBAction func cancelButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -30,11 +29,18 @@ class AddNewFoodController: UIViewController, UITextViewDelegate {
                                                       "desc": desc.text])
         self.dismiss(animated: true, completion: nil)
     }
+    
     @IBOutlet var daysPicker: UIPickerView!
     @IBOutlet var desc: UITextView!
     @IBOutlet var name: UITextField!
     @IBOutlet var img: UIImageView!
-        
+    
+    var foodName: String!
+    var im: UIImage!
+    var foodDesc: String!
+    var doe: Int!
+    @IBOutlet var addButton: UIButton!
+    
     func textViewDidBeginEditing(_ textView: UITextView)
     {
         if (textView.text == "New Food Description")
@@ -46,7 +52,7 @@ class AddNewFoodController: UIViewController, UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView)
     {
-        if (textView.text == "")
+        if textView.text == "" && foodName == nil
         {
             textView.text = "New Food Description"
             textView.textColor = .lightGray
@@ -57,11 +63,34 @@ class AddNewFoodController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        desc.delegate = self
-        desc.text = "New Food Description"
-        desc.textColor = .lightGray
         daysPicker.delegate = self
         daysPicker.dataSource = self
+        desc.delegate = self
+        desc.textColor = .black
+
+        if foodName != nil {
+            name.text = foodName
+            name.isUserInteractionEnabled = false
+            img.image = im
+            
+            addButton.setTitle("DONE", for: .normal)
+            desc.text = foodDesc
+            if foodDesc == "" {
+                desc.text = "New Food Description"
+                desc.textColor = .lightGray
+
+            }
+            if doe < 0 {
+                doe = 0
+            }
+            daysPicker.selectRow(doe, inComponent: 0, animated: true)
+        } else {
+            desc.text = "New Food Description"
+            desc.textColor = .lightGray
+
+            addButton.setTitle("ADD NEW FOOD", for: .normal)
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

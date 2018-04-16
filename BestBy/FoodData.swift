@@ -56,4 +56,5 @@ class ListItem {
 class ShoppingList {
     var name: String?
     var contents: [ListItem] = []
+    var sharedWith: [(String, UIImage)]! = []
 }

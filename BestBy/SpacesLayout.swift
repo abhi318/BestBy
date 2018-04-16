@@ -110,10 +110,8 @@ class SpacesLayout: UICollectionViewLayout {
                 let yOffset = standardHeight * nextItemPercentageOffset
                 y = collectionView!.contentOffset.y - yOffset
                 height = featuredHeight
-                
             } else if indexPath.item == (featuredItemIndex + 1) && indexPath.item != numberOfItems {
                 let maxY = standardHeight + y
-                //let a: CGFloat = CGFloat(3.0) - CGFloat((q + 5) / 6)
                 height = standardHeight + max((featuredHeight-standardHeight) * nextItemPercentageOffset, 0)
                 y = maxY - height
             }
@@ -124,13 +122,6 @@ class SpacesLayout: UICollectionViewLayout {
             cache.append(attributes)
             y = (frame).maxY
         }
-        
-//        let indexPath = IndexPath(item: 0, section: 1)
-//        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-//        attributes.zIndex = 6
-//        attributes.frame = CGRect(x: 0, y: collectionView!.frame.minY, width: width, height: 70)
-//        
-//        cache.append(attributes)
     }
     
     /* Return all attributes in the cache whose frame intersects with the rect passed to the method */

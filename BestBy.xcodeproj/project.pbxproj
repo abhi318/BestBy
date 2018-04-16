@@ -254,7 +254,6 @@
 		C9A6E4A9206A058B00A003C7 /* ribs.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4A7206A058B00A003C7 /* ribs.png */; };
 		C9A6E4AC206A06AD00A003C7 /* peanut-butter.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4AA206A06AD00A003C7 /* peanut-butter.png */; };
 		C9A6E4AD206A06AD00A003C7 /* butter.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A6E4AB206A06AD00A003C7 /* butter.png */; };
-		C9A6E4AF206AD88000A003C7 /* AddFoodToSpaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6E4AE206AD88000A003C7 /* AddFoodToSpaceViewController.swift */; };
 		C9A6E4B1206B11FB00A003C7 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6E4B0206B11FB00A003C7 /* ChangePasswordViewController.swift */; };
 		C9A6E4B3206DFFE000A003C7 /* AddToShopListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6E4B2206DFFE000A003C7 /* AddToShopListViewController.swift */; };
 		C9A6E4B5206E05D400A003C7 /* AddFoodToShopListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6E4B4206E05D400A003C7 /* AddFoodToShopListViewController.swift */; };
@@ -292,6 +291,9 @@
 		FDCDFDCE206B77D0003FE7EF /* BestByIcon in Resources */ = {isa = PBXBuildFile; fileRef = FDCDFDCD206B77D0003FE7EF /* BestByIcon */; };
 		FDDA5120206190A600643514 /* FoodCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA511F206190A600643514 /* FoodCollectionController.swift */; };
 		FDDEDA55206278AD005AC6FB /* SpacesLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */; };
+		FDF00EA32081618E0069798F /* sharedWithCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF00EA22081618E0069798F /* sharedWithCell.swift */; };
+		FDF121C12082B1D5007C3354 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF121C02082B1D5007C3354 /* edit.png */; };
+		FDF121C3208426B0007C3354 /* success.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF121C2208426AF007C3354 /* success.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -561,7 +563,6 @@
 		C9A6E4A7206A058B00A003C7 /* ribs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ribs.png; sourceTree = "<group>"; };
 		C9A6E4AA206A06AD00A003C7 /* peanut-butter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "peanut-butter.png"; sourceTree = "<group>"; };
 		C9A6E4AB206A06AD00A003C7 /* butter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = butter.png; sourceTree = "<group>"; };
-		C9A6E4AE206AD88000A003C7 /* AddFoodToSpaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodToSpaceViewController.swift; sourceTree = "<group>"; };
 		C9A6E4B0206B11FB00A003C7 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		C9A6E4B2206DFFE000A003C7 /* AddToShopListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShopListViewController.swift; sourceTree = "<group>"; };
 		C9A6E4B4206E05D400A003C7 /* AddFoodToShopListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodToShopListViewController.swift; sourceTree = "<group>"; };
@@ -610,6 +611,9 @@
 		FDCDFDCD206B77D0003FE7EF /* BestByIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BestByIcon; path = BestBy/BestByIcon; sourceTree = "<group>"; };
 		FDDA511F206190A600643514 /* FoodCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionController.swift; sourceTree = "<group>"; };
 		FDDEDA54206278AD005AC6FB /* SpacesLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesLayout.swift; sourceTree = "<group>"; };
+		FDF00EA22081618E0069798F /* sharedWithCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedWithCell.swift; sourceTree = "<group>"; };
+		FDF121C02082B1D5007C3354 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		FDF121C2208426AF007C3354 /* success.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = success.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -931,6 +935,8 @@
 		FD0664CC20328C1400E408CD /* BestBy */ = {
 			isa = PBXGroup;
 			children = (
+				FDF121C2208426AF007C3354 /* success.png */,
+				FDF121C02082B1D5007C3354 /* edit.png */,
 				FD436C33207FF37B0077F727 /* add.png */,
 				FD7AA9812071AF2300949AE1 /* basket_512.png */,
 				FD16E52F2069F398001ACCF4 /* BestBy.entitlements */,
@@ -942,22 +948,22 @@
 				FD0664CF20328C1400E408CD /* SignInViewController.swift */,
 				FD547D2E204CC9DC00E5D630 /* LoadingScreen.swift */,
 				FD0665012032FBF900E408CD /* MainViewController.swift */,
-				C9A6E4B2206DFFE000A003C7 /* AddToShopListViewController.swift */,
 				FD4C6A3E2036C94300C13ABC /* AllFoodViewController.swift */,
 				FD547D2C2046384600E5D630 /* SearchController.swift */,
-				FDDA511F206190A600643514 /* FoodCollectionController.swift */,
 				C9A69F7520709BCC00F62B8A /* AddFoodToListFromCollectionViewController.swift */,
 				AF85A160204A183400DA44B3 /* ShoppingListsViewController.swift */,
 				C92AAF012047AEB700852A36 /* ShoppingListCellTableViewCell.swift */,
-				FD4C6A42203780D100C13ABC /* ProfileViewController.swift */,
+				FDF00EA22081618E0069798F /* sharedWithCell.swift */,
+				C9A6E4B2206DFFE000A003C7 /* AddToShopListViewController.swift */,
 				C9A6E4B4206E05D400A003C7 /* AddFoodToShopListViewController.swift */,
-				C9A6E4AE206AD88000A003C7 /* AddFoodToSpaceViewController.swift */,
+				FD4C6A42203780D100C13ABC /* ProfileViewController.swift */,
 				C9A6E4B0206B11FB00A003C7 /* ChangePasswordViewController.swift */,
+				FDDA511F206190A600643514 /* FoodCollectionController.swift */,
+				FDBED3F6204DB21E005765AA /* CollectionCell.swift */,
+				FD436C35207FF7D30077F727 /* AddNewFoodController.swift */,
+				FD0664D120328C1400E408CD /* Main.storyboard */,
 				FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */,
 				FD4C6A46203C021400C13ABC /* FoodData.swift */,
-				FDBED3F6204DB21E005765AA /* CollectionCell.swift */,
-				FD0664D120328C1400E408CD /* Main.storyboard */,
-				FD436C35207FF7D30077F727 /* AddNewFoodController.swift */,
 				FD0664D420328C1400E408CD /* Assets.xcassets */,
 				FD0664FD203292D700E408CD /* GoogleService-Info.plist */,
 				FD0664D620328C1400E408CD /* LaunchScreen.storyboard */,
@@ -1136,6 +1142,7 @@
 				C948F4BA2060ACC10098AC16 /* toast.png in Resources */,
 				C948F46B2060ACC10098AC16 /* spices.png in Resources */,
 				C948F4B62060ACC10098AC16 /* pancakes-1.png in Resources */,
+				FDF121C3208426B0007C3354 /* success.png in Resources */,
 				C99B60D5206338FB00B89A4D /* items@2x.png in Resources */,
 				C948F4342060ACC10098AC16 /* salmon.png in Resources */,
 				C948F49B2060ACC10098AC16 /* lime.png in Resources */,
@@ -1384,6 +1391,7 @@
 				C948F4662060ACC10098AC16 /* chocolate.png in Resources */,
 				C948F43C2060ACC10098AC16 /* food.png in Resources */,
 				C948F4582060ACC10098AC16 /* oil.png in Resources */,
+				FDF121C12082B1D5007C3354 /* edit.png in Resources */,
 				FD0664D320328C1400E408CD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1583,11 +1591,11 @@
 				FD4C6A43203780D100C13ABC /* ProfileViewController.swift in Sources */,
 				FD4C6A412036CC0B00C13ABC /* CurrentUser.swift in Sources */,
 				C9A6E4B1206B11FB00A003C7 /* ChangePasswordViewController.swift in Sources */,
-				C9A6E4AF206AD88000A003C7 /* AddFoodToSpaceViewController.swift in Sources */,
 				C9A69F7620709BCC00F62B8A /* AddFoodToListFromCollectionViewController.swift in Sources */,
 				FD4C6A47203C021400C13ABC /* FoodData.swift in Sources */,
 				AF85A161204A183400DA44B3 /* ShoppingListsViewController.swift in Sources */,
 				FD547D2D2046384600E5D630 /* SearchController.swift in Sources */,
+				FDF00EA32081618E0069798F /* sharedWithCell.swift in Sources */,
 				C9A6E4B5206E05D400A003C7 /* AddFoodToShopListViewController.swift in Sources */,
 				FD50C40B2062584000507FA0 /* SpacesCollectionViewController.swift in Sources */,
 				C9A6E4B3206DFFE000A003C7 /* AddToShopListViewController.swift in Sources */,
