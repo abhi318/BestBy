@@ -34,7 +34,6 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
         shopListsTableView.reloadData()
     }
     
-    
     func textFieldShouldReturn(_ textF: UITextField) -> Bool {
         let text = textF.text
         
@@ -141,9 +140,12 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
                 print(snapshot)
                 print(ID)
                 print(self.ref.child("AllShoppingLists/\(ID)/sharedWith"))
+
+                let x = currentUser.shared.allShoppingLists[ID]!.sharedWithSET
+                let hasSharedUser = currentUser.shared.allShoppingLists[ID]!.sharedWithSET.contains(snapshot.key)
                 
-                if snapshot.key != currentUser.shared.ID && !addedSharedUsers.contains(snapshot.key){
-                    addedSharedUsers.insert(snapshot.key)
+                if snapshot.key != currentUser.shared.ID && !hasSharedUser{
+                    currentUser.shared.allShoppingLists[ID]!.sharedWithSET.insert(snapshot.key)
                     let profImageRef = self.storageRef.child("profImages/\(snapshot.key).png")
                     
                     profImageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in

@@ -64,11 +64,15 @@ extension ShoppingListCellTableViewCell: UITextFieldDelegate {
                 if snapshot.exists() {
                     let uid = snapshot.value as! String
                     ref.child("Users/\(uid)/ShoppingLists/\(self.listID!)").setValue(self.listNameLabel.text!)
+                    ref.child("AllShoppingLists/\(self.listID!)/sharedWith/\(uid)").setValue(true)
                     
                     self.shareWithTextField.resignFirstResponder()
                     self.shareWithTextField.isHidden = true
                     self.listNameLabel.isHidden = false
                     self.sharedWithCollectionView.isHidden = false
+                    DispatchQueue.main.async {
+                        self.sharedWithCollectionView.reloadData()
+                    }
                 } else {
                     self.shareWithTextField.text = ""
                     self.shareWithTextField.attributedPlaceholder = NSAttributedString(string: "No user with that email",
@@ -79,6 +83,10 @@ extension ShoppingListCellTableViewCell: UITextFieldDelegate {
                 print(err)})
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
