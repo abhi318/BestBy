@@ -17,7 +17,6 @@ class AddFoodToListFromCollectionViewController: UIViewController {
     @IBOutlet weak var food_desc: UILabel!
     
     @IBOutlet weak var listPicker: UIPickerView!
-    @IBOutlet weak var amountPicker: UIPickerView!
     
     var selected_food:String!
     var selected_food_ID: String!
@@ -29,8 +28,6 @@ class AddFoodToListFromCollectionViewController: UIViewController {
         
         ref = Database.database().reference()
 
-        amountPicker.delegate = self
-        amountPicker.dataSource = self
         listPicker.delegate = self
         listPicker.dataSource = self
         
@@ -43,29 +40,20 @@ class AddFoodToListFromCollectionViewController: UIViewController {
             food_desc.text = FoodData.food_data[selected_food]!.1
         }
         
-        amountPicker.selectRow(1, inComponent: 0, animated: true)
-
         // Do any additional setup after loading the view.
     }
 
     @IBAction func addToListClicked(_ sender: Any) {
-        let amount = amountPicker.selectedRow(inComponent: 0)
         let list_idx = listPicker.selectedRow(inComponent: 0)
         let currentListID = currentUser.shared.shoppingListIDs[list_idx]
         
-        for _ in 0..<amount {
-            let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
-            ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(selected_food)
-        }
+        let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
+        ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(selected_food)
         
         self.dismiss(animated: true, completion: nil)
 
     }
-    
-    @IBAction func cancelClicked(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
 
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

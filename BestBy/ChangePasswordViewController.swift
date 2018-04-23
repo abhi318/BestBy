@@ -11,9 +11,6 @@ import Firebase
 
 class ChangePasswordViewController: UIViewController {
 
-    @IBAction func cancelClicked(_ sender: Any) {
-        self.dismiss(animated: true, completion:nil)
-    }
     @IBOutlet weak var oldPassField: UITextField!
     @IBOutlet weak var newPassField: UITextField!
     @IBOutlet weak var confirmPassField: UITextField!
