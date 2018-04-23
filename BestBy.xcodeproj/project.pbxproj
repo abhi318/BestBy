@@ -285,7 +285,6 @@
 		FD547D31204D02FB00E5D630 /* FoodDescController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D30204D02FB00E5D630 /* FoodDescController.swift */; };
 		FD547D33204D2C8B00E5D630 /* Spaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD547D32204D2C8B00E5D630 /* Spaces.swift */; };
 		FD7AA9822071AF2300949AE1 /* basket_512.png in Resources */ = {isa = PBXBuildFile; fileRef = FD7AA9812071AF2300949AE1 /* basket_512.png */; };
-		FDAA6D2920897E3D0094F340 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAA6D2820897E3D0094F340 /* OnboardingViewController.swift */; };
 		FDBB38112064B91F004DB480 /* SpacesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBB38102064B91F004DB480 /* SpacesCell.swift */; };
 		FDBED3F7204DB21E005765AA /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBED3F6204DB21E005765AA /* CollectionCell.swift */; };
 		FDCDFDCE206B77D0003FE7EF /* BestByIcon in Resources */ = {isa = PBXBuildFile; fileRef = FDCDFDCD206B77D0003FE7EF /* BestByIcon */; };
@@ -605,7 +604,6 @@
 		FD547D30204D02FB00E5D630 /* FoodDescController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDescController.swift; sourceTree = "<group>"; };
 		FD547D32204D2C8B00E5D630 /* Spaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spaces.swift; sourceTree = "<group>"; };
 		FD7AA9812071AF2300949AE1 /* basket_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basket_512.png; sourceTree = "<group>"; };
-		FDAA6D2820897E3D0094F340 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		FDBB38102064B91F004DB480 /* SpacesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesCell.swift; sourceTree = "<group>"; };
 		FDBED3F6204DB21E005765AA /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		FDCDFDCD206B77D0003FE7EF /* BestByIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BestByIcon; path = BestBy/BestByIcon; sourceTree = "<group>"; };
@@ -963,7 +961,6 @@
 				FD0664D120328C1400E408CD /* Main.storyboard */,
 				FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */,
 				FD4C6A46203C021400C13ABC /* FoodData.swift */,
-				FDAA6D2820897E3D0094F340 /* OnboardingViewController.swift */,
 				FD0664D420328C1400E408CD /* Assets.xcassets */,
 				FD0664FD203292D700E408CD /* GoogleService-Info.plist */,
 				FD0664D620328C1400E408CD /* LaunchScreen.storyboard */,
@@ -1563,9 +1560,9 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BestBy/Pods-BestBy-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1596,7 +1593,6 @@
 				FD4C6A47203C021400C13ABC /* FoodData.swift in Sources */,
 				AF85A161204A183400DA44B3 /* ShoppingListsViewController.swift in Sources */,
 				FD547D2D2046384600E5D630 /* SearchController.swift in Sources */,
-				FDAA6D2920897E3D0094F340 /* OnboardingViewController.swift in Sources */,
 				FDF00EA32081618E0069798F /* sharedWithCell.swift in Sources */,
 				C9A6E4B5206E05D400A003C7 /* AddFoodToShopListViewController.swift in Sources */,
 				FD50C40B2062584000507FA0 /* SpacesCollectionViewController.swift in Sources */,
