@@ -13,7 +13,7 @@ class AddNewFoodController: UIViewController, UITextViewDelegate {
 
     @IBAction func addNewFood(_ sender: Any) {
         if (name.text! == "") {
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
             return
         }
         
@@ -25,7 +25,8 @@ class AddNewFoodController: UIViewController, UITextViewDelegate {
         
         userRef.child("ExtraFoods/\(name.text!)").setValue(["doe": doe,
                                                       "desc": desc.text])
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+        return
     }
     
     @IBOutlet var daysPicker: UIPickerView!

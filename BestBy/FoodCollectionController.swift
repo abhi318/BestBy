@@ -77,7 +77,6 @@ class FoodCollectionController: UIViewController {
         
         observeExtraFoods()
         DispatchQueue.main.async {
-            
             self.collectionView.reloadData()
         }
     }
