@@ -25,7 +25,7 @@ class AllFoodViewController: UIViewController  {
     let coachMarksController = CoachMarksController()
     let pointOfInterest = UIView()
     
-    private var expiredFoods: [(String, String)]! = 
+    private var expiredFoods: [(String, String)]! = []
 
     @IBOutlet var expiredTableView: UITableView!
     @IBOutlet var segmentedControl: UISegmentedControl!
