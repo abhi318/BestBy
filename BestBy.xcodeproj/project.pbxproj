@@ -274,7 +274,6 @@
 		FD0664EE20328C1400E408CD /* BestByUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0664ED20328C1400E408CD /* BestByUITests.swift */; };
 		FD0664FE203292D700E408CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD0664FD203292D700E408CD /* GoogleService-Info.plist */; };
 		FD0665022032FBF900E408CD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0665012032FBF900E408CD /* MainViewController.swift */; };
-		FD436C34207FF37B0077F727 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = FD436C33207FF37B0077F727 /* add.png */; };
 		FD436C36207FF7D30077F727 /* AddNewFoodController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD436C35207FF7D30077F727 /* AddNewFoodController.swift */; };
 		FD4C6A3F2036C94300C13ABC /* AllFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4C6A3E2036C94300C13ABC /* AllFoodViewController.swift */; };
 		FD4C6A412036CC0B00C13ABC /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */; };
@@ -595,7 +594,6 @@
 		FD0664FD203292D700E408CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FD0665012032FBF900E408CD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FD16E52F2069F398001ACCF4 /* BestBy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BestBy.entitlements; sourceTree = "<group>"; };
-		FD436C33207FF37B0077F727 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add.png; path = ../../../Downloads/add.png; sourceTree = "<group>"; };
 		FD436C35207FF7D30077F727 /* AddNewFoodController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewFoodController.swift; sourceTree = "<group>"; };
 		FD4C6A3E2036C94300C13ABC /* AllFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFoodViewController.swift; sourceTree = "<group>"; };
 		FD4C6A402036CC0B00C13ABC /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
@@ -939,7 +937,6 @@
 			children = (
 				FDF121C2208426AF007C3354 /* success.png */,
 				FDF121C02082B1D5007C3354 /* edit.png */,
-				FD436C33207FF37B0077F727 /* add.png */,
 				FD7AA9812071AF2300949AE1 /* basket_512.png */,
 				FD16E52F2069F398001ACCF4 /* BestBy.entitlements */,
 				FD50C40A2062584000507FA0 /* SpacesCollectionViewController.swift */,
@@ -1318,7 +1315,6 @@
 				C948F4FA2060ACC10098AC16 /* pumpkin.png in Resources */,
 				C948F45E2060ACC10098AC16 /* raspberry.png in Resources */,
 				C948F4AF2060ACC10098AC16 /* octopus.png in Resources */,
-				FD436C34207FF37B0077F727 /* add.png in Resources */,
 				C948F46C2060ACC10098AC16 /* can-2.png in Resources */,
 				C948F45C2060ACC10098AC16 /* toaster.png in Resources */,
 				C948F4B92060ACC10098AC16 /* pudding.png in Resources */,

@@ -12,7 +12,6 @@ import FirebaseDatabase
 
 class AddFoodToShopListViewController: UIViewController {
 
-    @IBOutlet weak var amountPicker: UIPickerView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var AllFoodsTableView: UITableView!
     
@@ -41,11 +40,6 @@ class AddFoodToShopListViewController: UIViewController {
         all_foods = Array(FoodData.food_data.keys)
         filteredFood = all_foods
         nameLabel.text = ""
-        
-        self.amountPicker.delegate = self
-        self.amountPicker.dataSource = self
-        
-        self.amountPicker.selectRow(1, inComponent: 0, animated: true)
         
         self.AllFoodsTableView.dataSource = self
         self.AllFoodsTableView.delegate = self
@@ -79,12 +73,9 @@ class AddFoodToShopListViewController: UIViewController {
 
     func addFoodToUserShoppingList() {
         let foodAdded: String = nameLabel.text!
-        let amount = amountPicker.selectedRow(inComponent: 0)
         
-        for _ in 0..<amount {
-            let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
-            ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(foodAdded)
-        }
+        let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
+        ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(foodAdded)
         
         self.navigationController?.popViewController(animated: true)
     }

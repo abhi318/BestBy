@@ -98,8 +98,10 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                         return
                     }
                     print("\(user!.email!) created")
+
                     let encodedUserEmail = (user!.email!).replacingOccurrences(of: ".", with: ",")
                     self.ref.child("Users/\(encodedUserEmail)").setValue(user!.uid)
+
                     self.makeANewFoodList(uid: user!.uid)
                     
                     self.dismiss(animated: true, completion: nil)

@@ -10,9 +10,7 @@ import UIKit
 import FirebaseDatabase
 
 class AddNewFoodController: UIViewController, UITextViewDelegate {
-    @IBAction func cancelButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
+
     @IBAction func addNewFood(_ sender: Any) {
         if (name.text! == "") {
             self.dismiss(animated: true, completion: nil)

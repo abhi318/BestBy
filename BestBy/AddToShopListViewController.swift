@@ -139,6 +139,21 @@ class AddToShopListViewController: UIViewController {
 
 }
 
+class ShoppingListFoodCell: UITableViewCell {
+    
+    @IBOutlet weak var foodName: UILabel!
+    @IBOutlet weak var foodImage: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+
+}
+
 extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if currentUser.shared.allShoppingLists[currentListID] != nil {
@@ -148,10 +163,17 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "listItemID", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "listItemID", for: indexPath) as! ShoppingListFoodCell
         cell.selectionStyle = .none
         let foodItem = currentUser.shared.allShoppingLists[currentListID]!.contents[indexPath.row]
-        cell.textLabel!.text = foodItem.name
+        
+        if FoodData.food_data[foodItem.name] == nil {
+            FoodData.food_data[foodItem.name] = (-2, "", UIImage(named: "groceries")!.withRenderingMode(.alwaysOriginal))
+        }
+        
+        cell.foodImage.image = FoodData.food_data[foodItem.name]!.2
+        cell.foodName.text = foodItem.name
+
         return cell
     }
     
