@@ -27,43 +27,45 @@ class AddToShopListViewController: UIViewController {
     
     @IBAction func transferSelectedClicked(_ sender: Any) {
         print("OK, marked as Closed")
-        for idx in shoppingListTableView.indexPathsForSelectedRows! {
-            let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[idx.row]
-            
-            var daysToExpire = -2
-            
-            if FoodData.food_data[item.name] != nil{
-                daysToExpire = FoodData.food_data[item.name]!.0
-            }
+        if shoppingListTableView.indexPathForSelectedRow != nil {
+            for idx in shoppingListTableView.indexPathsForSelectedRows! {
+                let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[idx.row]
                 
-            else {
-                FoodData.food_data[item.name] = (daysToExpire, "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
-                self.ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(item.name)").setValue(["doe": daysToExpire,
-                                                                                                    "desc": ""])
+                var daysToExpire = -2
+                
+                if FoodData.food_data[item.name] != nil{
+                    daysToExpire = FoodData.food_data[item.name]!.0
+                }
+                    
+                else {
+                    FoodData.food_data[item.name] = (daysToExpire, "", UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal))
+                    self.ref.child("Users/\(currentUser.shared.ID!)/ExtraFoods/\(item.name)").setValue(["doe": daysToExpire,
+                                                                                                        "desc": ""])
+                }
+                
+                if daysToExpire <= 0 {
+                    daysToExpire = 10000
+                }
+                
+                let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
+                let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
+                let doe = Int(timeInterval!)
+                
+                let post = ["name" : item.name,
+                            "timestamp" : doe] as [String : Any]
+                
+                self.ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
+                if daysToExpire < 1000 {
+                    getNotificationForDay(on: dateOfExpiration!, foodName: item.name)
+                }
+                Database.database().reference().child("AllShoppingLists/\(self.currentListID!)/\(item.ID)").removeValue()
             }
-            
-            if daysToExpire <= 0 {
-                daysToExpire = 10000
+            for idx in shoppingListTableView.indexPathsForSelectedRows!.sorted(by: >) {
+                currentUser.shared.allShoppingLists[self.currentListID]!.contents.remove(at: idx.row)
+                
+                shoppingListTableView.deleteRows(at: [idx], with: .fade)
+                self.reloadEmptyStateForTableView(shoppingListTableView)
             }
-            
-            let dateOfExpiration = Calendar.current.date(byAdding: .day, value: daysToExpire, to: Date())
-            let timeInterval = dateOfExpiration?.timeIntervalSinceReferenceDate
-            let doe = Int(timeInterval!)
-            
-            let post = ["name" : item.name,
-                        "timestamp" : doe] as [String : Any]
-            
-            self.ref.child("AllFoodLists/\(currentUser.shared.allFoodListID!)").childByAutoId().setValue(post)
-            if daysToExpire < 1000 {
-                getNotificationForDay(on: dateOfExpiration!, foodName: item.name)
-            }
-            Database.database().reference().child("AllShoppingLists/\(self.currentListID!)/\(item.ID)").removeValue()
-        }
-        for idx in shoppingListTableView.indexPathsForSelectedRows!.sorted(by: >) {
-            currentUser.shared.allShoppingLists[self.currentListID]!.contents.remove(at: idx.row)
-            
-            shoppingListTableView.deleteRows(at: [idx], with: .fade)
-            self.reloadEmptyStateForTableView(shoppingListTableView)
         }
     }
     

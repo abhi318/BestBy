@@ -68,12 +68,18 @@ class FoodCollectionController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        observeExtraFoods()
         flag = false
         self.navigationItem.title = "All Items"
         searchBar.text = ""
+        filteredFood = allFood
         searchBar.placeholder = "Search Foods"
         pickShoppingListView.isHidden = true
+        
+        observeExtraFoods()
+        DispatchQueue.main.async {
+            
+            self.collectionView.reloadData()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

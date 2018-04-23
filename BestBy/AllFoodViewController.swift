@@ -25,7 +25,7 @@ class AllFoodViewController: UIViewController  {
     let coachMarksController = CoachMarksController()
     let pointOfInterest = UIView()
     
-    private var expiredFoods: [(String, String)]! = []
+    private var expiredFoods: [(String, String)]! = 
 
     @IBOutlet var expiredTableView: UITableView!
     @IBOutlet var segmentedControl: UISegmentedControl!
@@ -146,7 +146,7 @@ class AllFoodViewController: UIViewController  {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addToShopListFromExpiredList" {
+        if segue.identifier == "addToShopListSegue" {
             if let destinationVC = segue.destination as? AddFoodToListFromCollectionViewController {
                 destinationVC.selected_food = expiredFoods[(sender as! UIButton).tag].1
             }
@@ -169,7 +169,7 @@ class AllFoodViewController: UIViewController  {
             }
             
         } else {
-            self.performSegue(withIdentifier: "addToShopListFromExpiredList", sender: button)
+            self.performSegue(withIdentifier: "addToShopListSegue", sender: button)
         }
     }
     
