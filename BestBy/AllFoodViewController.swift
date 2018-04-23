@@ -242,7 +242,7 @@ extension AllFoodViewController: UITableViewDataSource, UITableViewDelegate {
             }
             return 60
         }
-        return 40
+        return 60
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

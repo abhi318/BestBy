@@ -14,6 +14,8 @@ class FoodCollectionController: UIViewController {
     var isEditingFoods: Bool = false
     var handle: DatabaseHandle!
     
+    @IBOutlet weak var listPicker: UIPickerView!
+    @IBOutlet weak var pickShoppingListView: UIView!
     @IBOutlet var didAdd: UILabel!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var isEditingNavButon: UIBarButtonItem!
@@ -58,6 +60,9 @@ class FoodCollectionController: UIViewController {
         
         searchBar.delegate = self
         
+        listPicker.delegate = self
+        listPicker.dataSource = self
+        
         didAdd.layer.cornerRadius = 20
     }
     
@@ -68,6 +73,7 @@ class FoodCollectionController: UIViewController {
         self.navigationItem.title = "All Items"
         searchBar.text = ""
         searchBar.placeholder = "Search Foods"
+        pickShoppingListView.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -79,6 +85,58 @@ class FoodCollectionController: UIViewController {
                 c.addToSpace.isHidden = true
             }
         }
+    }
+    
+    @IBAction func listButtonClicked(_ sender: Any) {
+        if currentUser.shared.shoppingListIDs.count == 0 {
+            self.tabBarController?.selectedIndex = 1
+        } else if currentUser.shared.shoppingListIDs.count == 1 {
+            let currentListID = currentUser.shared.shoppingListIDs[0]
+            let ref = Database.database().reference()
+            let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
+            ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(self.navigationItem.title)
+            
+            didAdd.text = "Added to \(currentUser.shared.allShoppingLists[currentListID]!.name!)"
+            UIView.animate(withDuration: 0.2, animations: {
+                self.didAdd.alpha = 1.0
+            },completion: { finished in
+                UIView.animate(withDuration: 0.2, delay: 1, options: [], animations: {
+                    self.didAdd.alpha = 0.0
+                },completion: nil)
+            })
+        } else {
+            pickShoppingListView.isHidden = false
+        }
+    }
+    
+    @IBAction func addToSelectedList(_ sender: UIButton?) {
+        
+        let list_idx = listPicker.selectedRow(inComponent: 0)
+        let currentListID = currentUser.shared.shoppingListIDs[list_idx]
+        
+        let tag = sender?.tag
+        let cell = collectionView.cellForItem(at: IndexPath(item: tag!, section: 0)) as! CollectionCell
+        
+        let foodAdded: String = cell.foodName.text!
+
+        let ref = Database.database().reference()
+
+        let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
+        ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(foodAdded)
+
+        pickShoppingListView.isHidden = true
+        cell.addToShoppingList.isHidden = true
+        cell.addToSpace.isHidden = true
+
+        didAdd.text = "Added to \(currentUser.shared.allShoppingLists[currentListID]!.name!)"
+        UIView.animate(withDuration: 0.2, animations: {
+            self.didAdd.alpha = 1.0
+        },completion: { finished in
+            UIView.animate(withDuration: 0.2, delay: 1, options: [], animations: {
+                self.didAdd.alpha = 0.0
+            },completion: nil)
+        })
+        
     }
     
     @objc func buttonClicked(sender: UIButton?) {
@@ -161,7 +219,7 @@ class FoodCollectionController: UIViewController {
             }
         }
         
-        if segue.identifier == "newFood" {
+        if segue.identifier == "addNewFood" {
             if let button = sender as? UIButton {
                 let cell = button.superview?.superview as! CollectionCell
                 let controller = segue.destination as! AddNewFoodController
@@ -213,7 +271,7 @@ extension FoodCollectionController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     @objc func makeSegue(button:UIButton) {
-        self.performSegue(withIdentifier: "newFood", sender: button)
+        self.performSegue(withIdentifier: "addNewFood", sender: button)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -373,6 +431,35 @@ extension FoodCollectionController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.size.width/4.0 - 8,
                       height: collectionView.frame.size.width/4.0 - 8)
+    }
+}
+
+extension FoodCollectionController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return currentUser.shared.allShoppingLists.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel = view as! UILabel!
+        if view == nil {  //if no label there yet
+            pickerLabel = UILabel()
+        }
+        var titleData = "\(row)"
+        if pickerView == listPicker {
+            let keyAtIndex = currentUser.shared.shoppingListIDs[row]
+            let currentListName = currentUser.shared.allShoppingLists[keyAtIndex]?.name
+            titleData = currentListName!
+        }
+        
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedStringKey.font:UIFont(name: "Futura-Medium", size:18.0)!,NSAttributedStringKey.foregroundColor:UIColor.black])
+        pickerLabel!.attributedText = myTitle
+        pickerLabel!.textAlignment = .center
+        
+        return pickerLabel!
     }
 }
 

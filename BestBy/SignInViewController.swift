@@ -98,7 +98,7 @@ class SignInViewController: UIViewController, UIGestureRecognizerDelegate  {
                         return
                     }
                     print("\(user!.email!) created")
-                    self.ref?.child("Users/\(user!.email)").setValue(user!.uid)
+                    self.ref?.child("Users/\(String(describing: (user!.email?.replacingOccurrences(of: ".", with: ","))))").setValue(user!.uid)
                     self.makeANewFoodList(uid: user!.uid)
                     
                     self.dismiss(animated: true, completion: nil)
