@@ -91,7 +91,6 @@ class ProfileViewController: UIViewController {
         logOutAlert.addAction(OKAction)
         logOutAlert.addAction(cancelAction)
         self.present(logOutAlert, animated: true, completion: nil)
-        
     }
 
     override func viewDidLoad() {

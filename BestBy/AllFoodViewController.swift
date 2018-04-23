@@ -62,7 +62,7 @@ class AllFoodViewController: UIViewController  {
         
         super.viewDidLoad()
         
-        self.coachMarksController.dataSource = self
+        //self.coachMarksController.dataSource = self
         
         segmentedControl.setTitle("Pantry", forSegmentAt: 0)
         segmentedControl.setTitle("Expired", forSegmentAt: 1)
@@ -283,24 +283,24 @@ extension AllFoodViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension AllFoodViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
-    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
-        let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
-        
-        coachViews.bodyView.hintLabel.text = "Hello! I'm a Coach Mark!"
-        coachViews.bodyView.nextLabel.text = "Ok!"
-        
-        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
-    }
-    
-    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
-        return coachMarksController.helper.makeCoachMark(for: pointOfInterest)
-    }
-    
-    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return 1
-    }
-}
+//extension AllFoodViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+//    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+//        let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
+//
+//        coachViews.bodyView.hintLabel.text = "Hello! I'm a Coach Mark!"
+//        coachViews.bodyView.nextLabel.text = "Ok!"
+//
+//        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+//    }
+//
+//    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
+//        return coachMarksController.helper.makeCoachMark(for: pointOfInterest)
+//    }
+//
+//    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+//        return 1
+//    }
+//}
 
 extension AllFoodViewController: UIEmptyStateDataSource, UIEmptyStateDelegate {
     
