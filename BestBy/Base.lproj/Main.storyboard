@@ -544,8 +544,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="xEs-Hz-Nc8" kind="relationship" relationship="viewControllers" id="dBL-DL-6QD"/>
-                        <segue destination="PsI-J4-8fB" kind="relationship" relationship="viewControllers" id="gK3-Ot-lwX"/>
                         <segue destination="py2-Cj-bax" kind="relationship" relationship="viewControllers" id="QT9-b4-SF7"/>
+                        <segue destination="PsI-J4-8fB" kind="relationship" relationship="viewControllers" id="gK3-Ot-lwX"/>
                         <segue destination="tXh-qu-rIg" kind="relationship" relationship="viewControllers" id="577-RK-Fv9"/>
                     </connections>
                 </tabBarController>

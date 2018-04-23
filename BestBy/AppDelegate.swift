@@ -68,13 +68,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 func getNotificationForDay(on: Date, foodName: String) {
     let center = UNUserNotificationCenter.current()
     let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MM/dd/yyyy"
     center.getPendingNotificationRequests(completionHandler: { requests in
         for request in requests {
+            print(request)
+            let requestTriggerDate = request.identifier
+            let newDate = dateFormatter.string(from: on)
             
-            let requestTriggerDate = (request.trigger as! UNCalendarNotificationTrigger).nextTriggerDate()
-            
-            let order = calendar.compare(requestTriggerDate!, to: on, toGranularity: .day)
-            if order.rawValue == 0 {
+            if newDate == requestTriggerDate {
                 addRequest(calendar: calendar, request: request, center: center, foodName: foodName, date: on)
                 return
             }
@@ -85,31 +88,68 @@ func getNotificationForDay(on: Date, foodName: String) {
 }
 
 func addRequest(calendar: Calendar, request: UNNotificationRequest?, center: UNUserNotificationCenter, foodName: String, date: Date) {
+//
+//    let content = UNMutableNotificationContent()
+//    var trigger: UNCalendarNotificationTrigger?
+//
+//
+//    content.title = "What to use today?"
+//    content.body = "Eggs"
+//
+//    var triggerDate = DateComponents()
+//
+//
+//    triggerDate.year = 2018
+//    triggerDate.month = 4
+//    triggerDate.day = 22
+//    triggerDate.hour = 16
+//    triggerDate.minute = 30
+//    triggerDate.second = 0
+//
+//    trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
+//                                            repeats: false)
+//
+//    let request = UNNotificationRequest(identifier: "who cares",
+//                                       content: content, trigger: trigger)
+//
+//    UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+//        if let error = error {
+//            print(error.localizedDescription)
+//        }
+//    })
+//    return
+    
     let content = UNMutableNotificationContent()
     var identifier: String?
     var trigger: UNCalendarNotificationTrigger?
     
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MM/dd/yyyy"
+
     if request == nil {
-        content.title = "What's expiring today?"
+        content.title = "What to use today?"
         content.body = "\(foodName)"
-        
-        
+
         var triggerDate = Calendar.current.dateComponents([.year,.month,.day], from: date)
-        identifier = "\(triggerDate.month!)/\(triggerDate.day!)/\(triggerDate.year!)"
-        
+        triggerDate.calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+        identifier = dateFormatter.string(from: triggerDate.date!)
+
         triggerDate.hour = 9
         triggerDate.minute = 0
         triggerDate.second = 0
-        
+
         trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
                                                 repeats: false)
     }
     else {
         content.title = request!.content.title
         content.body = request!.content.body + ", \(foodName)"
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request!.identifier])
     }
+
     let request = UNNotificationRequest(identifier: (request != nil) ? request!.identifier : identifier!,
                                         content: content, trigger: (request != nil) ? request!.trigger : trigger!)
+
     UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
         if let error = error {
             print(error.localizedDescription)

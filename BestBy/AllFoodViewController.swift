@@ -11,9 +11,9 @@ import Firebase
 import FirebaseDatabase
 import UIKit
 import UIEmptyState
+import Instructions
 
 class AllFoodViewController: UIViewController  {
-    
     var userFoodRef: DatabaseReference!
     var ref: DatabaseReference!
     var foodRef: DatabaseReference!
@@ -22,8 +22,10 @@ class AllFoodViewController: UIViewController  {
     var flag: Bool = true
     var itemSelected = -1;
     
+    let coachMarksController = CoachMarksController()
+    let pointOfInterest = UIView()
     
-    private var expiredFoods: [String]! = ["test"]
+    private var expiredFoods: [(String, String)]! = [("eqweqw", "test")]
 
     @IBOutlet var expiredTableView: UITableView!
     @IBOutlet var segmentedControl: UISegmentedControl!
@@ -59,6 +61,8 @@ class AllFoodViewController: UIViewController  {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        self.coachMarksController.dataSource = self
         
         segmentedControl.setTitle("Pantry", forSegmentAt: 0)
         segmentedControl.setTitle("Expired", forSegmentAt: 1)
@@ -99,7 +103,7 @@ class AllFoodViewController: UIViewController  {
                 added.insert(snapshot.key)
             
                 if (newFoodItem.timestamp - Int(Date().timeIntervalSinceReferenceDate)) / 86400 < 1 {
-                    self.expiredFoods.append(newFoodItem.name)
+                    self.expiredFoods.append((snapshot.key, newFoodItem.name))
                 }
                     
                 else {
@@ -130,13 +134,21 @@ class AllFoodViewController: UIViewController  {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.coachMarksController.start(on: self)
+        
         self.reloadEmptyStateForTableView(allFoodTableView)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.coachMarksController.stop(immediately: true)
+
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addToShopListFromExpiredList" {
             if let destinationVC = segue.destination as? AddFoodToListFromCollectionViewController {
-                destinationVC.selected_food = expiredFoods[(sender as! UIButton).tag]
+                destinationVC.selected_food = expiredFoods[(sender as! UIButton).tag].1
             }
         }
     }
@@ -148,7 +160,7 @@ class AllFoodViewController: UIViewController  {
             let currentListID = currentUser.shared.shoppingListIDs[0]
             
             let listRef = ref.child("AllShoppingLists/\(currentListID)").childByAutoId()
-            ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(expiredFoods[button.tag])
+            ref.child("AllShoppingLists/\(currentListID)/\(listRef.key)").setValue(expiredFoods[button.tag].1)
             
             expiredFoods.remove(at: button.tag)
             DispatchQueue.main.async {
@@ -210,7 +222,7 @@ extension AllFoodViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "expiredFoodCell") as! ExpiredFoodCell
             
             cell.selectionStyle = UITableViewCellSelectionStyle.none
-            cell.foodName?.text = expiredFoods[indexPath.row]
+            cell.foodName?.text = expiredFoods[indexPath.row].1
             cell.button.tag = indexPath.row
             
             cell.button.addTarget(self, action: #selector(addToShopListSegue), for: .touchUpInside)
@@ -248,20 +260,45 @@ extension AllFoodViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if tableView == allFoodTableView {
             let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-                
-                let id = currentUser.shared.allFood[indexPath.row]
+                let foodItem = currentUser.shared.allFood[indexPath.row]
                 currentUser.shared.allFood.remove(at: indexPath.row)
+                self.foodRef.child("\(foodItem.ID)").removeValue()
 
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 self.reloadEmptyStateForTableView(self.allFoodTableView)
-                self.foodRef.child("\(id.ID)").removeValue()
-
             }
             
             return [delete]
         } else {
-            return []
+            let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+                self.expiredFoods.remove(at: indexPath.row)
+                self.foodRef.child("\(self.expiredFoods[indexPath.row].0)").removeValue()
+            
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                self.reloadEmptyStateForTableView(self.allFoodTableView)
+            }
+            
+            return [delete]
         }
+    }
+}
+
+extension AllFoodViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
+        
+        coachViews.bodyView.hintLabel.text = "Hello! I'm a Coach Mark!"
+        coachViews.bodyView.nextLabel.text = "Ok!"
+        
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+    }
+    
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
+        return coachMarksController.helper.makeCoachMark(for: pointOfInterest)
+    }
+    
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 1
     }
 }
 

@@ -35,8 +35,13 @@ class AddFoodToListFromCollectionViewController: UIViewController {
         listPicker.dataSource = self
         
         food_name.text = selected_food
-        food_img.image = FoodData.food_data[selected_food]!.2
-        food_desc.text = FoodData.food_data[selected_food]!.1
+        if FoodData.food_data[selected_food] == nil {
+            food_img.image = UIImage(named: "groceries")?.withRenderingMode(.alwaysOriginal)
+            food_desc.text = " "
+        } else {
+            food_img.image = FoodData.food_data[selected_food]!.2
+            food_desc.text = FoodData.food_data[selected_food]!.1
+        }
         
         amountPicker.selectRow(1, inComponent: 0, animated: true)
 

@@ -141,7 +141,6 @@ class ShoppingListsViewController: UIViewController, UITextFieldDelegate, UIGest
                 print(ID)
                 print(self.ref.child("AllShoppingLists/\(ID)/sharedWith"))
 
-                let x = currentUser.shared.allShoppingLists[ID]!.sharedWithSET
                 let hasSharedUser = currentUser.shared.allShoppingLists[ID]!.sharedWithSET.contains(snapshot.key)
                 
                 if snapshot.key != currentUser.shared.ID && !hasSharedUser{
