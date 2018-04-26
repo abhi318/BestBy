@@ -33,6 +33,10 @@ final class currentUser {
     //all the shopping list IDs
     var allShoppingLists: [String:ShoppingList] = [String:ShoppingList]()
     var shoppingListIDs: [String] = [String]()
+    
+    //notification frequency
+    var dayFreq: [Bool] = [false, false, false, false, false]
+    var notifTime: Int?
         
     func clear() {
         ID = nil

@@ -10,6 +10,9 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import UserNotifications
+import Fabric
+import Crashlytics
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForPushNotifications()
         
         (window?.rootViewController as? UITabBarController)?.selectedIndex = 0
-            
+        Fabric.with([Crashlytics.self])
+
         return true
     }
 

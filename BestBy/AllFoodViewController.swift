@@ -22,7 +22,7 @@ class AllFoodViewController: UIViewController  {
     var flag: Bool = true
     var itemSelected = -1;
     
-    let coachMarksController = CoachMarksController()
+    //let coachMarksController = CoachMarksController()
     let pointOfInterest = UIView()
     
     private var expiredFoods: [(String, String)]! = []
@@ -134,14 +134,14 @@ class AllFoodViewController: UIViewController  {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.coachMarksController.start(on: self)
+//        self.coachMarksController.start(on: self)
         
         self.reloadEmptyStateForTableView(allFoodTableView)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.coachMarksController.stop(immediately: true)
+//        self.coachMarksController.stop(immediately: true)
 
     }
 

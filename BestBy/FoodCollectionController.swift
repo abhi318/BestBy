@@ -334,7 +334,6 @@ extension FoodCollectionController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionCell
         
-        var key:String
         var count: Int
         flag = false
         if searchActive {
@@ -344,7 +343,6 @@ extension FoodCollectionController: UICollectionViewDelegate, UICollectionViewDa
                 performSegue(withIdentifier: "addNewFood", sender: self)
                 return
             }
-            key = filteredFood[indexPath.row]
         }
         else {
             count = allFood.count
@@ -354,18 +352,9 @@ extension FoodCollectionController: UICollectionViewDelegate, UICollectionViewDa
                 return
             }
             
-            key = allFood[indexPath.row]
         }
         
         self.navigationItem.title = cell.foodName.text
-        var daysRemaining = -1
-        
-        if FoodData.food_data[key] != nil {
-            daysRemaining = FoodData.food_data[key]!.0
-            if FoodData.food_data[key]!.0 < 0 {
-                daysRemaining = 10000
-            }
-        }
         
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1,
                        initialSpringVelocity: 5, options: [],
@@ -384,7 +373,6 @@ extension FoodCollectionController: UICollectionViewDelegate, UICollectionViewDa
         )
         cell.addToSpace.isHidden = false
         cell.addToShoppingList.isHidden = false
-        //cell.overlayTimeRemaining(days: daysRemaining)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

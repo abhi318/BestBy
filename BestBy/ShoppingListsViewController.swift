@@ -252,7 +252,7 @@ extension ShoppingListsViewController: UITableViewDelegate, UITableViewDataSourc
     {
         let listID = currentUser.shared.shoppingListIDs[indexPath.row]
         
-        let transferAction = UIContextualAction(style: .destructive, title:  "Transfer", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let transferAction = UIContextualAction(style: .destructive, title:  "Add To Pantry", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             print("OK, marked as Closed")
             
             let ref = Database.database().reference()

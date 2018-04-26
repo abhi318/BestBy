@@ -121,6 +121,17 @@ class LoadingScreen: UIViewController {
             let userInfo = (snapshot.value as! [String:Any?])
             
             currentUser.shared.allFoodListID = userInfo["AllUsersFood"] as? String
+            if userInfo["notifFrequency"] != nil {
+                currentUser.shared.dayFreq = (userInfo["notifFrequency"] as? [Bool])!
+            } else {
+                currentUser.shared.dayFreq[0] = true
+            }
+            
+            if userInfo["notifTime"] != nil {
+                currentUser.shared.notifTime = userInfo["notifTime"] as? Int
+            } else {
+                currentUser.shared.notifTime = 900
+            }
             
             if (userInfo["ExtraFoods"] != nil) {
                 let extras = userInfo["ExtraFoods"] as! [String:[String:Any]]
@@ -185,9 +196,6 @@ class LoadingScreen: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         Auth.auth().removeStateDidChangeListener(handle!)
-        //Database.database().reference().removeAllObservers()
-        //Database.database().reference().child("AllFoodLists/\(currentUser.shared.allFoodListID!)").removeAllObservers()
-        //currentUser.shared.userRef!.removeAllObservers()
     }
     
 }

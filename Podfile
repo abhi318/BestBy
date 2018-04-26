@@ -13,6 +13,7 @@ target 'BestBy' do
   pod 'Firebase/Auth'
   pod 'UIEmptyState'
   pod 'Instructions', '~> 1.0.0'
+  pod 'Crashlytics', '~> 3.10'
   
   # card layout for spaces
   # pod 'HFCardCollectionViewLayout'

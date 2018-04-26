@@ -23,6 +23,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var userimage: UIImageView!
     @IBOutlet weak var username: UILabel!
     
+    @IBAction func notificationPreferencesClicked(_ sender: Any) {
+    }
+    
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
@@ -92,12 +95,12 @@ class ProfileViewController: UIViewController {
         logOutAlert.addAction(cancelAction)
         self.present(logOutAlert, animated: true, completion: nil)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ref = Database.database().reference()
-        username.text = Auth.auth().currentUser?.email
+        username.text = "\(Auth.auth().currentUser?.email! ?? "no email")"
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped(gesture:)))
         
@@ -173,5 +176,3 @@ extension ProfileViewController: UIImagePickerControllerDelegate,UINavigationCon
         self.dismiss(animated: true, completion: nil)
     }
 }
-
-

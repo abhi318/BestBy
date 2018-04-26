@@ -23,11 +23,15 @@ class AddToShopListViewController: UIViewController {
     var currentListName: String!
     var mustDelete = false
     
+    @IBOutlet var transferButton: UIButton!
     @IBOutlet weak var shoppingListTableView: UITableView!
     
     @IBAction func transferSelectedClicked(_ sender: Any) {
-        print("OK, marked as Closed")
-        if shoppingListTableView.indexPathForSelectedRow != nil {
+        if transferButton.titleLabel!.text! == "+" {
+            performSegue(withIdentifier: "segueToAddFood", sender: self)
+        }
+        
+        else if shoppingListTableView.indexPathForSelectedRow != nil {
             for idx in shoppingListTableView.indexPathsForSelectedRows! {
                 let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[idx.row]
                 
@@ -66,7 +70,17 @@ class AddToShopListViewController: UIViewController {
                 shoppingListTableView.deleteRows(at: [idx], with: .fade)
                 self.reloadEmptyStateForTableView(shoppingListTableView)
             }
+            changeButton()
         }
+    }
+    func changeButtonBack () {
+        transferButton.setImage(#imageLiteral(resourceName: "fridgeSelected.png"), for: .normal)
+        transferButton.setTitle("←", for: .normal)
+    }
+    
+    func changeButton () {
+        transferButton.setImage(#imageLiteral(resourceName: "apple_add.png"), for: .normal)
+        transferButton.setTitle("+", for: .normal)
     }
     
     override func viewDidLoad() {
@@ -74,6 +88,8 @@ class AddToShopListViewController: UIViewController {
         
         self.emptyStateDelegate = self
         self.emptyStateDataSource = self
+        
+        changeButton()
         
         shoppingListTableView.tableFooterView = UIView(frame: CGRect.zero)
         
@@ -90,6 +106,8 @@ class AddToShopListViewController: UIViewController {
         
         // this isn't getting info quick enough... fix this tomorrow
         super.viewWillAppear(animated)
+        changeButton()
+
         observeShoppingList()
         self.navigationItem.title = currentListName
     }
@@ -182,11 +200,16 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)!
         cell.accessoryType = .checkmark
+        changeButtonBack()
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)!
         cell.accessoryType = .none
+        
+        if shoppingListTableView.indexPathForSelectedRow == nil {
+             changeButton()
+        }
     }
 
     func tableView(_ tableView: UITableView,
@@ -194,7 +217,7 @@ extension AddToShopListViewController: UITableViewDelegate, UITableViewDataSourc
     {
         let item = currentUser.shared.allShoppingLists[self.currentListID]!.contents[indexPath.row]
         
-        let transferAction = UIContextualAction(style: .destructive, title:  "Transfer", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let transferAction = UIContextualAction(style: .destructive, title:  "Add To Pantry", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             print("OK, marked as Closed")
             
             var daysToExpire = -2

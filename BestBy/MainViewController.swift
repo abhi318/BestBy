@@ -13,10 +13,10 @@ import FirebaseDatabase
 class MainViewController: UITabBarController  {
     
     var ref: DatabaseReference!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        
         self.tabBar.items?[0].image = UIImage(named: "fridge")?.withRenderingMode(.alwaysOriginal)
         self.tabBar.items?[0].selectedImage = UIImage(named: "fridgeSelected")?.withRenderingMode(.alwaysOriginal)
         self.tabBar.items?[1].image = UIImage(named: "items")?.withRenderingMode(.alwaysOriginal)
